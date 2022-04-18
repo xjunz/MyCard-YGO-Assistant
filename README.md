@@ -27,6 +27,10 @@
 
 在[此处](app/art/ic_ygo_eye.ai)下载图标`.AI`源文件
 
+## 构建
+
+*（很抱歉，由于萌卡平台相关API暂未开源，你无法通过已开源的部分构建此应用）*
+
 ## 其他
 
 特别鸣谢[YGO Mobile](https://www.pgyer.com/ygomobileen)以及[萌卡](https://mycard.moe/)官方
