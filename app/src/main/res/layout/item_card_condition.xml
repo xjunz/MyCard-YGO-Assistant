@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/spacing_unit"
+    android:background="?selectableItemBackground">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="top"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/spacing_unit">
+
+        <TextView
+            android:id="@+id/tv_ordinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ems="2"
+            android:gravity="center"
+            android:textColor="?colorPrimary"
+            android:textStyle="bold"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_unit"
+            android:layout_marginEnd="@dimen/spacing_unit"
+            android:layout_weight="1"
+            android:textAppearance="?textAppearanceTitleSmall"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/tv_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_weight="0"
+            android:background="@drawable/bg_badge"
+            android:backgroundTint="?colorPrimary"
+            android:maxWidth="100dp"
+            android:paddingHorizontal="@dimen/spacing_unit"
+            android:paddingVertical="@dimen/spacing_small"
+            android:textAppearance="?textAppearanceLabelSmall"
+            android:textColor="?colorOnPrimary"
+            tools:text="数学家1" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete"
+            android:src="@drawable/ic_twotone_delete_24"
+            android:tint="?colorError" />
+    </LinearLayout>
+</FrameLayout>

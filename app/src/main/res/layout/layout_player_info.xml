@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/spacing_normal"
+    android:paddingVertical="@dimen/spacing_normal">
+
+    <TextView
+        android:id="@+id/tv_player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_unit"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:textColor="@color/color_text_player_name_detail"
+        app:autoSizeMaxTextSize="32sp"
+        app:autoSizeMinTextSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/ib_star"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/tv_rank_delta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_text_rank_delta"
+        android:textStyle="bold"
+        app:drawableTint="@color/color_text_rank_delta"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_rank"
+        app:layout_constraintStart_toEndOf="@+id/tv_rank"
+        app:layout_constraintTop_toTopOf="@+id/tv_rank"
+        tools:text="-233"
+        tools:textColor="?colorError" />
+
+    <TextView
+        android:id="@+id/tv_dp_delta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_text_rank_delta"
+        android:textStyle="bold"
+        app:drawableTint="@color/color_text_rank_delta"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_dp"
+        app:layout_constraintTop_toTopOf="@+id/tv_dp"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="+15.5"
+        tools:textColor="#3edc85" />
+
+    <TextView
+        android:id="@+id/tv_label_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/spacing_unit"
+        android:text="@string/all_win_lose_draw"
+        android:textAppearance="?textAppearanceLabelLarge"
+        android:textColor="?colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_rank" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <TextView
+        android:id="@+id/tv_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_stats"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_stats" />
+
+    <TextView
+        android:id="@+id/tv_label_win_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/win_rate"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="?colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/gl_center_horizontal"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_stats" />
+
+    <TextView
+        android:id="@+id/tv_label_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/rank"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="?colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/tv_player_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_player_name" />
+
+    <TextView
+        android:id="@+id/tv_label_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duel_points"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="?colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/gl_center_horizontal"
+        app:layout_constraintTop_toTopOf="@+id/tv_label_rank" />
+
+    <TextView
+        android:id="@+id/tv_win_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="1"
+        android:text="@string/loading"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_win_rate"
+        app:layout_constraintTop_toTopOf="@+id/tv_stats" />
+
+    <TextView
+        android:id="@+id/tv_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="1"
+        android:text="@string/loading"
+        app:layout_constraintStart_toStartOf="@+id/tv_label_rank"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_rank" />
+
+    <TextView
+        android:id="@+id/tv_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:tag="1"
+        android:text="@string/loading"
+        app:layout_constraintStart_toStartOf="@+id/gl_center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label_dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tags"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_stats"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stats"
+        app:spanCount="3"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_tag_view" />
+
+    <ImageButton
+        android:id="@+id/ib_star"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/spacing_small"
+        android:scaleType="centerCrop"
+        android:src="@drawable/selector_ib_icon_star_player"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_player_name"
+        app:tint="@color/color_icon_star_tint"
+        tools:ignore="ContentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

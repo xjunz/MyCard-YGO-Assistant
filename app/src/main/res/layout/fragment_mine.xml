@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/spacing_normal"
+        android:paddingVertical="@dimen/spacing_normal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+            app:layout_constraintEnd_toStartOf="@id/iv_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_avatar">
+
+            <TextView
+                android:id="@+id/tv_player_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="?textAppearanceHeadlineSmall"
+                app:autoSizeMinTextSize="18sp"
+                app:autoSizeTextType="uniform"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="@tools:sample/last_names" />
+        </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="?colorPrimaryContainer"
+            android:scaleType="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Button"
+            tools:src="@tools:sample/avatars" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_log_in_out"
+            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/color_text_log_in_out"
+            app:icon="@drawable/selector_icon_log_in_out"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/spacing_normal"
+            app:iconTint="@color/color_text_log_in_out"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+            app:strokeColor="@color/color_btn_outline_log_in_out"
+            tools:text="@string/log_in_to_mycard" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_info_container"
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_log_in_out"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_label_rank"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/rank"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/loading"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/tv_label_rank"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_rank"
+                    tools:text="1" />
+
+                <TextView
+                    android:id="@+id/tv_label_dp"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duel_points"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_label_rank" />
+
+                <TextView
+                    android:id="@+id/tv_pt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/loading"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_label_dp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_label_dp"
+                    app:layout_constraintTop_toTopOf="@+id/tv_rank"
+                    tools:text="1920.32" />
+
+                <TextView
+                    android:id="@+id/tv_label_exp"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/exp"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_label_rank" />
+
+                <TextView
+                    android:id="@+id/tv_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/loading"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_label_exp"
+                    app:layout_constraintTop_toTopOf="@+id/tv_rank"
+                    tools:text="1670" />
+
+                <TextView
+                    android:id="@+id/tv_label_stats"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/all_win_lose_draw"
+                    app:layout_constraintStart_toStartOf="@+id/tv_label_rank"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rank" />
+
+                <TextView
+                    android:id="@+id/tv_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/loading"
+                    app:layout_constraintStart_toStartOf="@+id/tv_label_stats"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_label_stats"
+                    tools:text="1231/323/732/0" />
+
+                <TextView
+                    android:id="@+id/tv_label_win_rate"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/win_rate"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_exp"
+                    app:layout_constraintTop_toTopOf="@+id/tv_label_stats" />
+
+                <TextView
+                    android:id="@+id/tv_win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/loading"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_label_win_rate"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_label_win_rate"
+                    tools:text="55.12%" />
+
+                <TextView
+                    android:id="@+id/tv_label_member_since"
+                    style="@style/MineLabelTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/member_since"
+                    app:layout_constraintStart_toStartOf="@+id/tv_stats"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_stats" />
+
+                <TextView
+                    android:id="@+id/tv_member_since"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/loading"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_label_member_since"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_label_member_since"
+                    tools:text="2022-10-12 23:34:15" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_unit"
+                    android:background="?colorPrimary"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/spacing_unit"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_member_since">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_reload"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:contentDescription="@string/reload"
+                        android:enabled="false"
+                        app:icon="@drawable/ic_twotone_replay_24"
+                        app:iconTint="@color/color_on_primary_with_disable"
+                        app:rippleColor="?colorControlHighlight"
+                        app:strokeColor="@color/color_on_primary_with_disable"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_match"
+                        style="?materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:text="@string/start_athletic_match"
+                        android:textColor="@color/color_on_primary_with_disable"
+                        app:icon="@drawable/ic_sword_cross"
+                        app:iconTint="@color/color_on_primary_with_disable"
+                        app:rippleColor="?colorControlHighlight"
+                        app:strokeColor="@color/color_on_primary_with_disable" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_info_container"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/item_calculator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:drawableStart="@drawable/ic_twotone_calculate_24"
+                    android:drawablePadding="@dimen/spacing_normal"
+                    android:drawableTint="?colorPrimary"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/dp_12"
+                    android:text="@string/cards_probability_calculator" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/item_room_assistant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:drawableStart="@drawable/ic_twotone_room_preferences_24"
+                    android:drawablePadding="@dimen/spacing_normal"
+                    android:drawableTint="?colorPrimary"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/dp_12"
+                    android:text="@string/room_assist" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/item_download_prescripts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:drawableStart="@drawable/ic_twotone_cloud_download_24"
+                    android:drawablePadding="@dimen/spacing_normal"
+                    android:drawableTint="?colorPrimary"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/dp_12"
+                    android:text="@string/download_advance_cards" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/item_set_as_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:drawableStart="@drawable/ic_twotone_home_24"
+                    android:drawablePadding="@dimen/spacing_normal"
+                    android:drawableTint="?colorPrimary"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/dp_12"
+                    tools:text="@string/set_as_home" />
+
+                <LinearLayout
+                    android:id="@+id/item_version_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_twotone_info_24"
+                        android:drawablePadding="@dimen/spacing_normal"
+                        android:drawableTint="?colorPrimary"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="@dimen/spacing_normal"
+                        android:paddingVertical="@dimen/dp_12"
+                        android:text="@string/version_info" />
+
+                    <TextView
+                        android:id="@+id/tv_updates_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge"
+                        android:backgroundTint="?colorTertiaryContainer"
+                        android:paddingHorizontal="@dimen/spacing_unit"
+                        android:paddingVertical="@dimen/spacing_small"
+                        android:text="@string/has_updates"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:textColor="?colorOnTertiaryContainer" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/item_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:drawableStart="@drawable/ic_twotone_feedback_24"
+                    android:drawablePadding="@dimen/spacing_normal"
+                    android:drawableTint="?colorPrimary"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/spacing_normal"
+                    android:paddingVertical="@dimen/dp_12"
+                    android:text="@string/feedback_join_group" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

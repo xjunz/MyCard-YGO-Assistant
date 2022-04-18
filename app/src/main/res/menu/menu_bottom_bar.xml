@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_duel"
+        android:icon="@drawable/ic_twotone_eye_24"
+        android:title="@string/duel_list"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_leaderboard"
+        android:icon="@drawable/ic_twotone_format_list_numbered_24"
+        android:title="@string/leaderboard"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_mine"
+        android:icon="@drawable/ic_twotone_person_24"
+        android:title="@string/mine"
+        app:showAsAction="ifRoom" />
+</menu>

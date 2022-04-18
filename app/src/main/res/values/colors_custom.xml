@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="luxury_gold">#cd9900</color>
+    <color name="color_on_luxury_gold">#755804</color>
+    <color name="color_champion">#ffb02e</color>
+    <color name="color_second">#737373</color>
+    <color name="color_third">#8b3908</color>
+    <color name="ic_launcher_background">#7363A8</color>
+</resources>

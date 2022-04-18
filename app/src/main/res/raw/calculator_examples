@@ -1,0 +1,59 @@
+ [
+        {
+            "conditions": [
+                {
+                    "remark": "被封印者的右腕",
+                    "type": 2
+                },
+                {
+                    "remark": "被封印者的左腕",
+                    "type": 2
+                },
+                {
+                    "remark": "被封印者的左足",
+                    "type": 2
+                },
+                {
+                    "remark": "被封印者的右足",
+                    "type": 2
+                },
+                {
+                    "remark": "被封印的艾克佐迪亚",
+                    "type": 2
+                }
+            ],
+            "deckCardCount": 40,
+            "label": "第一回合 ⌈艾克佐迪亚⌋ 特殊胜利"
+        },
+        {
+            "conditions": [
+                {
+                    "type": 3,
+                    "remark": "无灰流丽",
+                    "collectionCount": 3,
+                    "collectionName": "灰流丽",
+                    "isInverted": true
+                },
+                {
+                    "type": 2,
+                    "remark": "无抹杀之指名者",
+                    "isInverted": true
+                },
+                {
+                    "type": 3,
+                    "collectionCount": 2,
+                    "remark": "无墓穴的指名者",
+                    "collectionName": "墓穴的指名者",
+                    "isInverted": true
+                },
+                {
+                    "type": 1
+                },
+                {
+                    "type": 1
+                }
+            ],
+            "deckCardCount": 40,
+            "label": "第一回合 ⌈增殖的G⌋ 通过"
+        }
+]

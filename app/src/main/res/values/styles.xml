@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="RankTextView">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelSmall</item>
+        <item name="android:background">@drawable/bg_badge</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingStart">@dimen/spacing_unit</item>
+        <item name="android:paddingEnd">@dimen/spacing_unit</item>
+        <item name="android:layout_marginStart">@dimen/spacing_unit</item>
+        <item name="android:backgroundTint">@color/color_text_bg_rank</item>
+        <item name="android:textColor">@color/color_text_rank</item>
+        <item name="android:letterSpacing">.05</item>
+    </style>
+
+    <style name="Animation.Translucent.Null" parent="android:Animation.Translucent">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="DetailLabelText">
+        <item name="android:letterSpacing">.05</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelMedium</item>
+    </style>
+
+    <style name="PlayerNameText">
+        <item name="android:letterSpacing">.08</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.TitleMedium</item>
+        <item name="android:textColor">@color/color_text_player_name</item>
+    </style>
+
+    <style name="PlayerNameText.Detail">
+        <item name="android:textColor">@color/color_text_player_name_detail</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.BottomSheet">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/corner_large</item>
+        <item name="cornerSizeTopRight">@dimen/corner_large</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.Secondary">
+        <item name="colorContainer">?colorSecondary</item>
+        <item name="android:textColorPrimary">?colorOnSecondary</item>
+        <item name="colorOnContainer">?colorOnSecondary</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Normal">
+        <item name="cornerSize">@dimen/corner_normal</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Large">
+        <item name="cornerSize">@dimen/corner_large</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.None">
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <!-- Work around the too low contrast when colorPrimaryContainer is on colorSurface if
+         the elevationOverly is enabled-->
+    <style name="ThemeOverlay.Material3.PrimaryContainerOnSurface">
+        <item name="colorPrimaryContainer">@color/color_primary_container_on_surface</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="Theme.Material3.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
+    </style>
+
+    <style name="Widget.Material3.Button.OutlinedButton.Icon.Secondary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.Secondary</item>
+    </style>
+
+    <style name="MineLabelTextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelMedium</item>
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+</resources>

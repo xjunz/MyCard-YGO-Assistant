@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_24">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/edit_card_condition"
+        android:textAppearance="?textAppearanceHeadlineSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/container_any_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@drawable/selector_bg_card_condition"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_24"
+        android:paddingVertical="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+        <TextView
+            android:id="@+id/tv_any_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/any_card"
+            android:textAppearance="?textAppearanceTitleMedium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/caption_any_card"
+            android:textAppearance="?textAppearanceLabelSmall" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/container_spec_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_bg_card_condition"
+        android:paddingVertical="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="@+id/container_any_card"
+        app:layout_constraintTop_toBottomOf="@+id/container_any_card">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_24"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_description_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/spec_card"
+                android:textAppearance="?textAppearanceTitleMedium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/caption_spec_card"
+                android:textAppearance="?textAppearanceLabelSmall" />
+        </LinearLayout>
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_invert_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_twotone_switch_left_24" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_any_in_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_bg_card_condition"
+        android:paddingVertical="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="@+id/container_spec_card"
+        app:layout_constraintTop_toBottomOf="@+id/container_spec_card">
+
+        <TextView
+            android:layout_marginTop="@dimen/spacing_small"
+            android:id="@+id/tv_description_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_24"
+            android:layout_weight="1"
+            android:text="@string/any_in_collection"
+            android:textAppearance="?textAppearanceTitleMedium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_caption_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="8dp"
+            android:text="@string/caption_collection"
+            android:textAppearance="?textAppearanceLabelSmall"
+            app:layout_constraintEnd_toStartOf="@+id/ib_invert_2"
+            app:layout_constraintStart_toStartOf="@id/tv_description_2"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_2" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_invert_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_twotone_switch_left_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_caption_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_description_2" />
+
+        <TextView
+            android:id="@+id/tv_collection_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/ib_edit_name"
+            app:layout_constraintStart_toStartOf="@id/tv_description_2"
+            app:layout_constraintTop_toTopOf="@id/ib_edit_name" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_edit_name"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_twotone_edit_24"
+            app:layout_constraintStart_toStartOf="@id/ib_invert_2"
+            app:layout_constraintTop_toBottomOf="@id/ib_invert_2" />
+
+        <TextView
+            android:id="@+id/tv_collection_card_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/ib_edit_count"
+            app:layout_constraintStart_toStartOf="@id/tv_description_2"
+            app:layout_constraintTop_toTopOf="@id/ib_edit_count" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_edit_count"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_twotone_edit_24"
+            app:layout_constraintStart_toStartOf="@id/ib_edit_name"
+            app:layout_constraintTop_toBottomOf="@id/ib_edit_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_remark"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_unit"
+        android:hint="@string/optional_remark"
+        android:labelFor="@id/et_remark"
+        app:layout_constraintTop_toBottomOf="@id/container_any_in_collection"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Large">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="12"
+            android:paddingHorizontal="@dimen/spacing_normal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        style="?materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:text="@android:string/cancel"
+        app:layout_constraintEnd_toStartOf="@id/btn_ok"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_remark" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_ok"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_unit"
+        android:text="@android:string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/btn_cancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

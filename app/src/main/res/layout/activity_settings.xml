@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#52000000">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/bottom_sheet_elevation"
+        android:transitionGroup="true"
+        android:transitionName="@string/configurations"
+        app:backgroundTint="?colorSurface"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.BottomSheet">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/spacing_normal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/configurations"
+                android:textAppearance="?textAppearanceDisplaySmall"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_disable_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@drawable/bg_outlined_cornered_padding_box"
+                android:text="@string/disable_notifications"
+                android:theme="@style/ThemeOverlay.Material3.PrimaryContainerOnSurface"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sw_pin_followed_duels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_unit"
+                android:background="@drawable/bg_outlined_cornered_padding_box"
+                android:text="@string/pin_duel_with_following"
+                android:theme="@style/ThemeOverlay.Material3.PrimaryContainerOnSurface"
+                app:layout_constraintTop_toBottomOf="@id/sw_disable_notifications"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/btg_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_unit"
+                app:layout_constraintTop_toBottomOf="@+id/sw_pin_followed_duels">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_manage_tags"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/manage_tags" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_manage_followed"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/manage_followed_players" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <RelativeLayout
+                android:id="@+id/criteria_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_unit"
+                android:background="@drawable/bg_outlined_cornered_padding_box"
+                app:cardCornerRadius="@dimen/corner_normal"
+                app:contentPaddingLeft="@dimen/spacing_normal"
+                app:contentPaddingRight="@dimen/spacing_normal"
+                app:layout_constraintTop_toBottomOf="@id/btg_manager">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/btn_add_criteria"
+                    android:layout_alignBottom="@id/btn_add_criteria"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@id/btn_add_criteria"
+                    android:gravity="center_vertical"
+                    android:text="@string/duel_push_criteria"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_criteria"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/add_criteria"
+                    app:icon="@drawable/ic_twotone_add_24" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_add_criteria"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_push_criteria" />
+
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

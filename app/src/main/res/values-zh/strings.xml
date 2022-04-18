@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">萌卡YGO竞技助手</string>
+    <string name="duel_list">观战列表</string>
+    <string name="monitor_service_is_running">监测服务正在运行…</string>
+    <string name="rank">竞技排名</string>
+    <string name="sort">排序</string>
+    <string name="spectate">观战</string>
+    <string name="restart_service">重启服务</string>
+    <string name="format_retry_countdown">%d 秒后重试</string>
+    <string name="stop_monitor_service">停止服务</string>
+    <string name="start_service">启动服务</string>
+    <string name="starting_service">正在启动服务…</string>
+    <string name="duel_push">对局推送</string>
+    <string name="log_in_to_mycard">登录到萌卡平台</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="log_in">登录</string>
+    <string name="field_cannot_be_null">此字段不能为空</string>
+    <string name="input_too_short">你的输入过短</string>
+    <string name="input_is_empty">你的输入为空</string>
+    <string name="log_in_succeeded">登录成功</string>
+    <string name="log_in_failed">登录失败：%s</string>
+    <string name="no_game_launcher_found">无法启动观战，请尝试安装YGO Mobile</string>
+    <string name="format_unexpected_error">发生错误：%s</string>
+    <string name="format_error_code">发生错误(%d)</string>
+    <string name="username_or_pwd_incorrect">用户名或密码错误</string>
+    <string name="request_timed_out">请求超时</string>
+    <string name="pls_login_first">观战前请先登录</string>
+    <string name="no_internet">无网络</string>
+    <string name="format_last_update_time">对局列表可能已过时。上次更新时间：%s</string>
+    <string name="server_error">服务器错误</string>
+    <string name="network_error">网络错误</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="too_frequent">请求过于频繁</string>
+    <string name="connecting_to_to_server">正在连接到服务器…</string>
+    <string name="service_is_idle">服务尚未启动</string>
+    <string name="newcomer">新人</string>
+    <string name="developer">开发者</string>
+    <string name="all_win_lose_draw">总/胜/负/平</string>
+    <string name="win_rate">胜率</string>
+    <string name="tags">标签</string>
+    <string name="format_duel_ended_unknown">结束于%s</string>
+    <string name="format_duel_ended">开始于%s，结束于%s，对局时长%s</string>
+    <string name="format_duel_in_progress">开始于%s，已开始%s</string>
+    <string name="format_min_sec">%s分%02d秒</string>
+    <string name="format_sec">%d秒</string>
+    <string name="connection_is_lost">连接已断开</string>
+    <string name="format_duel_start">开始于%s</string>
+    <string name="follow">关注</string>
+    <string name="format_follow_player">"已关注玩家⌈%s⌋ "</string>
+    <string name="format_unfollow_player">"已取消关注玩家 ⌈%s⌋ "</string>
+    <string name="format_prompt_unfollow_player">你确定要取消关注玩家 ⌈%s⌋ 吗？</string>
+    <string name="prompt">提示</string>
+    <string name="tip_stop_service">你确定要停止服务吗？</string>
+    <string name="add_tag">添加标签</string>
+    <string name="edit_tag">编辑此标签</string>
+    <string name="rename_to">重命名为</string>
+    <string name="delete_tag">移除此标签</string>
+    <string name="hint_add_tag">为此玩家添加标签</string>
+    <string name="tag_existed">此标签已存在</string>
+    <string name="tag_illegal_char">包含非法字符“|”</string>
+    <string name="hint_tag_name">比如卡组名称</string>
+    <string name="tag_is_blank">标签内容不能为空</string>
+    <string name="no_more_tags">最大标签数量为%d，请尝试删除其他标签</string>
+    <string name="unfollow">取消关注</string>
+    <string name="dismiss">关闭</string>
+    <string name="clear_all">清空</string>
+    <string name="no_duels_now">当前无对局</string>
+    <string name="logging_in">正在验证…</string>
+    <string name="feedback">反馈</string>
+    <string name="restart_app">重启应用</string>
+    <string name="oops_app_crashed">抱歉！应用崩溃了…</string>
+    <string name="open_via">打开方式</string>
+    <string name="service_is_stopped">服务已停止</string>
+    <string name="configurations">配置</string>
+    <string name="disable_notifications">禁用全部通知</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="prompt_delete_criteria">你确定你删除此条件吗？</string>
+    <string name="add_criteria">添加条件</string>
+    <string name="duel_push_criteria">对局推送条件</string>
+    <string name="pin_duel_with_following">置顶包含已关注玩家的对局</string>
+    <string name="duel_is_ended">对局已结束</string>
+    <string name="discard">舍弃</string>
+    <string name="required_tag">包含标签</string>
+    <string name="rank_upper_bound">排名上限</string>
+    <string name="rank_lower_bound">排名下限</string>
+    <string name="criteria_for_one_player">一方玩家的条件</string>
+    <string name="criteria_for_the_other_player">另一方玩家的条件</string>
+    <string name="requires_followed_duelist">需要包含已关注玩家</string>
+    <string name="unlimited_criteria">无效条件：所有对局都满足这个条件</string>
+    <string name="invalid_rank_range">排名上限需大于等于排名下限</string>
+    <string name="criteria_existed">已存在除推送延迟以外完全相同的条件</string>
+    <string name="hint_push_delay">推送延迟（分钟）</string>
+    <string name="prompt_rank_zero">不存在排名0，最高排名为1</string>
+    <string name="prompt_max_criteria_count">条件过多，请尝试删除某些条件然后重试</string>
+    <string name="manage_tags">管理标签</string>
+    <string name="manage_followed_players">管理已关注玩家</string>
+    <string name="edit_criteria">编辑推送条件</string>
+    <string name="use_preset">使用预设条件</string>
+    <string name="tagged_players">已添加标签的玩家</string>
+    <string name="tag_new_player">为新的玩家添加标签</string>
+    <string name="player_already_tagged">此玩家已存在标签</string>
+    <string name="player_name">玩家名称</string>
+    <string name="player_already_followed">你已关注此玩家</string>
+    <string name="format_push_content">你关注的对局正在进行中! %s</string>
+    <string name="html_push_content_tagged">"<![CDATA[【<b>%s</b>】你关注的对局正在进行中! %s]]>     "</string>
+    <string name="criteria_condition_and_prefix">且</string>
+    <string name="criteria_condition_or_prefix">或</string>
+    <string name="format_criteria_prefix">%s玩家：</string>
+    <string name="format_criteria_rank_range">排名在[%d, %s%s</string>
+    <string name="criteria_followed">为已关注玩家</string>
+    <string name="criteria_tags">包含标签</string>
+    <string name="format_push_delay">对局将在开始%d分钟后推送</string>
+    <string name="html_push_delayed"><![CDATA[开始于 <b>%d</b> 分钟前!]]></string>
+    <string-array name="one_the_other">
+        <item>一方</item>
+        <item>另一方</item>
+        <item>任意一方</item>
+    </string-array>
+    <string-array name="preset_criteria">
+        <item>对局任意一方为已关注玩家</item>
+        <item>对局双方排名在1到100之间</item>
+    </string-array>
+    <string name="criteria_end">。</string>
+    <string name="criteria_separator">，</string>
+    <string name="reload">重新加载</string>
+    <string name="leaderboard">排行榜</string>
+    <string name="format_timeliness">上次更新时间：%s</string>
+    <string name="in_progress">对局进行中…</string>
+    <string name="duel_state_unknown">对局状态未知</string>
+    <string name="prompt_clear_all_notifications">是否清空当前已显示的通知?</string>
+    <string name="loaded_successfully">加载成功</string>
+    <string name="prompt_load_failed">加载失败，请尝试重新加载。</string>
+    <string name="loading_leaderboard">正在加载排行榜…</string>
+    <string name="service_is_running">服务正在运行…</string>
+    <string name="mine">我的</string>
+    <string name="log_out">退出登录</string>
+    <string name="reload_info">重新加载信息</string>
+    <string name="duel_points">D.P</string>
+    <string name="exp">经验</string>
+    <string name="member_since">加入于</string>
+    <string name="pls_login">请先登录</string>
+    <string name="prompt_log_out">你确定要退出登录吗?</string>
+    <string name="start_athletic_match">开始竞技匹配</string>
+    <string name="matching">匹配中…</string>
+    <string name="cancel_matching">取消匹配</string>
+    <string name="match_cancelled">匹配已取消</string>
+    <string name="format_match_duration">已用时%s</string>
+    <string name="format_expected_duration">预计用时%.2f秒</string>
+    <string name="match_successfully">竞技匹配成功！点此查看对局详情</string>
+    <string name="tap_to_check_details">点此查看对局详细结果</string>
+    <string name="refresh_successfully">信息更新成功</string>
+    <string name="refresh_failed">信息更新失败</string>
+    <string name="cards_probability_calculator">手牌概率计算器</string>
+    <string name="deck_card_count">卡组卡牌数量</string>
+    <string name="hand_cards_count">手牌数量</string>
+    <string name="edit_card_condition">编辑此卡上手条件</string>
+    <string name="any_card">任意一卡</string>
+    <string name="optional_remark">备注（可选）</string>
+    <string name="spec_card">指定某一卡</string>
+    <string name="not_spec_card">排除某一卡</string>
+    <string name="any_in_collection">指定集合中的任意一卡</string>
+    <string name="not_any_in_collection">指定集合以外的任意一卡</string>
+    <string name="specify_count">指定张数</string>
+    <string name="reset_to_def">恢复默认数量</string>
+    <string name="edit_card_count">编辑卡片数量</string>
+    <string name="input_too_large">输入的值过大</string>
+    <string name="format_input_too_small">输入的值过小，至少为%d</string>
+    <string name="format_collection_name">集合名: %s</string>
+    <string name="def_collection_name">集合1</string>
+    <string name="format_collection_card_count">集合卡牌数: %d</string>
+    <string name="edit_collection_name">编辑此集合的名称</string>
+    <string name="html_undefined"><![CDATA[<i>未定义</i>]]></string>
+    <string name="prompt_empty_collection_name">请定义集合名</string>
+    <string name="format_any_in_collection">%s(%d张)中的任意一张</string>
+    <string name="format_not_any_in_collection">%s(%d张)以外的任意一卡</string>
+    <string name="calculate">计算</string>
+    <string name="caption_spec_card">此卡在你的卡组中应该只存在一张</string>
+    <string name="caption_any_card">卡组剩余卡牌中的任意一卡，除了其他条件中已排除或已指定的卡牌</string>
+    <string name="caption_collection">所有已定义的集合彼此之间不能有相同的卡牌</string>
+    <string name="format_unnamed_condition_set">未命名%s</string>
+    <string name="new_one">新建条件组</string>
+    <string name="prompt_reach_max_limit">条件数量达到上限</string>
+    <string name="prompt_remove_condition_set">你确定要移除此条件组吗?</string>
+    <string name="prompt_retain_current">你想要新的条件组复制当前的条件组吗？</string>
+    <string name="do_not_retain">不复制</string>
+    <string name="format_calculator_result">⌈%s⌋的概率</string>
+    <string name="html_detailed_calculator_result"><![CDATA[<b>小数形式</b>: %s <br/>
+    <b>分数形式</b>: %s <br/><b>百分比形式</b>: %s]]></string>
+    <string name="result_not_calculated"><i>（结果未计算）</i></string>
+    <string name="details">详情</string>
+    <string name="sum">总计:</string>
+    <string name="sum_probability">合计概率</string>
+    <string name="html_sum_details"><![CDATA[
+    <b>条件组</b>: %s <br/>
+    <b>小数形式</b>: %s <br/>
+    <b>分数形式</b>: %s <br/>
+    <b>百分比形式</b>: %s]]></string>
+    <string name="examples">示例</string>
+    <string name="prompt_discard_condition_sets">你确定要丢弃当前的条件组吗?</string>
+    <string name="room_assist">自定义房间助手</string>
+    <string name="host_name">服务器</string>
+    <string name="port">端口</string>
+    <string name="time_per_turn">回合时长(0–999)</string>
+    <string name="life_points">生命值(1–99999)</string>
+    <string name="start_draw">起手抽卡数(1–40)</string>
+    <string name="draw_count">每回合抽卡数(0–35)</string>
+    <string name="no_fl_list">不使用禁限卡表</string>
+    <string name="card_pool">卡池</string>
+    <string name="rule">规则</string>
+    <string name="no_shuffle">不洗切卡组</string>
+    <string name="no_check">不检查卡组</string>
+    <string name="mode">模式</string>
+    <string name="remark_turn_duration">当回合时长的输入为0–60时，其单位为分钟，否则其单位为秒</string>
+    <string name="create_game_room">建立游戏房间</string>
+    <string name="format_error_range">输入范围为%d到%d</string>
+    <string name="optional_password">密码(可选)</string>
+    <string-array name="rules">
+        <item>默认</item>
+        <item>大师规则1</item>
+        <item>大师规则2</item>
+        <item>大师规则3</item>
+        <item>新大师规则</item>
+        <item>大师规则2020</item>
+    </string-array>
+    <string-array name="modes">
+        <item>单局模式</item>
+        <item>Match(三局两胜)模式</item>
+        <item>双打模式</item>
+    </string-array>
+    <string-array name="card_pools">
+        <item>默认</item>
+        <item>同时允许TCG与OCG独有卡(默认使用OCG最新禁限卡表)</item>
+        <item>纯TCG，不允许OCG独有卡(默认使用TCG最新禁限卡表)</item>
+        <item>不允许TCG和OCG独有卡</item>
+    </string-array>
+    <string name="copy_room_id">复制房间ID</string>
+    <string name="copied_to_clipboard">已复制到剪切板</string>
+    <string name="download_advance_cards">下载并安装先行卡</string>
+    <string name="update_history">更新记录</string>
+    <string name="open_in_browser">在浏览器中打开</string>
+    <string name="download_and_install">下载并安装</string>
+    <string name="network_error_or_server_error">网络错误或服务器错误</string>
+    <string name="downloading">正在下载…</string>
+    <string name="optional_username">玩家名称(可选)</string>
+    <string name="download_successfully">下载完成，开始安装…</string>
+    <string name="set_as_home">将本页面设为首页</string>
+    <string name="prompt_set_as_home">设为主页成功，下次启动生效</string>
+    <string name="cancel_set_as_home">取消设为首页</string>
+    <string name="remove_notification">移除通知</string>
+    <string name="about_text">此应用以<b>Apache-License 2.0</b>协议部分<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>
+        \n\n如果你喜欢此应用，可以点击下方⌈捐赠⌋按钮以支持我的工作。</string>
+    <string name="credits">特别鸣谢<a href='https://www.pgyer.com/ygomobilecn'>YGO Mobile</a>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
+    <string name="check_update">检查更新</string>
+    <string name="donate">捐赠</string>
+    <string name="version_info">版本信息</string>
+    <string name="has_updates">发现新版本</string>
+    <string name="html_updates_info">
+        <![CDATA[<b>版本名: </b>%s<br/><br/>
+        <b>文件大小: </b>%s<br/><br/>
+        <b>更新内容: </b>%s]]>
+    </string>
+    <string name="download">下载</string>
+    <string name="check_update_failed">检查更新失败</string>
+    <string name="feedback_join_group">反馈或加入交流群</string>
+    <string name="choose_a_way_to_feedback">选择反馈方式</string>
+    <string name="format_mail_subject">「萌卡YGO竞技助手」反馈-%s</string>
+    <string name="no_way_to_open">找不到打开方式</string>
+    <string-array name="error_feedback_ways">
+        <item>电子邮件</item>
+        <item>QQ反馈群</item>
+        <item>其他方式</item>
+    </string-array>
+    <string-array name="feedback_ways">
+        <item>电子邮件</item>
+        <item>QQ反馈群</item>
+    </string-array>
+</resources>

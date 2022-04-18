@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable-night/color_text_bg_rank.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_circle.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_cornered_small.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_dialog_style_window.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_duel_detail_prompt.xml" value="0.2185" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_item_duel.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_outlined_cornered_box.xml" value="0.278" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_rank.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_tag.xml" value="0.216" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_launcher_background.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_sword_cross.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_twotone_eye_24.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_twotone_home_24.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_twotone_person_24.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/ic_twotone_person_40.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/selector_bg_card_condition.xml" value="0.216" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/selector_btn_icon_service_controller.xml" value="0.216" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/selector_ib_icon_star_player.xml" value="0.216" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/selector_icon_criteria_expand_or_collapse.xml" value="0.216" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/selector_icon_log_in_out.xml" value="0.2105" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout-land/activity_duel_details.xml" value="0.2296875" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout-land/activity_main.xml" value="0.2099099099099099" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout-land/layout_player_info.xml" value="0.22" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/activity_crash_report.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/activity_duel_details.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/activity_login.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/activity_main.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/activity_settings.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/chip.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_about.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_calculator.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_criteria_editor.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_custom_room.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_download_prescripts.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_duel_push_criteria_editor.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_feedback.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_followed_player_manager.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_input.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_leaderboard_player_info.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_login.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_match.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_player_info.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_single_card_condition.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/dialog_tag_manager.xml" value="0.6666666666666666" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/fragment_duel.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/fragment_leaderboard.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/fragment_mine.xml" value="0.22" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/item_calculator_result.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/item_card_condition.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/item_duel.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/item_leaderboard.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/item_push_criteria.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/layout_player_criteria_editor.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/layout/layout_player_info.xml" value="0.3333333333333333" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/menu/menu_bottom_bar.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/menu/mine_as_home.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.217" />
+        <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.217" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

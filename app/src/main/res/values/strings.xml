@@ -1,0 +1,288 @@
+<resources>
+    <string name="app_name">MyCard YGO Assistant</string>
+    <string name="duel_list">Duels</string>
+    <string name="monitor_service_is_running">The monitor service is running…</string>
+    <string name="rank">Athletic Rank</string>
+    <string name="sort">Sort</string>
+    <string name="spectate">Spectate</string>
+    <string name="restart_service">Restart Service</string>
+    <string name="format_retry_countdown">You may retry in %ds</string>
+    <string name="stop_monitor_service">Stop Service</string>
+    <string name="start_service">Start Service</string>
+    <string name="starting_service">Starting Service…</string>
+    <string name="duel_push">Duel Push</string>
+    <string name="log_in_to_mycard">Log in to MyCard</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="field_cannot_be_null">This field cannot be empty</string>
+    <string name="input_too_short">Your input is too short</string>
+    <string name="input_is_empty">Your input is empty</string>
+    <string name="log_in_succeeded">Log in succeeded!</string>
+    <string name="log_in_failed">Log in failed due to %s </string>
+    <string name="no_game_launcher_found">No app to launch the game, try out YGO Mobile</string>
+    <string name="format_unexpected_error">Unexpected error occurred: %s</string>
+    <string name="format_error_code">Error occurred: %d</string>
+    <string name="username_or_pwd_incorrect">Either the username or password is incorrect</string>
+    <string name="request_timed_out">Request Timed Out</string>
+    <string name="pls_login_first">Please log in before spectating</string>
+    <string name="no_internet">No Internet</string>
+    <string name="format_last_update_time">Note: duels might be out-of-date. \nLast update time: %s</string>
+    <string name="format_timeliness">Last update time: %s</string>
+    <string name="server_error">Server Error</string>
+    <string name="network_error_or_server_error">Network error or server error</string>
+    <string name="network_error">Network Error</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="too_frequent">Requests are too frequent</string>
+    <string name="connecting_to_to_server">Connecting to the server…</string>
+    <string name="service_is_idle">Service is not yet started</string>
+    <string name="newcomer">Newcomer</string>
+
+    <string name="developer">The Developer</string>
+
+    <string name="all_win_lose_draw">All/Win/Lose/Draw</string>
+    <string name="win_rate">Win Rate</string>
+    <string name="tags">Tags</string>
+
+    <string name="format_duel_ended_unknown">Ended at %s.</string>
+    <string name="format_duel_ended">Started at %s and ended at %s. Has lasted for %s.</string>
+    <string name="format_duel_in_progress">Started at %s and has lasted for %s.</string>
+    <string name="format_min_sec">%d m %02d s</string>
+    <string name="format_sec">%d seconds</string>
+    <string name="connection_is_lost">The connection is lost</string>
+    <string name="duel_state_unknown">The duel state is unknown</string>
+    <string name="format_duel_start">Started at %s</string>
+    <string name="follow">Follow</string>
+    <string name="format_follow_player">Player ⌈%s⌋ is followed</string>
+    <string name="format_unfollow_player">Player ⌈%s⌋ is unfollowed</string>
+    <string name="format_prompt_unfollow_player">Are you sure to unfollow player ⌈%s⌋?</string>
+    <string name="prompt">Prompt</string>
+    <string name="tip_stop_service">Are you sure to stop the service? </string>
+    <string name="add_tag">New Tag</string>
+    <string name="edit_tag">Edit this tag</string>
+    <string name="rename_to">Rename to</string>
+    <string name="delete_tag">Delete this tag</string>
+    <string name="hint_add_tag">Add a tag to this player</string>
+    <string name="tag_existed">This tag has already existed</string>
+    <string name="tag_illegal_char">Contains illegal character \'|\'</string>
+    <string name="hint_tag_name">Such as a deck name</string>
+    <string name="tag_is_blank">The tag should not be blank</string>
+    <string name="no_more_tags">The max tag count is 6, please try to delete some tags.</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="clear_all">Clear All</string>
+    <string name="no_duels_now">No Duels Now</string>
+    <string name="logging_in">Verifying your credential…</string>
+    <string name="feedback">Feedback</string>
+    <string name="restart_app">Restart App</string>
+    <string name="oops_app_crashed">Oops! App crashed…</string>
+
+    <string name="open_via">Open via</string>
+    <string name="service_is_stopped">Service is stopped</string>
+    <string name="configurations">Configurations</string>
+    <string name="disable_notifications">Disable all notifications</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="prompt_delete_criteria">Are you sure to delete this criteria?</string>
+    <string name="add_criteria">Add Criteria</string>
+    <string name="duel_push_criteria">Duel Push Criteria</string>
+    <string name="pin_duel_with_following">Pin duels involving any followed duelist.</string>
+    <string name="duel_is_ended">The duel is ended</string>
+    <string name="discard">Discard</string>
+    <string name="required_tag">Required Tag</string>
+    <string name="rank_upper_bound">Rank upper bound</string>
+    <string name="rank_lower_bound">Rank lower bound</string>
+    <string name="criteria_for_one_player">Criteria for one player</string>
+    <string name="criteria_for_the_other_player">Criteria for the other player</string>
+    <string name="requires_followed_duelist">Requires involving at least one followed duelist</string>
+    <string name="unlimited_criteria">Invalid criteria: all duels match this criteria.</string>
+    <string name="invalid_rank_range">The rank upper bound must be greater than the lower bound.</string>
+    <string name="criteria_existed">An identical criteria except for the push delay has already existed.</string>
+    <string name="hint_push_delay">Push delay in minutes</string>
+    <string name="prompt_rank_zero">There is no such rank as 0, the minimum rank is 1.</string>
+    <string name="prompt_max_criteria_count">Too much criteria, please try to remove some and retry.</string>
+    <string name="manage_tags">Manage tags</string>
+    <string name="manage_followed_players">Manage followed players</string>
+    <string name="edit_criteria">Edit Push Criteria</string>
+    <string name="use_preset">Use preset criteria</string>
+    <string name="tagged_players">Tagged Players</string>
+    <string name="tag_new_player">Tag a new player</string>
+    <string name="player_already_tagged">This player has already been tagged</string>
+    <string name="player_name">Player Name</string>
+    <string name="player_already_followed">This player has already been followed</string>
+    <string name="reload">Reload</string>
+    <string name="reload_info">Reload Information</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="in_progress">In progress…</string>
+    <string name="prompt_clear_all_notifications">Do you want to clear all shown notifications?</string>
+    <string name="loaded_successfully">Load Successfully</string>
+    <string name="prompt_load_failed">Load failed. Please try again.</string>
+    <string name="loading_leaderboard">Loading leaderboard…</string>
+    <string name="service_is_running">Service is running…</string>
+    <string name="mine">Mine</string>
+    <string name="log_out">Log out</string>
+    <string name="duel_points">Duel Points</string>
+    <string name="exp">Exp</string>
+    <string name="member_since">Member since</string>
+    <string name="pls_login">Please Login</string>
+    <string name="prompt_log_out">Are you sure to log out?</string>
+    <string name="start_athletic_match">Start Athletic Match</string>
+    <string name="matching">Matching…</string>
+    <string name="cancel_matching">Cancel Matching</string>
+    <string name="format_match_duration">Elapsed time %s</string>
+    <string name="format_expected_duration">Expected to take %.2f second(s)</string>
+    <string name="match_cancelled">Match cancelled</string>
+    <string name="match_successfully">Match successfully! Tap to check details.</string>
+    <string name="tap_to_check_details">Tap to check details</string>
+    <string name="refresh_failed">Refresh failed</string>
+    <string name="refresh_successfully">Refresh successfully</string>
+    <string name="cards_probability_calculator">Hand Probability Calculator</string>
+    <string name="deck_card_count">Deck\'s card count</string>
+    <string name="hand_cards_count">Hand\'s card count</string>
+    <string name="reset_to_def">Rest to default count</string>
+    <string name="edit_card_condition">Edit Single Card Condition</string>
+    <string name="any_card">Any Card</string>
+    <string name="spec_card">Specific Card</string>
+    <string name="any_in_collection">Any card in a specific collection</string>
+    <string name="specify_count">Specify count</string>
+    <string name="optional_remark">Remark (Optional)</string>
+
+    <string name="html_push_title" translatable="false"><![CDATA[<b>%s</b>(%d) <i>VS</i> <b>%s</b>(%d)]]></string>
+    <string name="html_push_delayed"><![CDATA[Started <b>%d</b> minute(s) ago!]]></string>
+    <string name="format_push_content">A duel you are following is in progress! %s</string>
+    <string name="html_push_content_tagged">"<![CDATA[【<b>%s</b>】A tag-featured duel is in progress! %s]]>"</string>
+    <string-array name="one_the_other">
+        <item>One</item>
+        <item>the other</item>
+        <item>Any</item>
+    </string-array>
+    <string name="criteria_condition_and_prefix">And&#160;</string>
+    <string name="criteria_condition_or_prefix">Or&#160;</string>
+    <string name="format_criteria_prefix">%s player:&#160;</string>
+    <string name="format_criteria_rank_range">ranked between [%d, %s%s</string>
+    <string name="criteria_followed">required to be followed</string>
+    <string name="criteria_tags">tagged with </string>
+    <string name="criteria_separator">,&#160;</string>
+    <string name="criteria_end">.&#160;</string>
+    <string name="format_push_delay">Duels will be pushed %d minute(s) after starting</string>
+
+    <string name="edit_card_count">Edit card count</string>
+    <string name="input_too_large">Your input number is too large</string>
+    <string name="format_input_too_small">Your input is too small, at least %d</string>
+    <string name="not_spec_card">Exclude specific card</string>
+    <string name="not_any_in_collection">Any card out of a specific collection</string>
+    <string name="format_collection_name">Collection name: %s</string>
+    <string name="def_collection_name">Collection 1</string>
+    <string name="format_collection_card_count">Collection card count: %d</string>
+    <string name="edit_collection_name">Edit this collection\'s name</string>
+    <string name="html_undefined"><![CDATA[<i>Undefined</i>]]></string>
+    <string name="prompt_empty_collection_name">You must define the collection name</string>
+    <string name="format_any_in_collection">Any card in %s(%d cards)</string>
+    <string name="calculate">Calculate</string>
+    <string name="caption_spec_card">This card is required to be unique in your deck</string>
+    <string name="caption_any_card">Any in the remaining cards of your deck, except for those specified
+    or excluded in other conditions</string>
+    <string name="caption_collection">A collection should not share any card with other defined collections</string>
+    <string name="format_unnamed_condition_set">Unnamed Conditions %d</string>
+    <string name="new_one">Create New One</string>
+    <string name="prompt_reach_max_limit">Max count reached</string>
+    <string name="prompt_remove_condition_set">Are you sure to remove this condition set?</string>
+    <string name="format_not_any_in_collection">Any card except for %s(%d cards)</string>
+    <string name="prompt_retain_current">Do you want the new one to retain current conditions?</string>
+    <string name="do_not_retain">Do not retain</string>
+    <string name="format_calculator_result">The probability of ⌈%s⌋</string>
+    <string name="html_detailed_calculator_result"><![CDATA[<b>In decimal</b>: %s <br/>
+    <b>In fraction</b>: %s <br/><b>In percent</b>: %s]]></string>
+    <string name="result_not_calculated"><i>(The result is not yet calculated)</i></string>
+    <string name="details">Details</string>
+    <string name="sum">Sum:</string>
+    <string name="sum_probability">Probability Sum</string>
+    <string name="html_sum_details"><![CDATA[
+    <b>Condition Set(s)</b>: %s <br/>
+    <b>In decimal</b>: %s <br/>
+    <b>In fraction</b>: %s <br/>
+    <b>In percent</b>: %s]]></string>
+    <string name="examples">Examples</string>
+    <string name="prompt_discard_condition_sets">Do you want to discard currently edited condition sets?</string>
+
+    <!-- Custom Room -->
+    <string name="room_assist">Custom Game Assistant</string>
+    <string name="host_name">Server</string>
+    <string name="port">Port</string>
+    <string name="time_per_turn">Duration Per Turn (0–999)</string>
+    <string name="life_points">Life Points (1–99999)</string>
+    <string name="start_draw">Start Draw Count(1–40)</string>
+    <string name="draw_count">Per Draw Count(0–35)</string>
+    <string name="no_fl_list"><![CDATA[No forbidden & limited card list]]></string>
+    <string name="card_pool">Card Pool</string>
+    <string name="rule">Rule</string>
+    <string name="no_shuffle">No Deck Shuffle</string>
+    <string name="no_check">No Deck Check</string>
+    <string name="mode">Mode</string>
+    <string name="remark_turn_duration">When the input turn duration is in 0–60, the unit is minute. Otherwise the unit is second.</string>
+    <string name="create_game_room">Create Game Room</string>
+    <string name="format_error_range">The range is %d to %d</string>
+    <string name="optional_password">Password (Optional)</string>
+    <string name="copy_room_id">Copy Room ID</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="download_advance_cards">Download &amp; Install Pre-scripted Cards</string>
+    <string name="update_history">Update History</string>
+    <string name="open_in_browser">Open in Browser</string>
+    <string name="download_and_install">Download &amp; Install</string>
+    <string name="downloading">Downloading…</string>
+    <string-array name="preset_criteria">
+        <item>Containing any followed player</item>
+        <item>Both two players ranked between 1 and 100</item>
+    </string-array>
+    <string-array name="rules">
+        <item>Default</item>
+        <item>Mater Rule 1</item>
+        <item>Mater Rule 2</item>
+        <item>Mater Rule 3</item>
+        <item>New Master Rule</item>
+        <item>Master Rule 2020</item>
+    </string-array>
+    <string-array name="modes">
+        <item>Single</item>
+        <item>Match</item>
+        <item>TAG</item>
+    </string-array>
+    <string-array name="card_pools">
+        <item>Default</item>
+        <item>TCG &amp; OCG (Use OCG F&amp;L List)</item>
+        <item>TCG Only</item>
+        <item>No TCG or OCG Unique Cards</item>
+    </string-array>
+    <string name="optional_username">Username (Optional)</string>
+    <string name="download_successfully">Download successfully! Start installing…</string>
+    <string name="set_as_home">Set this page as home</string>
+    <string name="prompt_set_as_home">Set as home successfully.  Will take effect on next launch.</string>
+    <string name="cancel_set_as_home">Cancel Set-As-Home</string>
+    <string name="remove_notification">Remove Notification</string>
+    <string name="about_text">This app is partly <a href='https://github.com/xjunz/MyCard-YGO-Assisant'>open-sourced</a> under <b>Apache-License 2.0</b></string>
+    <string name="check_update">Check For Updates</string>
+    <string name="donate">Donate</string>
+    <string name="version_info">Version Info</string>
+    <string name="credits">Special thanks to <a href='https://www.pgyer.com/ygomobileen'>YGO Mobile</a> &amp; <a href='https://mycard.moe/'>MyCard</a></string>
+    <string name="has_updates">New Version Found</string>
+    <string name="html_updates_info">
+        <![CDATA[<b>Version Name: </b>%s<br/><br/>
+        <b>File Size: </b>%s<br/><br/>
+        <b>What\'s New: </b>%s]]>
+    </string>
+    <string name="download">Download</string>
+    <string name="check_update_failed">Failed to check for updates</string>
+    <string name="feedback_join_group"><![CDATA[Feedback & Join Group]]></string>
+    <string name="choose_a_way_to_feedback">Choose a way to feedback</string>
+    <string name="format_mail_subject">「MyCard YGO Assistant」Feedback - %s</string>
+    <string name="no_way_to_open">No app to handle this request</string>
+    <string-array name="error_feedback_ways">
+        <item>Email</item>
+        <item>Tencent QQ™ Group</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="feedback_ways">
+        <item>Email</item>
+        <item>Tencent QQ™ Group</item>
+    </string-array>
+</resources>

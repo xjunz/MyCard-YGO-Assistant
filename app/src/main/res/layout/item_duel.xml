@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/spacing_unit"
+    android:layout_marginVertical="@dimen/spacing_small"
+    android:background="@drawable/bg_item_duel"
+    android:clipToPadding="false"
+    android:paddingTop="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_normal">
+
+    <xjunz.tool.mycard.ui.LeftTopPinView
+        android:id="@+id/pin_container"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_vs_icon"
+        android:src="@drawable/ic_sword_cross"
+        android:tint="?colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_player_1"
+        style="@style/PlayerNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_vs_icon"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/tv_rank_1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/iv_vs"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tv_rank_1"
+        style="@style/RankTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_unit"
+        app:layout_constraintBottom_toBottomOf="@id/tv_player_1"
+        app:layout_constraintEnd_toStartOf="@+id/ib_watch"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/tv_player_1"
+        app:layout_constraintTop_toTopOf="@id/tv_player_1"
+        tools:text="123" />
+
+    <xjunz.tool.mycard.ui.FlowLayout
+        android:id="@+id/tag_container1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:visibility="gone"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/ib_watch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/tv_player_1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_player_1" />
+
+    <TextView
+        android:id="@+id/tv_player_2"
+        style="@style/PlayerNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_unit"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/tv_rank_2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/tv_player_1"
+        app:layout_constraintTop_toBottomOf="@id/tag_container1"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/tv_rank_2"
+        style="@style/RankTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_unit"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_player_2"
+        app:layout_constraintEnd_toStartOf="@+id/ib_watch"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/tv_player_2"
+        app:layout_constraintTop_toTopOf="@id/tv_player_2"
+        tools:text="1999" />
+
+    <xjunz.tool.mycard.ui.FlowLayout
+        android:id="@+id/tag_container2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:columnCount="3"
+        android:visibility="gone"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/ib_watch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/tv_player_2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_player_2" />
+
+    <View
+        android:id="@+id/ripple_view"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="@id/ib_watch"
+        app:layout_constraintEnd_toEndOf="@id/ib_watch"
+        app:layout_constraintStart_toStartOf="@id/ib_watch"
+        app:layout_constraintTop_toTopOf="@id/ib_watch" />
+
+    <ImageButton
+        android:id="@+id/ib_watch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/spectate"
+        android:padding="@dimen/spacing_unit"
+        android:src="@drawable/ic_twotone_eye_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/color_icon_spectate_tint" />
+</androidx.constraintlayout.widget.ConstraintLayout>

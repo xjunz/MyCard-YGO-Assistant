@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha=".92">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:elevation="@dimen/bottom_sheet_elevation"
+        android:paddingHorizontal="@dimen/spacing_normal"
+        app:backgroundTint="?colorSurface"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.BottomSheet">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingVertical="@dimen/spacing_unit"
+            android:textAppearance="?textAppearanceHeadline5"
+            android:textColor="?colorPrimary"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toStartOf="@+id/btn_spectate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The duel is ended" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_spectate"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:insetTop="@dimen/spacing_small"
+            android:insetBottom="@dimen/spacing_small"
+            android:text="@string/spectate"
+            app:icon="@drawable/ic_twotone_eye_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_status" />
+
+        <TextView
+            android:id="@+id/tv_prompt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_unit"
+            app:layout_constraintEnd_toEndOf="@+id/tv_status"
+            app:layout_constraintStart_toStartOf="@id/tv_status"
+            app:layout_constraintTop_toBottomOf="@id/tv_status"
+            tools:text="Start at 2022-01-01 00:00:00. Has lasted for 12 m 24 s" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:dividerColor="@color/material_on_surface_stroke"
+            app:layout_constraintTop_toBottomOf="@+id/tv_prompt"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <include
+            android:id="@+id/player_info_1"
+            layout="@layout/layout_player_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/player_info_2"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_medium"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/material_on_surface_stroke"
+            app:layout_constraintTop_toBottomOf="@+id/player_info_1" />
+
+        <include
+            android:id="@+id/player_info_2"
+            layout="@layout/layout_player_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/player_info_1"
+            app:layout_constraintTop_toTopOf="@id/player_info_1" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_bott"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="player_info_1,player_info_2"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="533dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading" translatable="false">•••</string>
+    <string name="format_stats" translatable="false">%d/%d/%d/%d</string>
+    <string name="versus" translatable="false">VS</string>
+    <string name="format_percent" translatable="false">%.2f%%</string>
+    <string name="emoji_crash" translatable="false">😢</string>
+    <string name="minus_one" translatable="false">-1</string>
+    <string name="plus_one" translatable="false">+1</string>
+    <string name="bar" translatable="false">-</string>
+
+    <string-array name="preset_tags" translatable="false">
+        <item>萌新</item>
+        <item>大佬</item>
+        <item>导师</item>
+        <item>魂玩家</item>
+        <item>绝活哥</item>
+        <item>报社</item>
+        <item>展爆</item>
+        <item>均卡</item>
+        <item>Meta Beat</item>
+        <item>电子界</item>
+        <item>地中族</item>
+        <item>黄金国</item>
+        <item>海晶少女</item>
+        <item>幻龙均</item>
+        <item>火灵天星</item>
+        <item>龙辉巧</item>
+        <item>雷龙</item>
+        <item>烙印</item>
+        <item>魔救</item>
+        <item>魔术师</item>
+        <item>神碑</item>
+        <item>闪刀姬</item>
+        <item>随风旅鸟</item>
+        <item>铁兽</item>
+        <item>相剑</item>
+        <item>英雄</item>
+        <item>转生炎兽</item>
+        <item>自奏圣乐</item>
+    </string-array>
+
+    <string-array name="preset_collection_names">
+        <item>启动点</item>
+        <item>废件</item>
+        <item>手坑</item>
+        <item>阻抗</item>
+        <item>护航</item>
+    </string-array>
+    <string-array name="calculator_examples" translatable="false">
+        <item>第一回合 ⌈艾克佐迪亚⌋ 特殊胜利的概率</item>
+        <item>第一回合 ⌈增殖的G⌋ 通过的概率</item>
+    </string-array>
+
+    <string-array name="preset_hosts" translatable="false">
+        <item>s1.ygo233.com</item>
+        <item>s2.ygo233.com</item>
+    </string-array>
+
+    <string name="copyright" translatable="false">Copyright © XJUNZ 2022</string>
+</resources>

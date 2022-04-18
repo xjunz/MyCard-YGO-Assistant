@@ -1,0 +1,62 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Base.AppTheme">
+        <item name="android:letterSpacing">0.05</item>
+        <item name="colorOutline">@color/color_outline</item>
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.Material3.DayNight.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMinor">85%</item>
+        <item name="android:windowMinWidthMajor">60%</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+    </style>
+
+    <style name="DialogTheme.Fragment">
+        <item name="android:letterSpacing">.12</item>
+        <item name="android:windowAnimationStyle">@style/Sade</item>
+        <item name="android:colorBackground">?colorBackgroundFloating</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_style_window</item>
+    </style>
+
+    <style name="Sade">
+        <item name="android:windowEnterAnimation">@anim/dialog_window_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_window_exit</item>
+    </style>
+
+    <style name="DialogTheme.Login" />
+
+    <style name="DialogTheme.Settings" />
+
+    <style name="DialogTheme.CrashReport">
+        <item name="android:windowAnimationStyle">@style/Sade</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_style_window</item>
+        <item name="android:windowElevation">10dp</item>
+    </style>
+
+    <style name="Base.AppTheme.Translucent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Base.AppTheme.Translucent.Details" />
+
+    <style name="Base.AppTheme.Translucent.Settings">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Cut.Half">
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>
