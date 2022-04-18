@@ -18,7 +18,8 @@
 
 ## 截图
 
-<img src="app/screenshots/Screenshot_20220416-211659.webp" alt="Screenshot_20220416-211659" style="zoom:20%;" /><img src="app/screenshots/Screenshot_20220419-000135.webp" alt="Screenshot_20220419-000135" style="zoom:20%;" /><img src="app/screenshots/Screenshot_20220419-000158.webp" alt="Screenshot_20220419-000158" style="zoom:20%;" /><img src="app/screenshots/Screenshot_20220419-000232.webp" alt="Screenshot_20220419-000232" style="zoom:20%;" />
+| <img src="app/screenshots/Screenshot_20220416-211659.webp" style="zoom:25%;" /> | <img src="app/screenshots/Screenshot_20220419-000232.webp" style="zoom:25%;" /> | <img src="app/screenshots/Screenshot_20220419-000135.webp" style="zoom:25%;" /> | <img src="app/screenshots/Screenshot_20220419-000158.webp" style="zoom:25%;" /> |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 
 ## 图标来源
 
