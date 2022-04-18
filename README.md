@@ -23,7 +23,7 @@
 
 ## 图标来源
 
-[真实之眼|真実の眼 | The Eye of Truth | 34694160](https://www.ourocg.cn/card/qPs5R)
+[真实之眼 | 真実の眼 | The Eye of Truth | 34694160](https://www.ourocg.cn/card/qPs5R)
 
 在[此处](app/art/ic_ygo_eye.ai)下载图标`.AI`源文件
 
