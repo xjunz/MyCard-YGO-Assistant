@@ -10,13 +10,13 @@ data class User(
     val created_at: String,
     val email: String,
     val id: Int,
-    val ip_address: String,
-    val locale: String,
-    val name: String,
-    val password_hash: String,
-    val registration_ip_address: String,
-    val salt: String,
-    val updated_at: String,
+    val ip_address: String? = null,
+    val locale: String? = null,
+    val name: String? = null,
+    val password_hash: String? = null,
+    val registration_ip_address: String? = null,
+    val salt: String? = null,
+    val updated_at: String? = null,
     val username: String
 ) {
 

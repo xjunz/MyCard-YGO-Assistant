@@ -153,7 +153,7 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                 btnReload.isEnabled = false
                 // nothing to do with user info when updating
                 val userInfo = AccountManager.peekUser()
-                if (userInfo.username != userInfo.name) {
+                if (userInfo.name != null && userInfo.username != userInfo.name) {
                     tvPlayerName.text = userInfo.username
                     tvName.isVisible = true
                 }
