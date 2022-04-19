@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
@@ -21,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.FragmentMineBinding
+import xjunz.tool.mycard.game.GameLauncher
 import xjunz.tool.mycard.ktx.*
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.account.LoginDialog
@@ -97,7 +97,11 @@ class MineFragment : Fragment(), LifecycleEventObserver {
             v.updatePadding(top = insets.top, bottom = viewModel.bottomBarHeight.value!!)
         }
         btnMatch.setOnClickListener {
-            MatchDialog().show(parentFragmentManager, "match")
+            if (GameLauncher.exists()) {
+                MatchDialog().show(parentFragmentManager, "match")
+            } else {
+                toast(R.string.no_game_launcher_found)
+            }
         }
         if (Configs.isMineAsHome) {
             itemSetAsHome.setText(R.string.cancel_set_as_home)
@@ -157,7 +161,7 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                 tvMemberSince.text = userInfo.memberSince
                 val avatar = loadAvatar()
                 if (avatar == null) {
-                    ivAvatar.setImageResource(R.drawable.ic_twotone_person_24)
+                    ivAvatar.setImageResource(R.mipmap.ic_launcher_round)
                 } else {
                     ivAvatar.setImageBitmap(avatar)
                 }
@@ -213,10 +217,8 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                     if (index % 2 != 0 && view is TextView) view.text = R.string.loading.resText
                 }
                 tvPlayerName.text = R.string.pls_login.resText
-                ivAvatar.scaleType = ImageView.ScaleType.CENTER
-                ivAvatar.setImageResource(R.drawable.ic_twotone_person_40)
+                ivAvatar.setImageResource(R.mipmap.ic_launcher_round)
             } else {
-                ivAvatar.scaleType = ImageView.ScaleType.CENTER_CROP
                 btnLogInOut.text = R.string.log_out.resStr
             }
         }

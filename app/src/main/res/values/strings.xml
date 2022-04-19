@@ -275,6 +275,7 @@
     <string name="choose_a_way_to_feedback">Choose a way to feedback</string>
     <string name="format_mail_subject">「MyCard YGO Assistant」Feedback - %s</string>
     <string name="no_way_to_open">No app to handle this request</string>
+    <string name="no_new_version">No new version is found</string>
     <string-array name="error_feedback_ways">
         <item>Email</item>
         <item>Tencent QQ™ Group</item>

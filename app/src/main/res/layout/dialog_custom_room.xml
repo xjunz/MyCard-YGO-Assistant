@@ -49,7 +49,6 @@
                     android:id="@+id/menu_host_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:dropDownSelector="@color/material_on_surface_stroke"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 

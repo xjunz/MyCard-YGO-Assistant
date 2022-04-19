@@ -21,7 +21,7 @@
     <string name="input_is_empty">你的输入为空</string>
     <string name="log_in_succeeded">登录成功</string>
     <string name="log_in_failed">登录失败：%s</string>
-    <string name="no_game_launcher_found">无法启动观战，请尝试安装YGO Mobile</string>
+    <string name="no_game_launcher_found">无法启动游戏，请尝试安装YGO Mobile</string>
     <string name="format_unexpected_error">发生错误：%s</string>
     <string name="format_error_code">发生错误(%d)</string>
     <string name="username_or_pwd_incorrect">用户名或密码错误</string>
@@ -267,6 +267,7 @@
     <string name="choose_a_way_to_feedback">选择反馈方式</string>
     <string name="format_mail_subject">「萌卡YGO竞技助手」反馈-%s</string>
     <string name="no_way_to_open">找不到打开方式</string>
+    <string name="no_new_version">当前已是最新版本</string>
     <string-array name="error_feedback_ways">
         <item>电子邮件</item>
         <item>QQ反馈群</item>

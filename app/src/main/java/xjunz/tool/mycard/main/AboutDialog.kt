@@ -30,8 +30,7 @@ class AboutDialog : DialogFragment() {
         UpdateChecker(viewLifecycleOwner.lifecycle)
     }
 
-    private lateinit
-    var binding: DialogAboutBinding
+    private lateinit var binding: DialogAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +56,15 @@ class AboutDialog : DialogFragment() {
                 btnUpdate.isEnabled = false
                 lifecycleScope.launch {
                     updateChecker.checkUpdate().onSuccess {
-                        MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.has_updates)
-                            .setMessage(it.formatUpdateInfo())
-                            .setPositiveButton(R.string.download) { _, _ ->
-                                requireContext().viewUrlSafely(Constants.APP_DOWNLOAD_URL)
-                            }.setNegativeButton(android.R.string.cancel, null).show()
+                        if (it.build.toIntOrNull() ?: -1 >= BuildConfig.VERSION_CODE) {
+                            MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.has_updates)
+                                .setMessage(it.formatUpdateInfo())
+                                .setPositiveButton(R.string.download) { _, _ ->
+                                    requireContext().viewUrlSafely(Constants.APP_DOWNLOAD_URL)
+                                }.setNegativeButton(android.R.string.cancel, null).show()
+                        } else {
+                            toast(R.string.no_new_version)
+                        }
                     }.onFailure {
                         toast(R.string.check_update_failed)
                     }

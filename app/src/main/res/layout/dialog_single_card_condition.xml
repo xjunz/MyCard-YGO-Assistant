@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:id="@+id/container_any_card"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:background="@drawable/selector_bg_card_condition"
