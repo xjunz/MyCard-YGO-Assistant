@@ -107,9 +107,9 @@ class MineFragment : Fragment(), LifecycleEventObserver {
         itemSetAsHome.setOnClickListener {
             val next = !Configs.isMineAsHome
             Configs.isMineAsHome = next
+            viewModel.isMineAsHome.value = next
             if (next) {
                 itemSetAsHome.setText(R.string.cancel_set_as_home)
-                toast(R.string.prompt_set_as_home)
             } else {
                 itemSetAsHome.setText(R.string.set_as_home)
             }

@@ -2,6 +2,7 @@ package xjunz.tool.mycard.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.monitor.DuelMonitorService
 
 class MainViewModel : ViewModel() {
@@ -27,4 +28,6 @@ class MainViewModel : ViewModel() {
     val hasDataShown = MutableLiveData(false)
 
     val hasUpdates = MutableLiveData(false)
+
+    val isMineAsHome = MutableLiveData(Configs.isMineAsHome)
 }

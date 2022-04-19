@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/drawable/selector_bg_card_condition.xml" value="0.2085" />
+        <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_calculator.xml" value="0.2734375" />
         <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable-night/color_text_bg_rank.xml" value="0.217" />
         <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_circle.xml" value="0.217" />
         <entry key="..\:/MyProjects/AndroidStudio/YGODuelMonitor/app/src/main/res/drawable/bg_cornered_small.xml" value="0.217" />

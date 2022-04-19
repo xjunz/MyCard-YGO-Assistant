@@ -8,6 +8,7 @@ import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -21,7 +22,6 @@ import xjunz.tool.mycard.app
 import xjunz.tool.mycard.databinding.ActivityMainBinding
 import xjunz.tool.mycard.ktx.applySystemInsets
 import xjunz.tool.mycard.ktx.lazyViewModel
-import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.monitor.DuelMonitorService
 import xjunz.tool.mycard.outer.UpdateChecker
 import xjunz.tool.mycard.util.debugLog
@@ -32,30 +32,22 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val mineFragment by lazy {
-        MineFragment()
-    }
+    private val mineFragment = MineFragment()
 
-    private val duelListFragment by lazy {
-        DuelListFragment()
-    }
+    private val duelListFragment = DuelListFragment()
+
+    private val leaderboardFragment = LeaderboardFragment()
 
     private val viewModel by lazyViewModel<MainViewModel>()
 
-    private val fragments by lazy {
-        if (Configs.isMineAsHome) arrayOf(
-            mineFragment, duelListFragment, LeaderboardFragment()
-        ) else arrayOf(
-            duelListFragment, LeaderboardFragment(), mineFragment
-        )
-    }
+    private lateinit var fragments: List<Fragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(binding.root)
-        initViewPager()
         initNavigationBar()
+        initViewPager()
         bindMonitorService()
         checkForUpdatesIfNeeded()
     }
@@ -122,9 +114,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.realNavigationBar.apply {
-            menuInflater.inflate(
-                if (Configs.isMineAsHome) R.menu.mine_as_home else R.menu.menu_bottom_bar, menu
-            )
             binding.fakeNavigationBar.elevation = elevation
             val back = background.constantState?.newDrawable() as MaterialShapeDrawable
             back.initializeElevationOverlay(this@MainActivity)
@@ -140,20 +129,48 @@ class MainActivity : AppCompatActivity() {
             }
             setOnApplyWindowInsetsListener(null)
             updatePadding(bottom = 0)
+            viewModel.isMineAsHome.observe(this@MainActivity) {
+                menu.clear()
+                menuInflater.inflate(
+                    if (viewModel.isMineAsHome.value == true) R.menu.mine_as_home
+                    else R.menu.menu_bottom_bar, menu
+                )
+            }
         }
     }
 
     private fun initViewPager() = binding.viewPager.apply {
-        adapter = object : FragmentStateAdapter(this@MainActivity) {
-            override fun getItemCount() = fragments.size
-            override fun createFragment(position: Int) = fragments[position]
-        }
-        registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                binding.realNavigationBar.menu[position].isChecked = true
+        viewModel.isMineAsHome.observe(this@MainActivity) { mineAsHome ->
+            fragments = if (mineAsHome) {
+                listOf(mineFragment, duelListFragment, leaderboardFragment)
+            } else {
+                listOf(duelListFragment, leaderboardFragment, mineFragment)
             }
-        })
+            when {
+                adapter == null -> {
+                    adapter = object : FragmentStateAdapter(this@MainActivity) {
+                        override fun getItemCount() = fragments.size
+                        override fun createFragment(position: Int) = fragments[position]
+                        override fun getItemId(position: Int): Long {
+                            return fragments[position].hashCode().toLong()
+                        }
+
+                        override fun containsItem(itemId: Long): Boolean {
+                            return fragments.any { it.hashCode().toLong() == itemId }
+                        }
+                    }
+                    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            super.onPageSelected(position)
+                            binding.realNavigationBar.menu[position].isChecked = true
+                        }
+                    })
+                }
+                mineAsHome -> adapter?.notifyItemMoved(2, 0)
+
+                else -> adapter?.notifyItemMoved(0, 2)
+            }
+        }
     }
 
     override fun onBackPressed() {

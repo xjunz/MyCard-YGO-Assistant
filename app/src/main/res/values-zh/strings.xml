@@ -247,7 +247,6 @@
     <string name="optional_username">玩家名称(可选)</string>
     <string name="download_successfully">下载完成，开始安装…</string>
     <string name="set_as_home">将本页面设为首页</string>
-    <string name="prompt_set_as_home">设为主页成功，下次启动生效</string>
     <string name="cancel_set_as_home">取消设为首页</string>
     <string name="remove_notification">移除通知</string>
     <string name="about_text">此应用以<b>Apache-License 2.0</b>协议部分<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>

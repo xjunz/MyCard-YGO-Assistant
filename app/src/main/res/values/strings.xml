@@ -256,7 +256,6 @@
     <string name="optional_username">Username (Optional)</string>
     <string name="download_successfully">Download successfully! Start installing…</string>
     <string name="set_as_home">Set this page as home</string>
-    <string name="prompt_set_as_home">Set as home successfully.  Will take effect on next launch.</string>
     <string name="cancel_set_as_home">Cancel Set-As-Home</string>
     <string name="remove_notification">Remove Notification</string>
     <string name="about_text">This app is partly <a href='https://github.com/xjunz/MyCard-YGO-Assisant'>open-sourced</a> under <b>Apache-License 2.0</b></string>
