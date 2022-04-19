@@ -130,6 +130,10 @@ object PlayerInfoManager {
         DuelPushManager.removeUnmatchedPendingPushes()
     }
 
+    fun compatFollowAll(set: Set<String>) {
+        followedSp.edit().putStringSet(SP_KEY_FOLLOWED_PLAYERS, set).apply()
+    }
+
     fun Duel.isFollowed(): Boolean {
         return isFollowed(player1Name) || isFollowed(player2Name)
     }
