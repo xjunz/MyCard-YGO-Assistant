@@ -82,6 +82,7 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
          * If not and no activity is bounded to it, it will be recycled by the system.
          */
         fun stopMonitor() {
+            wssClient.state.removeObserver(stateObserver)
             stopForeground(true)
             wssClient.cancelIfNeeded()
         }
