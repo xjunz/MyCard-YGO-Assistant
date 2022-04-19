@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -262,6 +263,9 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         }
     }
 
+    private var firstStage = true
+    private val staggerAnimOffsetMills = 30L
+
     override fun onBindViewHolder(holder: DuelViewHolder, position: Int) {
         val binding = holder.binding
         val duel = duelList[position]
@@ -271,6 +275,14 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         bindPlayerRanks(binding, duel)
         if (!isScrolling && !isDisconnected && !duel.areAllPlayersLoaded) {
             bindPlayerRanksFromRemote(duel)
+        }
+        if (firstStage) {
+            val easeIn = AnimationUtils.loadAnimation(context, R.anim.mtrl_item_ease_enter)
+            easeIn.startOffset = (staggerAnimOffsetMills + position) * position
+            holder.itemView.startAnimation(easeIn)
+            if (position == 0) {
+                holder.itemView.postDelayed({ firstStage = false }, staggerAnimOffsetMills)
+            }
         }
     }
 

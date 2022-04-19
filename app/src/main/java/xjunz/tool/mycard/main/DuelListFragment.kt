@@ -48,6 +48,7 @@ class DuelListFragment : Fragment() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             if (viewModel.monitorState.value !in State.DISCONNECTED) return
+            binding.topBar.beginDelayedTransition()
             val remaining = msg.what
             if (remaining == 0) {
                 binding.btnController.isEnabled = true
@@ -78,7 +79,9 @@ class DuelListFragment : Fragment() {
             }
         }
         viewModel.hasDataShown.observe(viewLifecycleOwner) {
-            binding.root.beginDelayedTransition(MaterialFadeThrough())
+            binding.root.beginDelayedTransition(
+                MaterialFadeThrough(), target = binding.connectivityPrompt
+            )
             binding.connectivityPrompt.isVisible = !it
         }
         binding.btnClearAll.setOnClickListener {
@@ -117,7 +120,7 @@ class DuelListFragment : Fragment() {
     }
 
     private val controllerObserver = Observer<Int> { state ->
-        binding.root.beginDelayedTransition()
+        binding.topBar.beginDelayedTransition()
         binding.btnController.apply {
             when (state) {
                 in State.DISCONNECTED -> {
