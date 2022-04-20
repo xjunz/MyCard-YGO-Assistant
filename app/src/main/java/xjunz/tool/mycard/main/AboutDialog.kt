@@ -56,7 +56,7 @@ class AboutDialog : DialogFragment() {
                 btnUpdate.isEnabled = false
                 lifecycleScope.launch {
                     updateChecker.checkUpdate().onSuccess {
-                        if (it.build.toIntOrNull() ?: -1 >= BuildConfig.VERSION_CODE) {
+                        if (it.build.toIntOrNull() ?: -1 > BuildConfig.VERSION_CODE) {
                             MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.has_updates)
                                 .setMessage(it.formatUpdateInfo())
                                 .setPositiveButton(R.string.download) { _, _ ->

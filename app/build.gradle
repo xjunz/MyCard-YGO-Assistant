@@ -22,8 +22,8 @@ android {
         applicationId "xjunz.tool.mycard"
         minSdk 23
         targetSdk 31
-        versionCode 7
-        versionName "2.0.1"
+        versionCode 8
+        versionName "2.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
