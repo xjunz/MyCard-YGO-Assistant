@@ -29,7 +29,20 @@
 
 ## 构建
 
-*（很抱歉，由于萌卡平台相关API暂未开源，你无法通过已开源的部分构建此应用）*
+`git clone`到本地后，新建`xjunz.tool.mycard.Constants.kt`，内部定义：
+
+```kotlin
+object Constants {
+    const val CHECK_UPDATE_BASE_URL = "..."
+    const val CHECK_UPDATE_FIR_APP_ID = "..."
+    const val CHECK_UPDATE_FIR_API_TOKEN = "..."
+    const val APP_DOWNLOAD_URL = "..."
+    const val DEVELOPER_NAME = "..."
+    const val ALIPAY_DONATE_URL = "..."
+    const val EMAIL_ADDRESS = "..."
+    const val FEEDBACK_GROUP_URL = "..."
+}
+```
 
 ## 其他
 
