@@ -11,7 +11,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.model.User
 import xjunz.tool.mycard.model.UserInfo
 import xjunz.tool.mycard.util.HttpStatusCodeException
@@ -41,7 +41,7 @@ class LoginClient(lifecycle: Lifecycle) : LifecyclePerceptiveCloseable(lifecycle
         withContext(Dispatchers.IO) {
             runCatching {
                 val ret = client.submitForm(
-                    Constants.BASE_API_ACCOUNTS + Constants.API_LOGIN,
+                    Apis.BASE_API_ACCOUNTS + Apis.API_LOGIN,
                     Parameters.build {
                         append("account", username)
                         append("password", password)

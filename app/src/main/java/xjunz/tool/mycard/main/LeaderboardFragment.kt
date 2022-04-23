@@ -28,7 +28,7 @@ import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.FragmentLeaderboardBinding
 import xjunz.tool.mycard.databinding.ItemLeaderboardBinding
@@ -55,7 +55,7 @@ class LeaderboardFragment : Fragment() {
 
     private suspend fun loadFromRemote(): Result<List<LeaderboardPlayer>> = runCatching {
         withContext(Dispatchers.IO) {
-            client.get(Constants.BASE_API + Constants.API_TOP_PLAYER).body()
+            client.get(Apis.BASE_API + Apis.API_TOP_PLAYER).body()
         }
     }
 

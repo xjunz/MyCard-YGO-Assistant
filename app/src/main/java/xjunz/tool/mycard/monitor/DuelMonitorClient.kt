@@ -15,7 +15,7 @@ import io.ktor.websocket.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.serialization.json.*
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.info.DuelRepository
 import xjunz.tool.mycard.info.DuelRepository.cacheAll
@@ -116,7 +116,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
             state.postValue(State.CONNECTING)
             val ret = runCatching {
                 if (connectivityService.activeNetwork == null) throw NetworkErrorException()
-                client.wss(host = Constants.HOST_DUEL_LIST, port = 8923, path = "?filter=started") {
+                client.wss(host = Apis.HOST_DUEL_LIST, port = 8923, path = "?filter=started") {
                     // cancel if long time no init event
                     handler.sendEmptyMessageDelayed(
                         MSG_CANCEL_MONITOR_JOB, INTERVAL_LONG_TIME_NO_INIT

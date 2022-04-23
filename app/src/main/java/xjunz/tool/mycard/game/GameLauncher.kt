@@ -3,7 +3,7 @@ package xjunz.tool.mycard.game
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.ktx.errorToast
@@ -37,7 +37,7 @@ object GameLauncher {
     }
 
     private fun launchAthleticMatch(roomId: String) {
-        launch(AccountManager.reqUsername(), Constants.HOST_ATHLETIC, 8911, roomId)
+        launch(AccountManager.reqUsername(), Apis.HOST_ATHLETIC, 8911, roomId)
     }
 
     /**

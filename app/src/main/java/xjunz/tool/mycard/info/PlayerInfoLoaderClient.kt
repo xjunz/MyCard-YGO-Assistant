@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.model.Duel.PlayerNumber
@@ -47,7 +47,7 @@ class PlayerInfoLoaderClient : Closeable {
     suspend fun queryPlayerHistory(name: String): History? {
         return withContext(Dispatchers.IO) {
             client.runCatching {
-                get(Constants.BASE_API + Constants.API_PLAYER_HISTORY) {
+                get(Apis.BASE_API + Apis.API_PLAYER_HISTORY) {
                     parameter("username", name)
                     parameter("type", 0)
                     parameter("page_num", 1)
@@ -85,7 +85,7 @@ class PlayerInfoLoaderClient : Closeable {
     suspend fun queryMyInfo(): Player? {
         return withContext(Dispatchers.IO) w@{
             runCatching {
-                client.get(Constants.BASE_API + Constants.API_PLAYER_INFO) {
+                client.get(Apis.BASE_API + Apis.API_PLAYER_INFO) {
                     parameter("username", AccountManager.reqUsername())
                 }.body<Player>()
             }.onSuccess {
@@ -114,7 +114,7 @@ class PlayerInfoLoaderClient : Closeable {
     private suspend fun fetchPlayerInfoFromRemote(duel: Duel, @PlayerNumber which: Int): Boolean {
         val name = duel.requirePlayerName(which)
         return runCatching {
-            client.get(Constants.BASE_API + Constants.API_PLAYER_INFO) {
+            client.get(Apis.BASE_API + Apis.API_PLAYER_INFO) {
                 parameter("username", name)
             }.body<Player>()
         }.onSuccess {

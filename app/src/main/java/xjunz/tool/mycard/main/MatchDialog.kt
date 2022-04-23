@@ -16,7 +16,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import okhttp3.internal.closeQuietly
-import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
@@ -87,7 +87,7 @@ class MatchDialog : BaseBottomSheetDialog<DialogMatchBinding>() {
             withContext(Dispatchers.IO) {
                 runCatching {
                     matchClient.get(
-                        Constants.BASE_API + Constants.API_MATCH_ANTICIPATE + Constants.ARENA_ATHLETIC
+                        Apis.BASE_API + Apis.API_MATCH_ANTICIPATE + Apis.ARENA_ATHLETIC
                     ).bodyAsText().toFloat()
                 }
             }.onSuccess {
@@ -104,8 +104,8 @@ class MatchDialog : BaseBottomSheetDialog<DialogMatchBinding>() {
           requireActivity().lifecycleScope.launch {
               withContext(Dispatchers.IO) {
                   runCatching {
-                      matchClient.post(Constants.BASE_API + Constants.API_MATCH) {
-                          parameter("arena", Constants.ARENA_ATHLETIC)
+                      matchClient.post(Apis.BASE_API + Apis.API_MATCH) {
+                          parameter("arena", Apis.ARENA_ATHLETIC)
                           parameter("locale", getLocale())
                           header("Authorization", Generator.generateMatchAuth())
                       }.body<MatchResult>()

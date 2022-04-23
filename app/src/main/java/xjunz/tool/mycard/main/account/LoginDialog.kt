@@ -17,6 +17,8 @@ import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogLoginBinding
 import xjunz.tool.mycard.ktx.*
 import xjunz.tool.mycard.util.HttpStatusCodeException
+import java.net.SocketTimeoutException
+import java.util.concurrent.TimeoutException
 
 class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
 
@@ -75,6 +77,7 @@ class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
 
     private fun promptError(t: Throwable?) {
         when (t) {
+            is TimeoutException, is SocketTimeoutException -> longToast(R.string.request_timed_out)
             is LoginClient.LoginCredentialException -> {
                 longToast(R.string.username_or_pwd_incorrect)
             }
