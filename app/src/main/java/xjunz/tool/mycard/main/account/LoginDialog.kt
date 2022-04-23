@@ -79,7 +79,7 @@ class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
                 longToast(R.string.username_or_pwd_incorrect)
             }
             is HttpStatusCodeException -> {
-                longToast(R.string.format_error_code.format(t.code))
+                longToast(R.string.format_error_code.format(t.code.value))
             }
             is TimeoutCancellationException -> longToast(R.string.request_timed_out)
             else -> longToast(R.string.format_unexpected_error.format(t?.message))
