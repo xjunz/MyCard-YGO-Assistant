@@ -258,7 +258,7 @@
     <string name="set_as_home">Set this page as home</string>
     <string name="cancel_set_as_home">Cancel Set-As-Home</string>
     <string name="remove_notification">Remove Notification</string>
-    <string name="about_text">This app is partly <a href='https://github.com/xjunz/MyCard-YGO-Assisant'>open-sourced</a> under <b>Apache-License 2.0</b></string>
+    <string name="about_text">This app is <a href='https://github.com/xjunz/MyCard-YGO-Assisant'>open-sourced</a> under <b>Apache-License 2.0</b></string>
     <string name="check_update">Check For Updates</string>
     <string name="donate">Donate</string>
     <string name="version_info">Version Info</string>

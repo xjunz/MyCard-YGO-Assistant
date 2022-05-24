@@ -249,7 +249,7 @@
     <string name="set_as_home">将本页面设为首页</string>
     <string name="cancel_set_as_home">取消设为首页</string>
     <string name="remove_notification">移除通知</string>
-    <string name="about_text">此应用以<b>Apache-License 2.0</b>协议部分<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>
+    <string name="about_text">此应用以<b>Apache-License 2.0</b>协议<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>
         \n\n如果你喜欢此应用，可以点击下方⌈捐赠⌋按钮以支持我的工作。</string>
     <string name="credits">特别鸣谢<a href='https://www.pgyer.com/ygomobilecn'>YGO Mobile</a>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
     <string name="check_update">检查更新</string>

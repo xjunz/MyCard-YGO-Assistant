@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             UpdateChecker().use {
                 it.checkUpdate()
             }.onSuccess { info ->
-                app.hasUpdates = info.build.toIntOrNull() ?: 0 > BuildConfig.VERSION_CODE
+                app.hasUpdates = (info.build.toIntOrNull() ?: 0) > BuildConfig.VERSION_CODE
                 viewModel.hasUpdates.postValue(app.hasUpdates)
                 debugLog(info)
             }.onFailure {
@@ -174,11 +174,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (BuildConfig.DEBUG) {
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
-        }
+        finish()
     }
 
     override fun onDestroy() {
