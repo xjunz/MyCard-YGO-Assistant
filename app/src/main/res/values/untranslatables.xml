@@ -19,25 +19,6 @@
         <item>展爆</item>
         <item>均卡</item>
         <item>Meta Beat</item>
-        <item>电子界</item>
-        <item>地中族</item>
-        <item>黄金国</item>
-        <item>海晶少女</item>
-        <item>幻龙均</item>
-        <item>火灵天星</item>
-        <item>龙辉巧</item>
-        <item>雷龙</item>
-        <item>烙印</item>
-        <item>魔救</item>
-        <item>魔术师</item>
-        <item>神碑</item>
-        <item>闪刀姬</item>
-        <item>随风旅鸟</item>
-        <item>铁兽</item>
-        <item>相剑</item>
-        <item>英雄</item>
-        <item>转生炎兽</item>
-        <item>自奏圣乐</item>
     </string-array>
 
     <string-array name="preset_collection_names">
@@ -47,6 +28,7 @@
         <item>阻抗</item>
         <item>护航</item>
     </string-array>
+
     <string-array name="calculator_examples" translatable="false">
         <item>第一回合 ⌈艾克佐迪亚⌋ 特殊胜利的概率</item>
         <item>第一回合 ⌈增殖的G⌋ 通过的概率</item>

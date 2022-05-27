@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
@@ -30,6 +31,7 @@ import xjunz.tool.mycard.databinding.ItemCardConditionBinding
 import xjunz.tool.mycard.databinding.ItemConditionSetBinding
 import xjunz.tool.mycard.ktx.*
 import xjunz.tool.mycard.main.settings.Configs
+import xjunz.tool.mycard.util.debugLog
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -57,7 +59,7 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
     private var latestUsedCollectionCount: Int? = null
 
     private val focusChangeListener = View.OnFocusChangeListener { _, _ ->
-        val focused = dialog?.currentFocus?.id ?: View.NO_ID in intArrayOf(
+        val focused = (dialog?.currentFocus?.id ?: View.NO_ID) in intArrayOf(
             R.id.menu_deck_card_count, R.id.et_hand_cards_count
         )
         binding.btnMinusOne.isEnabled = focused
@@ -141,6 +143,7 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
                 withContext(Dispatchers.Default) {
                     runCatching {
                         conditionSets.forEach {
+                            debugLog(Json.encodeToString(it))
                             it.calculateProbability()
                             val ret = it.getResult()
                             if (ret != null) {

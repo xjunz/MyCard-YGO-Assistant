@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/dp_24">
@@ -100,12 +101,12 @@
         app:layout_constraintTop_toBottomOf="@+id/container_spec_card">
 
         <TextView
-            android:layout_marginTop="@dimen/spacing_small"
             android:id="@+id/tv_description_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_24"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_weight="1"
             android:text="@string/any_in_collection"
             android:textAppearance="?textAppearanceTitleMedium"
@@ -141,35 +142,32 @@
             android:id="@+id/tv_collection_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/ib_edit_name"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/tv_description_2"
-            app:layout_constraintTop_toTopOf="@id/ib_edit_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_caption_2"
+            tools:text="@string/edit_collection_name" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ib_edit_name"
+            android:id="@+id/ib_edit_collection"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_twotone_edit_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_collection_card_count"
             app:layout_constraintStart_toStartOf="@id/ib_invert_2"
-            app:layout_constraintTop_toBottomOf="@id/ib_invert_2" />
+            app:layout_constraintTop_toTopOf="@+id/tv_collection_name" />
 
         <TextView
             android:id="@+id/tv_collection_card_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/ib_edit_count"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_description_2"
-            app:layout_constraintTop_toTopOf="@id/ib_edit_count" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_collection_name"
+            tools:text="@string/edit_card_count" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ib_edit_count"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_twotone_edit_24"
-            app:layout_constraintStart_toStartOf="@id/ib_edit_name"
-            app:layout_constraintTop_toBottomOf="@id/ib_edit_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -177,11 +175,12 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_unit"
+        android:layout_marginTop="16dp"
         android:hint="@string/optional_remark"
         android:labelFor="@id/et_remark"
         app:layout_constraintTop_toBottomOf="@id/container_any_in_collection"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Large">
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Large"
+        tools:layout_editor_absoluteX="24dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_remark"

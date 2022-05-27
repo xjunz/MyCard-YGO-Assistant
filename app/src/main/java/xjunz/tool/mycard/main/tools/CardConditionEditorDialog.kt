@@ -1,7 +1,6 @@
 package xjunz.tool.mycard.main.tools
 
 import android.app.Dialog
-import android.text.InputType
 import android.util.SparseBooleanArray
 import android.view.View
 import android.widget.ImageButton
@@ -13,10 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
-import xjunz.tool.mycard.common.InputDialog
 import xjunz.tool.mycard.databinding.DialogSingleCardConditionBinding
 import xjunz.tool.mycard.ktx.*
-import xjunz.tool.mycard.main.settings.Configs
 
 class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditionBinding>() {
 
@@ -75,7 +72,7 @@ class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditio
     ): CardConditionEditorDialog {
         lifecycleScope.launchWhenCreated {
             val hasCollection = vm.edition.collectionName != null
-            if (!hasCollection) {
+            if (!hasCollection && vm.edition.type == Condition.TYPE_ANY_IN_COLLECTION) {
                 vm.edition.collectionName = defCollectionName
             }
             if (defCount != null && !hasCollection) vm.edition.collectionCount = defCount
@@ -95,44 +92,30 @@ class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditio
         binding.containerAnyCard.setOnClickListener(onClickListener)
         binding.containerSpecCard.setOnClickListener(onClickListener)
         binding.containerAnyInCollection.setOnClickListener(onClickListener)
-        binding.ibEditCount.setOnClickListener {
-            InputDialog().apply {
-                setTitle(R.string.edit_card_count.resText)
-                setInitialInput(edition.collectionCount.toString())
-                setInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
-                setMaxLength(2)
-                setDropDownData((2..15).map { it.toString() })
-                setPositiveButton {
-                    if (it.isEmpty()) {
-                        return@setPositiveButton R.string.input_is_empty.resStr
-                    }
-                    val count = it.toInt()
-                    if (count > vm.deckCardCount) {
-                        return@setPositiveButton R.string.input_too_large.resStr
-                    }
-                    if (count < 2) {
-                        return@setPositiveButton R.string.format_input_too_small.format(2)
-                    }
-                    edition.collectionCount = count
-                    binding.tvCollectionCardCount.text =
-                        R.string.format_collection_card_count.format(count)
-                    return@setPositiveButton null
+        binding.ibEditCollection.setOnClickListener {
+            CardCollectionEditorDialog().setOnConfirmedListener({
+                if (it.isBlank()) return@setOnConfirmedListener R.string.input_is_empty.resStr
+                binding.tvCollectionName.text = R.string.format_collection_name.format(it)
+                edition.collectionName = it
+                return@setOnConfirmedListener null
+            }) {
+                if (it.isEmpty()) {
+                    return@setOnConfirmedListener R.string.input_is_empty.resStr
                 }
-            }.show(parentFragmentManager, "input")
-        }
-        binding.ibEditName.setOnClickListener {
-            InputDialog().apply {
-                setTitle(R.string.edit_collection_name.resText)
-                setInitialInput(edition.collectionName)
-                setDropDownData(vm.existingCollectionNames)
-                setMaxLength(Configs.MAX_COLLECTION_TEXT_LENGTH)
-                setPositiveButton {
-                    if (it.isBlank()) return@setPositiveButton R.string.input_is_empty.resStr
-                    binding.tvCollectionName.text = R.string.format_collection_name.format(it)
-                    edition.collectionName = it
-                    return@setPositiveButton null
+                val count = it.toInt()
+                if (count > vm.deckCardCount) {
+                    return@setOnConfirmedListener R.string.input_too_large.resStr
                 }
-            }.show(parentFragmentManager, "input")
+                if (count < 2) {
+                    return@setOnConfirmedListener R.string.format_input_too_small.format(2)
+                }
+                edition.collectionCount = count
+                binding.tvCollectionCardCount.text =
+                    R.string.format_collection_card_count.format(count)
+                return@setOnConfirmedListener null
+            }.setCollectionNameDropdown(vm.existingCollectionNames)
+                .setArguments(edition.collectionName, edition.collectionCount)
+                .show(parentFragmentManager, "collection-editor")
         }
         binding.ibInvert1.setOnClickListener {
             val next = !invertingStates[Condition.TYPE_SPEC_IN_DECK]
