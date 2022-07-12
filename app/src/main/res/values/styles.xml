@@ -49,15 +49,15 @@
         <item name="colorOnContainer">?colorOnSecondary</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.Normal">
+    <style name="ShapeAppearanceOverlay.Normal" parent="ShapeAppearance.Material3.Corner.Medium">
         <item name="cornerSize">@dimen/corner_normal</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.Large">
+    <style name="ShapeAppearanceOverlay.Large" parent="ShapeAppearance.Material3.Corner.Large">
         <item name="cornerSize">@dimen/corner_large</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.None">
+    <style name="ShapeAppearanceOverlay" parent="ShapeAppearance.Material3.Corner.None">
         <item name="cornerSize">0dp</item>
     </style>
 

@@ -49,4 +49,14 @@ object Configs {
         set(value) {
             sharedPrefs.edit().putBoolean(SP_KEY_MINE_AS_HOME, value).apply()
         }
+
+    private const val SP_KEY_PUSH_WHITE_HOT = "push_white_hot"
+
+    var shouldPushWhiteHot: Boolean
+        get() {
+            return sharedPrefs.getBoolean(SP_KEY_PUSH_WHITE_HOT, true)
+        }
+        set(value) {
+            sharedPrefs.edit().putBoolean(SP_KEY_PUSH_WHITE_HOT, value).apply()
+        }
 }

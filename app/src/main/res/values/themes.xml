@@ -55,8 +55,4 @@
     <style name="Base.AppTheme.Translucent.Settings">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
-
-    <style name="ShapeAppearanceOverlay.Cut.Half">
-        <item name="cornerSize">50%</item>
-    </style>
 </resources>

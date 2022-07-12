@@ -60,7 +60,7 @@ class MatchDialog : BaseBottomSheetDialog<DialogMatchBinding>() {
     }
 
     private fun getLocale(): String {
-        val locale = ConfigurationCompat.getLocales(app.resources.configuration)[0]
+        val locale = ConfigurationCompat.getLocales(app.resources.configuration)[0]!!
         return "${locale.language}-${locale.country}"
     }
 

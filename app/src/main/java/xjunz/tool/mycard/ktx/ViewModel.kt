@@ -19,12 +19,6 @@ inline fun <reified VM : ViewModel> Fragment.lazyActivityViewModel() = lazy {
 }
 
 inline fun <reified VM : ViewModel> ViewModelStoreOwner.lazyInnerViewModel() = lazy {
-    ViewModelProvider(this, object : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            val constructor = modelClass.getDeclaredConstructor()
-            constructor.isAccessible = true
-            return constructor.newInstance()
-        }
-    })[VM::class.java]
+    ViewModelProvider(this)[VM::class.java]
 }
 

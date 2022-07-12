@@ -222,7 +222,6 @@ object DuelPushManager {
     }
 
     fun Duel.notifyResult() {
-        printLog("Notify result")
         val notification = buildResultNotification(this)
         notificationManagerCompat.notify(id, SELF_DUEL_PUSH_ID, notification)
         // auto remove the result notification, because it is time-sensitive
@@ -372,5 +371,9 @@ object DuelPushManager {
             else R.string.html_push_content_tagged.format(formatTags(hitTags), duration)
                 .parseAsHtml()
         return buildPushNotification(duel, content)
+    }
+
+    fun toggleWhiteHotPush(shouldPush: Boolean) {
+
     }
 }

@@ -25,14 +25,14 @@ class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditio
         return this
     }
 
-    private class InnerViewModel : ViewModel() {
+    private class ViewModel : androidx.lifecycle.ViewModel() {
         lateinit var edition: Condition
         lateinit var doOnConfirmed: (Condition) -> Unit
         var deckCardCount = 0
         var existingCollectionNames = emptyList<String>()
     }
 
-    private val vm by lazyInnerViewModel<InnerViewModel>()
+    private val vm by lazyInnerViewModel<ViewModel>()
 
     private inline val edition get() = vm.edition
 
