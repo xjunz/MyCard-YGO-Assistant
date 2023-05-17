@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
+import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.DialogInputBinding
 import xjunz.tool.mycard.ktx.*
@@ -38,31 +41,51 @@ class InputDialog : DialogFragment() {
         binding.btnPositive.setOnClickListener { dismiss() }
         binding.etInput.requestFocus()
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        binding.etInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.btnPositive.performClick()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
     }
 
-    fun setTitle(title: CharSequence) = lifecycleScope.launchWhenStarted {
-        binding.tvTitle.text = title
+    fun setTitle(title: CharSequence) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.tvTitle.text = title
+        }
     }
 
     fun setNegativeAsImportant(): InputDialog {
-        lifecycleScope.launchWhenStarted {
-            val colorError =
-                requireContext().resolveAttribute(com.google.android.material.R.attr.colorError)
-                    .resColor.asStateList
-            binding.btnNegative.strokeColor = colorError
-            binding.btnNegative.setTextColor(colorError)
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                val colorError =
+                    requireContext().resolveAttribute(com.google.android.material.R.attr.colorError)
+                        .resColor.asStateList
+                binding.btnNegative.strokeColor = colorError
+                binding.btnNegative.setTextColor(colorError)
+            }
         }
         return this
     }
 
     var allowEmptyResult = false
 
-    fun setMaxLength(max: Int) = lifecycleScope.launchWhenStarted {
-        binding.etInput.setMaxLength(max)
+    fun setMaxLength(max: Int) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.etInput.setMaxLength(max)
+        }
     }
 
-    fun setDropDownData(preset: List<String>) = lifecycleScope.launchWhenStarted {
-        binding.etInput.setAdapter(DropdownArrayAdapter(requireContext(), preset.toMutableList()))
+    fun setDropDownData(preset: List<String>) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.etInput.setAdapter(
+                DropdownArrayAdapter(
+                    requireContext(),
+                    preset.toMutableList()
+                )
+            )
+        }
     }
 
     /**
@@ -70,40 +93,51 @@ class InputDialog : DialogFragment() {
      * the dialog would be dismissed.
      */
     fun setPositiveButton(text: CharSequence? = null, block: (String) -> String?) =
-        lifecycleScope.launchWhenStarted {
-            if (text != null) binding.btnNegative.text = text
-            binding.btnPositive.setOnClickListener {
-                if (binding.etInput.text.isNullOrBlank()) {
-                    binding.tilInput.error = R.string.input_is_empty.resText
-                    return@setOnClickListener
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                if (text != null) binding.btnNegative.text = text
+                binding.btnPositive.setOnClickListener {
+                    if (binding.etInput.text.isNullOrBlank()) {
+                        binding.tilInput.error = R.string.input_is_empty.resText
+                        dismiss()
+                        return@setOnClickListener
+                    }
+                    binding.tilInput.error = null
+                    val ret = block(binding.etInput.text.toString())
+                    if (ret == null) dismiss() else binding.tilInput.error = ret
                 }
-                binding.tilInput.error = null
-                val ret = block(binding.etInput.text.toString())
-                if (ret == null) dismiss() else binding.tilInput.error = ret
             }
         }
 
-    fun setInputType(inputType: Int) = lifecycleScope.launchWhenStarted {
-        binding.etInput.inputType = inputType
+    fun setInputType(inputType: Int) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.etInput.inputType = inputType
+        }
     }
 
-    fun setInitialInput(text: CharSequence?) = lifecycleScope.launchWhenStarted {
-        binding.etInput.setText(text)
-        binding.etInput.setSelection(text?.length ?: 0)
+    fun setInitialInput(text: CharSequence?) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.etInput.setText(text)
+            binding.etInput.setSelection(text?.length ?: 0)
+        }
     }
 
-    fun setHint(hint: CharSequence) = lifecycleScope.launchWhenStarted {
-        binding.tilInput.hint = hint
+    fun setHint(hint: CharSequence) = lifecycleScope.launch {
+        lifecycle.withStarted {
+            binding.tilInput.hint = hint
+        }
     }
 
     /**
      * @param onClick If returns true, the dialog would be dismissed.
      */
     fun setNegativeButton(text: CharSequence? = null, onClick: () -> Boolean) =
-        lifecycleScope.launchWhenStarted {
-            if (text != null) binding.btnNegative.text = text
-            binding.btnNegative.setOnClickListener {
-                if (onClick()) dismiss()
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                if (text != null) binding.btnNegative.text = text
+                binding.btnNegative.setOnClickListener {
+                    if (onClick()) dismiss()
+                }
             }
         }
 

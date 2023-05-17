@@ -45,7 +45,7 @@ class TagAdapter(private var playerName: String) :
     }
 
     private val presetTags by lazy {
-        (PlayerInfoManager.getAllDistinctTags() + R.array.preset_tags.resArray).distinct()
+        PlayerInfoManager.getAllDistinctTags().distinct()
     }
 
     private val tags get() = PlayerInfoManager.getTags(playerName)

@@ -8,8 +8,8 @@ import androidx.core.text.parseAsHtml
 import androidx.core.util.set
 import androidx.core.view.children
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogSingleCardConditionBinding
@@ -18,21 +18,23 @@ import xjunz.tool.mycard.ktx.*
 class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditionBinding>() {
 
     fun setArguments(condition: Condition, deckCardCount: Int): CardConditionEditorDialog {
-        lifecycleScope.launchWhenCreated {
-            vm.edition = condition.copy()
-            vm.deckCardCount = deckCardCount
+        lifecycleScope.launch {
+            lifecycle.withCreated {
+                vm.edition = condition.copy()
+                vm.deckCardCount = deckCardCount
+            }
         }
         return this
     }
 
-    private class ViewModel : androidx.lifecycle.ViewModel() {
+    class ViewModel : androidx.lifecycle.ViewModel() {
         lateinit var edition: Condition
         lateinit var doOnConfirmed: (Condition) -> Unit
         var deckCardCount = 0
         var existingCollectionNames = emptyList<String>()
     }
 
-    private val vm by lazyInnerViewModel<ViewModel>()
+    private val vm by lazyViewModel<ViewModel>()
 
     private inline val edition get() = vm.edition
 
@@ -70,12 +72,14 @@ class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditio
         defCollectionName: String?,
         defCount: Int?
     ): CardConditionEditorDialog {
-        lifecycleScope.launchWhenCreated {
-            val hasCollection = vm.edition.collectionName != null
-            if (!hasCollection && vm.edition.type == Condition.TYPE_ANY_IN_COLLECTION) {
-                vm.edition.collectionName = defCollectionName
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                val hasCollection = vm.edition.collectionName != null
+                if (!hasCollection && vm.edition.type == Condition.TYPE_ANY_IN_COLLECTION) {
+                    vm.edition.collectionName = defCollectionName
+                }
+                if (defCount != null && !hasCollection) vm.edition.collectionCount = defCount
             }
-            if (defCount != null && !hasCollection) vm.edition.collectionCount = defCount
         }
         return this
     }
@@ -162,15 +166,19 @@ class CardConditionEditorDialog : BaseBottomSheetDialog<DialogSingleCardConditio
     }
 
     fun setExistingCollectionNames(names: List<String>): CardConditionEditorDialog {
-        lifecycleScope.launchWhenCreated {
-            vm.existingCollectionNames = names
+        lifecycleScope.launch {
+            lifecycle.withCreated {
+                vm.existingCollectionNames = names
+            }
         }
         return this
     }
 
     fun doOnConfirmed(block: (Condition) -> Unit): CardConditionEditorDialog {
-        lifecycleScope.launchWhenCreated {
-            vm.doOnConfirmed = block
+        lifecycleScope.launch {
+            lifecycle.withCreated {
+                vm.doOnConfirmed = block
+            }
         }
         return this
     }

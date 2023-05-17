@@ -1,5 +1,6 @@
 package xjunz.tool.mycard.info
 
+import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
@@ -35,6 +36,7 @@ class PlayerInfoLoaderClient : Closeable {
                 json(Json {
                     prettyPrint = true
                     isLenient = true
+                    ignoreUnknownKeys = true
                 })
             }
             install(HttpRequestRetry) {
@@ -44,14 +46,16 @@ class PlayerInfoLoaderClient : Closeable {
         }
     }
 
-    suspend fun queryPlayerHistory(name: String): History? {
+    suspend fun queryPlayerHistory(name: String, num: Int): History? {
         return withContext(Dispatchers.IO) {
             client.runCatching {
                 get(Apis.BASE_API + Apis.API_PLAYER_HISTORY) {
                     parameter("username", name)
                     parameter("type", 0)
-                    parameter("page_num", 1)
+                    parameter("page_num", num)
                 }.body<History>()
+            }.onFailure {
+                Log.e("err", it.stackTraceToString())
             }.getOrNull()
         }
     }

@@ -7,12 +7,17 @@ import android.transition.TransitionManager
 import androidx.annotation.IntRange
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
+import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.common.DropdownArrayAdapter
 import xjunz.tool.mycard.databinding.DialogCriteriaEditorBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.setEntries
+import xjunz.tool.mycard.ktx.setMaxLength
+import xjunz.tool.mycard.ktx.textString
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.monitor.push.DuelPushCriteria
 import xjunz.tool.mycard.monitor.push.DuelPushManager
 import xjunz.tool.mycard.util.Motions
@@ -30,8 +35,7 @@ class DuelPushCriteriaEditorDialog : BaseBottomSheetDialog<DialogCriteriaEditorB
     }
 
     private val presetTags by lazy {
-        (PlayerInfoManager.getAllDistinctTags() + R.array.preset_tags.resArray).distinct()
-            .toMutableList()
+        PlayerInfoManager.getAllDistinctTags().distinct().toMutableList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,48 +115,52 @@ class DuelPushCriteriaEditorDialog : BaseBottomSheetDialog<DialogCriteriaEditorB
     private inline val isInEditMode get() = criteria2edit != null
 
     fun doOnConfirmed(block: (DuelPushCriteria) -> Unit): DuelPushCriteriaEditorDialog {
-        lifecycleScope.launchWhenStarted {
-            val playerCriteria = Array(2) { DuelPushCriteria.PlayerCriteria() }
-            binding.btnConfirm.setOnClickListener {
-                for (i in 0..1) {
-                    getPlayerBinding(i).apply {
-                        val criterion = playerCriteria[i]
-                        val start = etRankStart.textString.toIntOrNull()
-                        val end = etRankEnd.textString.toIntOrNull()
-                        if (start != null && end != null && end < start) {
-                            toast(R.string.invalid_rank_range)
-                            return@setOnClickListener
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                val playerCriteria = Array(2) { DuelPushCriteria.PlayerCriteria() }
+                binding.btnConfirm.setOnClickListener {
+                    for (i in 0..1) {
+                        getPlayerBinding(i).apply {
+                            val criterion = playerCriteria[i]
+                            val start = etRankStart.textString.toIntOrNull()
+                            val end = etRankEnd.textString.toIntOrNull()
+                            if (start != null && end != null && end < start) {
+                                toast(R.string.invalid_rank_range)
+                                return@setOnClickListener
+                            }
+                            if (start != null && start == 0) {
+                                toast(R.string.prompt_rank_zero)
+                                return@setOnClickListener
+                            }
+                            if (end != null && end == 0) {
+                                toast(R.string.prompt_rank_zero)
+                                return@setOnClickListener
+                            }
+                            if (start != null && start > 1) criterion.rankStart = start
+                            if (end != null) criterion.rankEnd = end
+                            criterion.requireFollowed = swRequireFollowedPlayer.isChecked
+                            val requiredTag = menuTag.textString
+                            if (requiredTag.isNotEmpty()) criterion.requiredTag = requiredTag
                         }
-                        if (start != null && start == 0) {
-                            toast(R.string.prompt_rank_zero)
-                            return@setOnClickListener
-                        }
-                        if (end != null && end == 0) {
-                            toast(R.string.prompt_rank_zero)
-                            return@setOnClickListener
-                        }
-                        if (start != null && start > 1) criterion.rankStart = start
-                        if (end != null) criterion.rankEnd = end
-                        criterion.requireFollowed = swRequireFollowedPlayer.isChecked
-                        val requiredTag = menuTag.textString
-                        if (requiredTag.isNotEmpty()) criterion.requiredTag = requiredTag
                     }
-                }
-                val limited1 = playerCriteria[0].isLimited
-                val limited2 = playerCriteria[1].isLimited
-                if (limited1 || limited2) {
-                    val target = criteria2edit ?: DuelPushCriteria()
-                    target.onePlayerCriteria = if (limited1) playerCriteria[0] else null
-                    target.theOtherPlayerCriteria = if (limited2) playerCriteria[1] else null
-                    target.pushDelayInMinute = binding.etPushDelay.textString.toIntOrNull() ?: 0
-                    if (!isInEditMode && DuelPushManager.ALL_CRITERIA.any { it == target }) {
-                        toast(R.string.criteria_existed)
-                        return@setOnClickListener
+                    val limited1 = playerCriteria[0].isLimited
+                    val limited2 = playerCriteria[1].isLimited
+                    if (((binding.etPushDelay.textString.toIntOrNull()
+                            ?: 0) > 0) || limited1 || limited2
+                    ) {
+                        val target = criteria2edit ?: DuelPushCriteria()
+                        target.onePlayerCriteria = if (limited1) playerCriteria[0] else null
+                        target.theOtherPlayerCriteria = if (limited2) playerCriteria[1] else null
+                        target.pushDelayInMinute = binding.etPushDelay.textString.toIntOrNull() ?: 0
+                        if (!isInEditMode && DuelPushManager.ALL_CRITERIA.any { it == target }) {
+                            toast(R.string.criteria_existed)
+                            return@setOnClickListener
+                        }
+                        block(target)
+                        dismiss()
+                    } else {
+                        toast(R.string.unlimited_criteria)
                     }
-                    block(target)
-                    dismiss()
-                } else {
-                    toast(R.string.unlimited_criteria)
                 }
             }
         }

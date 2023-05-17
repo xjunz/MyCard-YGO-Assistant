@@ -116,6 +116,15 @@ data class DuelPushCriteria(
         }
     }
 
+    fun checkConsideringDelay(duel: Duel): Boolean {
+        if (!check(duel)) return false
+        if (pushDelayInMinute != 0) {
+            if (duel.startTimestamp == -1L) return false
+            if (System.currentTimeMillis() - duel.startTimestamp < pushDelayInMinute * 60_000) return false
+        }
+        return true
+    }
+
     /**
      * Check whether a [duel] is expected to be notified.
      */
@@ -141,6 +150,7 @@ data class DuelPushCriteria(
         if (javaClass != other?.javaClass) return false
 
         other as DuelPushCriteria
+        if (pushDelayInMinute != other.pushDelayInMinute) return false
         if (onePlayerCriteria == other.onePlayerCriteria
             && theOtherPlayerCriteria == other.theOtherPlayerCriteria
         ) return true
@@ -171,8 +181,12 @@ data class DuelPushCriteria(
                 ),
                 DuelPushCriteria(
                     onePlayerCriteria = PlayerCriteria(1, 100),
-                    theOtherPlayerCriteria = PlayerCriteria(1, 100),
-                    isEnabled = false
+                    theOtherPlayerCriteria = PlayerCriteria(1, 100)
+                ),
+                DuelPushCriteria(
+                    onePlayerCriteria = PlayerCriteria(1, 2000),
+                    theOtherPlayerCriteria = PlayerCriteria(1, 2000),
+                    pushDelayInMinute = 30
                 )
             )
         }

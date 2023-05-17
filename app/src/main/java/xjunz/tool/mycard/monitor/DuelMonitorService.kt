@@ -9,6 +9,7 @@ import android.os.Binder
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.ServiceCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
@@ -22,7 +23,7 @@ import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.monitor.push.DuelPushManager
 import xjunz.tool.mycard.monitor.push.DuelPushManager.cancelPush
-import xjunz.tool.mycard.monitor.push.DuelPushManager.checkCriteriaAndPush
+import xjunz.tool.mycard.monitor.push.DuelPushManager.checkAllCriteriaAndPush
 import xjunz.tool.mycard.monitor.push.DuelPushManager.notifyResult
 import xjunz.tool.mycard.monitor.push.DuelPushManager.pushSelfInvolved
 import xjunz.tool.mycard.util.CompositeCloseable
@@ -83,7 +84,9 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
          */
         fun stopMonitor() {
             wssClient.state.removeObserver(stateObserver)
-            stopForeground(true)
+            ServiceCompat.stopForeground(
+                this@DuelMonitorService, ServiceCompat.STOP_FOREGROUND_REMOVE
+            )
             wssClient.cancelIfNeeded()
         }
 
@@ -207,7 +210,7 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
             val requireRank = DuelPushManager.ALL_CRITERIA.any { it.isEnabled }
                     && !Configs.isNotificationDisabled
             if (requireRank && playerInfoLoader.queryAllPlayerInfo(created)) {
-                created.checkCriteriaAndPush()
+                created.checkAllCriteriaAndPush()
             }
         }
     }

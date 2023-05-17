@@ -3,13 +3,17 @@ package xjunz.tool.mycard.main
 import android.app.Dialog
 import android.view.View
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
+import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogLeaderboardPlayerInfoBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
 import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.resText
 import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.main.detail.TagAdapter
+import xjunz.tool.mycard.main.history.HistoryDialog
 import xjunz.tool.mycard.model.LeaderboardPlayer
 import java.text.NumberFormat
 
@@ -23,12 +27,14 @@ class LeaderboardPlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlaye
     }
 
     fun doOnStarClicked(callback: (Boolean) -> Unit): LeaderboardPlayerInfoDialog {
-        lifecycleScope.launchWhenStarted {
-            binding.infoContainer.ibStar.setOnClickListener {
-                val prevFollowed = it.isActivated
-                it.isActivated = !prevFollowed
-                callback(!prevFollowed)
-                updateStarTooltip(it)
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                binding.infoContainer.ibStar.setOnClickListener {
+                    val prevFollowed = it.isActivated
+                    it.isActivated = !prevFollowed
+                    callback(!prevFollowed)
+                    updateStarTooltip(it)
+                }
             }
         }
         return this
@@ -47,9 +53,11 @@ class LeaderboardPlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlaye
     }
 
     fun doOnTagChanged(callback: () -> Unit): LeaderboardPlayerInfoDialog {
-        lifecycleScope.launchWhenStarted {
-            tagAdapter.doOnTagChanged { _, _ ->
-                callback()
+        lifecycleScope.launch {
+            lifecycle.withStarted {
+                tagAdapter.doOnTagChanged { _, _ ->
+                    callback()
+                }
             }
         }
         return this
@@ -73,6 +81,10 @@ class LeaderboardPlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlaye
             ibStar.isActivated = PlayerInfoManager.isFollowed(player.name)
             updateStarTooltip(ibStar)
             rvTags.adapter = tagAdapter
+            ibHistory.setOnClickListener {
+                HistoryDialog().setPlayerName(player.name).show(parentFragmentManager, "history")
+            }
+            ibHistory.setTooltipCompat(R.string.duel_history.resText)
         }
     }
 }

@@ -16,6 +16,8 @@
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_calculator.xml" value="0.2734375" />
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_card_colletion_editor.xml" value="0.27239583333333334" />
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_custom_room.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_download_prescripts.xml" value="0.2734375" />
+        <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_followed_player_manager.xml" value="0.2734375" />
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_input.xml" value="0.2734375" />
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_login.xml" value="0.2734375" />
         <entry key="..\:/MyProjects/AndroidStudio/MyCardYGOAssistant/app/src/main/res/layout/dialog_single_card_condition.xml" value="0.2734375" />
@@ -87,7 +89,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

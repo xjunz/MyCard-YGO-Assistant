@@ -24,6 +24,7 @@ import xjunz.tool.mycard.game.GameLauncher
 import xjunz.tool.mycard.ktx.*
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.account.LoginDialog
+import xjunz.tool.mycard.main.history.HistoryDialog
 import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.main.tools.CustomRoomDialog
 import xjunz.tool.mycard.main.tools.PrescriptsDownloadDialog
@@ -103,6 +104,11 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                 toast(R.string.no_game_launcher_found)
             }
         }
+        btnChart.setOnClickListener {
+            HistoryDialog().setPlayerName(AccountManager.peekUser().username)
+                .show(parentFragmentManager, "history")
+        }
+        btnReload.setTooltipCompat(R.string.duel_history.resText)
         if (Configs.isMineAsHome) {
             itemSetAsHome.setText(R.string.cancel_set_as_home)
         } else {
@@ -210,6 +216,7 @@ class MineFragment : Fragment(), LifecycleEventObserver {
             btnLogInOut.isActivated = loggedIn
             btnReload.isEnabled = loggedIn
             btnMatch.isEnabled = loggedIn
+            btnChart.isEnabled = loggedIn
             if (!loggedIn) {
                 tvName.isVisible = false
                 btnLogInOut.text = R.string.log_in_to_mycard.resStr

@@ -30,7 +30,8 @@ import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.monitor.DuelMonitorEventObserver
 import xjunz.tool.mycard.monitor.State
-import xjunz.tool.mycard.monitor.push.DuelPushManager.checkCriteria
+import xjunz.tool.mycard.monitor.push.DuelPushManager.checkAllCriteria
+import xjunz.tool.mycard.monitor.push.DuelPushManager.checkCriteriaConsideringDelay
 import xjunz.tool.mycard.ui.SpreadingRippleDrawable
 import xjunz.tool.mycard.util.ViewIdleStateDetector
 import xjunz.tool.mycard.util.errorLog
@@ -235,13 +236,15 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
     }
 
     private fun bindCheckedStates(binding: ItemDuelBinding, duel: Duel) {
-        val isChecked = duel.checkCriteria()
+        val isChecked = duel.checkCriteriaConsideringDelay()
         binding.rippleView.isVisible = isChecked
         binding.ibWatch.isActivated = isChecked
     }
 
     override fun onBindViewHolder(
-        holder: DuelViewHolder, position: Int, payloads: MutableList<Any>
+        holder: DuelViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
     ) {
         if (payloads.isNotEmpty()) {
             val binding = holder.binding
@@ -299,7 +302,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
             override fun areContentsTheSame(op: Int, np: Int): Boolean {
                 val o = old[op]
                 val n = duelList[np]
-                return o === n && o.isFollowed() == n.isFollowed() && o.checkCriteria() == n.checkCriteria()
+                return o === n && o.isFollowed() == n.isFollowed() && o.checkAllCriteria() == n.checkAllCriteria()
             }
         }, detectMoves).dispatchUpdatesTo(this)
 

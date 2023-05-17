@@ -64,9 +64,4 @@ class CrashReportActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finishAndRemoveTask()
-    }
 }

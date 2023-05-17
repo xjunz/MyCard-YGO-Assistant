@@ -1,22 +1,24 @@
 package xjunz.tool.mycard.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class DuelRecord(
     val end_time: String,
-    @SerialName("isfirstwin")
-    val isFirstWin: Boolean,
-    val pta: Double,
-    val pta_ex: Double,
-    val ptb: Double,
-    val ptb_ex: Double,
+    val expa: Float,
+    val expa_ex: Float,
+    val expb: Float,
+    val expb_ex: Float,
+    val isfirstwin: Boolean,
+    val pta: Float,
+    val pta_ex: Float,
+    val ptb: Float,
+    val ptb_ex: Float,
     val start_time: String,
     val type: String,
-    @SerialName("usernamea")
-    val playerName1: String,
-    @SerialName("usernameb")
-    val playerName2: String,
+    val usernamea: String,
+    val usernameb: String,
+    val userscorea: Float,
+    val userscoreb: Float,
     val winner: String
 )

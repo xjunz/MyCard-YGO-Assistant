@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/tv_player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/duel_history"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        app:layout_constraintEnd_toStartOf="@+id/ib_open_in_browser"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ib_open_in_browser"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:icon="@drawable/ic_twotone_open_in_new_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_player_name" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/record_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_player_name" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/record_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_item_duel"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line_chart"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_win_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="W" />
+
+        <TextView
+            android:id="@+id/tv_vs_player_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="?selectableItemBackground"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@+id/tv_dp_changes"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/tv_win_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:maxLines="5"
+            tools:text="VS XJUNZ" />
+
+        <TextView
+            android:id="@+id/tv_dp_changes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_vs_player_name"
+            app:layout_constraintEnd_toStartOf="@+id/tv_dp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/tv_vs_player_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_vs_player_name"
+            tools:text="+8DP" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintEnd_toStartOf="@+id/tv_dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_vs_player_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_vs_player_name"
+            tools:text="开始于xxx\n结束于:xxx" />
+
+        <TextView
+            android:id="@+id/tv_dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:backgroundTint="#FF0000"
+            tools:text="1420" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,10 @@
 package xjunz.tool.mycard.main.settings
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.updatePadding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import xjunz.tool.mycard.R
@@ -33,7 +30,6 @@ class SettingsActivity : AppCompatActivity() {
         PushCriteriaAdapter()
     }
 
-    @SuppressLint("RestrictedApi", "VisibleForTests")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -57,9 +53,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.scrollView.applySystemInsets { v, insets ->
             v.updatePadding(bottom = insets.bottom)
         }
-        val behavior = (binding.scrollView.layoutParams as CoordinatorLayout.LayoutParams).behavior
-        behavior as BottomSheetBehavior
-        behavior.disableShapeAnimations()
         binding.btnManageTags.isCheckable = false
         binding.btnManageTags.setOnClickListener {
             TagManagerDialog().show(supportFragmentManager, "tag-manager")

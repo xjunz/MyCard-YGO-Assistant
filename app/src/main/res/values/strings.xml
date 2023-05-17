@@ -97,7 +97,7 @@
     <string name="requires_followed_duelist">Requires involving at least one followed duelist</string>
     <string name="unlimited_criteria">Invalid criteria: all duels match this criteria.</string>
     <string name="invalid_rank_range">The rank upper bound must be greater than the lower bound.</string>
-    <string name="criteria_existed">An identical criteria except for the push delay has already existed.</string>
+    <string name="criteria_existed">An identical criteria has already existed.</string>
     <string name="hint_push_delay">Push delay in minutes</string>
     <string name="prompt_rank_zero">There is no such rank as 0, the minimum rank is 1.</string>
     <string name="prompt_max_criteria_count">Too much criteria, please try to remove some and retry.</string>
@@ -233,6 +233,7 @@
     <string-array name="preset_criteria">
         <item>Containing any followed player</item>
         <item>Both two players ranked between 1 and 100</item>
+        <item>White-hot duels</item>
     </string-array>
     <string-array name="rules">
         <item>Default</item>
@@ -277,6 +278,14 @@
     <string name="no_way_to_open">No app to handle this request</string>
     <string name="no_new_version">No new version is found</string>
     <string name="edit_collection">Edit this collection</string>
+    <string name="duel_history">Duel History</string>
+    <string name="format_history">\'s Duel History</string>
+    <string name="format_duel_duration">Started at: %s \nEnded at: %s</string>
+    <string name="win">W</string>
+    <string name="lose">L</string>
+    <string name="search">search</string>
+    <string name="search_for_player">Search players</string>
+    <string name="input_player_name">Input a player name</string>
     <string-array name="error_feedback_ways">
         <item>Email</item>
         <item>Tencent QQ™ Group</item>
@@ -286,4 +295,6 @@
         <item>Email</item>
         <item>Tencent QQ™ Group</item>
     </string-array>
+    <string name="chart_lengend_desc">D.P changes in latest 25 duels</string>
+    <string name="chart_desc">Tap the chart to view the duel record</string>
 </resources>

@@ -21,8 +21,8 @@ object AccountManager {
     private var isInitialized = false
     private var user: User? = null
 
-    // two weeks
-    private const val LOGIN_STATE_EXPIRED_DURATION = 1_209_600_000
+    // Never expire
+    private const val LOGIN_STATE_EXPIRED_DURATION = Long.MAX_VALUE // 1_209_600_000
 
     private const val LOCAL_AVATAR_NAME = "avatar"
 

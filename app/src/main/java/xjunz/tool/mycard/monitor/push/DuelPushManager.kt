@@ -1,5 +1,6 @@
 package xjunz.tool.mycard.monitor.push
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,6 +30,7 @@ import xjunz.tool.mycard.util.PendingIntentCompat
 import xjunz.tool.mycard.util.errorLog
 import xjunz.tool.mycard.util.printLog
 
+@SuppressLint("MissingPermission")
 object DuelPushManager {
 
     const val CHECK_PERIOD = 60_000L
@@ -58,11 +60,13 @@ object DuelPushManager {
 
     private data class PendingPush(
         var duel: Duel,
-        val criteria: DuelPushCriteria,
+        val criteria: MutableList<DuelPushCriteria>,
         var isSuffocated: Boolean = false
     ) {
-        inline val remainingMills
-            get() = criteria.pushDelayInMinute * 60_000 - (System.currentTimeMillis() - duel.startTimestamp)
+        inline val emergentCriteria: DuelPushCriteria?
+            get() {
+                return criteria.getOrNull(0)
+            }
     }
 
     private val pushHandler by lazy {
@@ -76,9 +80,14 @@ object DuelPushManager {
                     pendingPushes.remove(duel.id)
                     return
                 }
-                if (push.remainingMills <= 0) {
+                val criteria = push.emergentCriteria
+                if (criteria == null) {
+                    pendingPushes.remove(duel.id)
+                    return
+                }
+                if (criteria.pushDelayInMinute * 60_000 - (System.currentTimeMillis() - duel.startTimestamp) <= 0) {
                     if (!push.isSuffocated) {
-                        val notification = buildCheckedPushNotification(duel, push.criteria)
+                        val notification = buildCheckedPushNotification(duel, criteria)
                         if (shownPushes.size == Configs.MAX_SHOWN_PUSHES_COUNT) {
                             notificationManagerCompat.cancel(
                                 shownPushes[0].tag, CHECKED_DUEL_PUSH_ID
@@ -195,22 +204,29 @@ object DuelPushManager {
         return msg
     }
 
+    fun Duel.checkCriteriaConsideringDelay(): Boolean {
+        check(isInitialized)
+        return allCriteria.any { it.checkConsideringDelay(this) }
+    }
+
     /**
      * Check whether a duel fits any push criteria.
      */
-    fun Duel.checkCriteria(): Boolean {
+    fun Duel.checkAllCriteria(): Boolean {
         check(isInitialized)
         return allCriteria.any { it.check(this) }
     }
 
-    fun Duel.checkCriteriaAndPush() {
+    fun Duel.checkAllCriteriaAndPush() {
         check(isInitialized)
-        allCriteria.forEach {
-            if (it.check(this)) {
-                pendingPushes[id] = PendingPush(this, it)
-                createPushMessage(this).sendToTarget()
-                return
-            }
+        val matched = allCriteria.filter {
+            it.check(this)
+        }.sortedBy {
+            it.pushDelayInMinute
+        }.toMutableList()
+        if (matched.isNotEmpty()) {
+            pendingPushes[id] = PendingPush(this, matched)
+            createPushMessage(this).sendToTarget()
         }
     }
 
@@ -240,9 +256,13 @@ object DuelPushManager {
         val iterator = pendingPushes.iterator()
         // remove pushes that no longer match the criteria
         while (iterator.hasNext()) {
-            val push = iterator.next().value
-            if (push.criteria === this) {
-                if (push.remainingMills < 0 || !push.criteria.check(push.duel)) {
+            val push = iterator.next().value ?: continue
+            val emergent = push.emergentCriteria
+            if (emergent === this) {
+                if (!emergent.check(push.duel)) {
+                    push.criteria.remove(emergent)
+                }
+                if (!push.duel.checkAllCriteria()) {
                     iterator.remove()
                     push.duel.cancelPush()
                 }
@@ -259,7 +279,7 @@ object DuelPushManager {
         val iterator = pendingPushes.iterator()
         while (iterator.hasNext()) {
             val push = iterator.next().value
-            if (!push.duel.checkCriteria()) {
+            if (!push.duel.checkAllCriteria()) {
                 iterator.remove()
                 push.duel.cancelPush()
             }
@@ -277,10 +297,13 @@ object DuelPushManager {
         val iterator = pendingPushes.iterator()
         // remove pending pushes that match this criteria
         while (iterator.hasNext()) {
-            val push = iterator.next().value
-            if (push.criteria === this) {
-                iterator.remove()
-                push.duel.cancelPush()
+            val push = iterator.next().value ?: continue
+            if (push.criteria.contains(this)) {
+                push.criteria.remove(this)
+                if (!push.duel.checkAllCriteria()) {
+                    iterator.remove()
+                    push.duel.cancelPush()
+                }
             }
         }
     }

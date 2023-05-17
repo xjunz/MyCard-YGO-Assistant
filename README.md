@@ -48,4 +48,4 @@ object Constants {
 
 特别鸣谢[YGO Mobile](https://www.pgyer.com/ygomobileen)以及[萌卡](https://mycard.moe/)官方
 
-> Copyright 2022 XJUNZ
+> Copyright 2023 XJUNZ

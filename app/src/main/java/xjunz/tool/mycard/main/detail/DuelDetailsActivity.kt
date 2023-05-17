@@ -5,25 +5,25 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Bundle
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
+import android.os.*
 import android.transition.ChangeBounds
 import android.transition.Slide
 import android.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.view.WindowCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.launch
@@ -35,6 +35,7 @@ import xjunz.tool.mycard.info.PlayerInfoManager
 import xjunz.tool.mycard.ktx.*
 import xjunz.tool.mycard.main.DuelListAdapter
 import xjunz.tool.mycard.main.account.AccountManager
+import xjunz.tool.mycard.main.history.HistoryDialog
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.monitor.DuelMonitorEventObserver
 import xjunz.tool.mycard.monitor.DuelMonitorService
@@ -83,9 +84,10 @@ class DuelDetailsActivity : AppCompatActivity() {
     }
 
     @SuppressLint("RestrictedApi", "VisibleForTests")
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        duel = intent.getSerializableExtra(EXTRA_DUEL) as Duel
+        duel = intent.requireSerializableExtra(EXTRA_DUEL)
         if (intent.shouldDirectlySpectate) {
             check(intent.isFromNotification)
             duel.spectateCheckLogin(this)
@@ -103,10 +105,14 @@ class DuelDetailsActivity : AppCompatActivity() {
         tryBindMonitorService()
         initViews()
         bindViews()
-        behavior.disableShapeAnimations()
+        behavior.skipCollapsed = true
+        binding.infoContainer.doOnPreDraw {
+            (it.background as? MaterialShapeDrawable)?.interpolation = 1F
+        }
     }
 
     private fun bindViews() {
+        bindHistory()
         bindPlayerNames()
         bindStarsAndTags()
         bindPlayerInfo(Duel.PLAYER_1)
@@ -131,12 +137,17 @@ class DuelDetailsActivity : AppCompatActivity() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
-        binding.root.setOnClickListener { onBackPressed() }
+        binding.root.setOnClickListener {
+            finishAfterTransition()
+        }
+        binding.infoContainer.applySystemInsets { v, insets ->
+            v.updatePadding(bottom = insets.bottom)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val newDuel = intent.getSerializableExtra(EXTRA_DUEL) as Duel
+        val newDuel = intent.requireSerializableExtra<Duel>(EXTRA_DUEL)
         // not the same duel, reset fields
         if (duel != newDuel) {
             mainHandler.removeCallbacksAndMessages(null)
@@ -183,6 +194,17 @@ class DuelDetailsActivity : AppCompatActivity() {
             tvName.text = name
 
             tvName.isActivated = PlayerInfoManager.isFollowed(name)
+        }
+    }
+
+    private fun bindHistory() {
+        Duel.PLAYERS.forEach { which ->
+            val ibHistory = getPlayerInfoBinding(which).ibHistory
+            TooltipCompat.setTooltipText(ibHistory, R.string.duel_history.resText)
+            ibHistory.setOnClickListener {
+                HistoryDialog().setPlayerName(duel.requirePlayerName(which))
+                    .show(supportFragmentManager, "history")
+            }
         }
     }
 
@@ -260,7 +282,9 @@ class DuelDetailsActivity : AppCompatActivity() {
      */
     private val updateDurationTask = object : Runnable {
         override fun run() {
-            if (!duel.isEnded && isConnected && !duel.isStartTimeUnknown) updatePrompt()
+            if (!duel.isEnded && isConnected && !duel.isStartTimeUnknown) {
+                updatePrompt()
+            }
             mainHandler.postDelayed(this, 1000)
         }
     }
@@ -299,6 +323,11 @@ class DuelDetailsActivity : AppCompatActivity() {
         val dueling = !duel.isEnded
         binding.tvPrompt.isActivated = dueling && isConnected
         binding.btnSpectate.isEnabled = dueling
+        if (!dueling) {
+            binding.containerBtnSpectate.clearSpreading()
+        } else {
+            binding.containerBtnSpectate.startSpreading()
+        }
         updatePrompt()
     }
 
@@ -420,10 +449,10 @@ class DuelDetailsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        behavior.setPeekHeight(0, true)
-    }
+    /* override fun onBackPressed() {
+         super.onBackPressed()
+         behavior.setPeekHeight(0, true)
+     }*/
 
     override fun onDestroy() {
         super.onDestroy()

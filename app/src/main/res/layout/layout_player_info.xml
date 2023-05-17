@@ -12,14 +12,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_unit"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         android:textColor="@color/color_text_player_name_detail"
         app:autoSizeMaxTextSize="32sp"
         app:autoSizeMinTextSize="16sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toStartOf="@+id/ib_star"
+        app:layout_constraintEnd_toStartOf="@+id/ib_history"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent=".5" />
+        app:layout_constraintGuide_percent="0.6" />
 
     <TextView
         android:id="@+id/tv_stats"
@@ -165,6 +165,21 @@
         android:src="@drawable/selector_ib_icon_star_player"
         app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_player_name"
+        app:tint="@color/color_icon_star_tint"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/ib_history"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/spacing_small"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_bar_chart_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
+        app:layout_constraintEnd_toStartOf="@+id/ib_star"
         app:layout_constraintTop_toTopOf="@+id/tv_player_name"
         app:tint="@color/color_icon_star_tint"
         tools:ignore="ContentDescription" />

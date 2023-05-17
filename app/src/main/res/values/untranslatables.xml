@@ -9,18 +9,6 @@
     <string name="plus_one" translatable="false">+1</string>
     <string name="bar" translatable="false">-</string>
 
-    <string-array name="preset_tags" translatable="false">
-        <item>萌新</item>
-        <item>大佬</item>
-        <item>导师</item>
-        <item>魂玩家</item>
-        <item>绝活哥</item>
-        <item>报社</item>
-        <item>展爆</item>
-        <item>均卡</item>
-        <item>Meta Beat</item>
-    </string-array>
-
     <string-array name="preset_collection_names">
         <item>启动点</item>
         <item>废件</item>
@@ -39,5 +27,6 @@
         <item>s2.ygo233.com</item>
     </string-array>
 
-    <string name="copyright" translatable="false">Copyright © XJUNZ 2022</string>
+    <string name="format_dp" translatable="false">%sDP</string>
+    <string name="copyright" translatable="false">Copyright © XJUNZ 2023</string>
 </resources>

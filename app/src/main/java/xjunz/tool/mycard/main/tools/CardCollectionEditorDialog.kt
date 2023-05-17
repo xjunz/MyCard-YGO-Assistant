@@ -9,8 +9,8 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
-import androidx.lifecycle.whenStarted
+import androidx.lifecycle.withCreated
+import androidx.lifecycle.withStarted
 import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.DropdownArrayAdapter
@@ -23,14 +23,14 @@ import xjunz.tool.mycard.main.settings.Configs
  */
 class CardCollectionEditorDialog : DialogFragment() {
 
-    private class InnerViewModel : ViewModel() {
+    class InnerViewModel : ViewModel() {
 
         var initialName: CharSequence? = null
 
         var initialCount: Int = 0
     }
 
-    private val viewModel by lazyInnerViewModel<InnerViewModel>()
+    private val viewModel by lazyViewModel<InnerViewModel>()
 
     private lateinit var binding: DialogCardColletionEditorBinding
 
@@ -50,7 +50,7 @@ class CardCollectionEditorDialog : DialogFragment() {
 
     fun setArguments(initialName: CharSequence?, initialCount: Int): CardCollectionEditorDialog {
         lifecycleScope.launch {
-            lifecycle.whenCreated {
+            lifecycle.withCreated {
                 viewModel.initialName = initialName
                 viewModel.initialCount = initialCount
             }
@@ -60,7 +60,7 @@ class CardCollectionEditorDialog : DialogFragment() {
 
     fun setCollectionNameDropdown(preset: List<String>): CardCollectionEditorDialog {
         lifecycleScope.launch {
-            lifecycle.whenStarted {
+            lifecycle.withCreated {
                 binding.etNameInput.setDropDownData(preset)
             }
         }
@@ -78,7 +78,7 @@ class CardCollectionEditorDialog : DialogFragment() {
         countChecker: (String) -> String?
     ): CardCollectionEditorDialog {
         lifecycleScope.launch {
-            lifecycle.whenStarted {
+            lifecycle.withStarted {
                 binding.btnPositive.setOnClickListener {
                     val name = binding.etNameInput.textString
                     val nameError = nameChecker(name)

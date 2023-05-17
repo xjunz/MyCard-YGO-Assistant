@@ -212,7 +212,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_label_member_since"
                     tools:text="2022-10-12 23:34:15" />
 
-                <FrameLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_unit"
@@ -231,6 +231,27 @@
                         android:enabled="false"
                         app:icon="@drawable/ic_twotone_replay_24"
                         app:iconTint="@color/color_on_primary_with_disable"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rippleColor="?colorControlHighlight"
+                        app:strokeColor="@color/color_on_primary_with_disable"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_chart"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@string/reload"
+                        android:enabled="false"
+                        app:icon="@drawable/baseline_bar_chart_24"
+                        app:iconTint="@color/color_on_primary_with_disable"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn_reload"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:rippleColor="?colorControlHighlight"
                         app:strokeColor="@color/color_on_primary_with_disable"
                         app:strokeWidth="1dp" />
@@ -247,9 +268,12 @@
                         android:textColor="@color/color_on_primary_with_disable"
                         app:icon="@drawable/ic_sword_cross"
                         app:iconTint="@color/color_on_primary_with_disable"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:rippleColor="?colorControlHighlight"
                         app:strokeColor="@color/color_on_primary_with_disable" />
-                </FrameLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -307,7 +331,8 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="@dimen/spacing_normal"
                     android:paddingVertical="@dimen/dp_12"
-                    android:text="@string/download_advance_cards" />
+                    android:text="@string/download_advance_cards"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/item_set_as_home"

@@ -91,7 +91,7 @@
     <string name="requires_followed_duelist">需要包含已关注玩家</string>
     <string name="unlimited_criteria">无效条件：所有对局都满足这个条件</string>
     <string name="invalid_rank_range">排名上限需大于等于排名下限</string>
-    <string name="criteria_existed">已存在除推送延迟以外完全相同的条件</string>
+    <string name="criteria_existed">已存在完全相同的条件</string>
     <string name="hint_push_delay">推送延迟（分钟）</string>
     <string name="prompt_rank_zero">不存在排名0，最高排名为1</string>
     <string name="prompt_max_criteria_count">条件过多，请尝试删除某些条件然后重试</string>
@@ -122,6 +122,7 @@
     <string-array name="preset_criteria">
         <item>对局任意一方为已关注玩家</item>
         <item>对局双方排名在1到100之间</item>
+        <item>白热化对局</item>
     </string-array>
     <string name="criteria_end">。</string>
     <string name="criteria_separator">，</string>
@@ -278,4 +279,14 @@
         <item>电子邮件</item>
         <item>QQ反馈群</item>
     </string-array>
+    <string name="duel_history">对战历史</string>
+    <string name="format_history">的对战历史</string>
+    <string name="chart_desc">点击表格可查看对战记录</string>
+    <string name="chart_lengend_desc">最近25场对局的D.P积分变化</string>
+    <string name="win">胜</string>
+    <string name="lose">负</string>
+    <string name="format_duel_duration">开始于: %s\n结束于: %s</string>
+    <string name="search">搜索</string>
+    <string name="input_player_name">请输入用户名</string>
+    <string name="search_for_player">查找玩家</string>
 </resources>

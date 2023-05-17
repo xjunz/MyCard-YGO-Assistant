@@ -9,10 +9,12 @@ import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.AnimationUtils
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +32,7 @@ import kotlinx.coroutines.*
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
+import xjunz.tool.mycard.common.InputDialog
 import xjunz.tool.mycard.databinding.FragmentLeaderboardBinding
 import xjunz.tool.mycard.databinding.ItemLeaderboardBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
@@ -142,6 +145,11 @@ class LeaderboardFragment : Fragment() {
                 )
             }
         }
+        viewModel.bottomBarHeight.observe(viewLifecycleOwner) {
+            binding.fabSearch.updateLayoutParams<MarginLayoutParams> {
+                bottomMargin = it + 16.dp
+            }
+        }
         binding.btnRefresh.setOnClickListener {
             loadLeaderboard()
         }
@@ -152,6 +160,21 @@ class LeaderboardFragment : Fragment() {
                 else if (dy < 0) viewModel.shouldShowBottomBar.value = true
             }
         })
+        binding.topBar.addOnOffsetChangedListener { _, verticalOffset ->
+            val alpha = 1F - (-verticalOffset.toFloat() / binding.cvTitle.height)
+            binding.cvTitle.alpha = alpha
+        }
+        binding.fabSearch.setOnClickListener {
+            InputDialog().apply {
+                setTitle(R.string.search_for_player.resText)
+                setHint(R.string.input_player_name.resText)
+                setPositiveButton {
+                    LeaderboardPlayerInfoDialog().show(parentFragmentManager, "player_info")
+                    return@setPositiveButton null
+                }
+            }
+
+        }
     }
 
     inner class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>() {
@@ -285,7 +308,7 @@ class LeaderboardFragment : Fragment() {
                         tvRank.setTypeface(null, Typeface.BOLD)
                         tvRank.setTextColor(primaryTextColor)
                     }
-                    position > 9 -> {
+                    else -> {
                         tvRank.setTypeface(null, Typeface.BOLD)
                         tvRank.setTextColor(tertiaryTextColor)
                     }

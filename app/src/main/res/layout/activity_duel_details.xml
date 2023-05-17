@@ -10,6 +10,7 @@
         android:id="@+id/info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
         android:elevation="@dimen/bottom_sheet_elevation"
         android:paddingHorizontal="@dimen/spacing_normal"
         app:backgroundTint="?colorSurface"
@@ -29,30 +30,46 @@
             android:textAppearance="?textAppearanceHeadline5"
             android:textColor="?colorPrimary"
             app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toStartOf="@+id/btn_spectate"
+            app:layout_constraintEnd_toStartOf="@+id/container_btn_spectate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="The duel is ended" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_spectate"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="0dp"
+        <xjunz.tool.mycard.ui.MaterialButtonSpreadContainer
+            android:id="@+id/container_btn_spectate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:insetTop="@dimen/spacing_small"
-            android:insetBottom="@dimen/spacing_small"
-            android:text="@string/spectate"
-            app:icon="@drawable/ic_twotone_eye_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_status"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_status" />
+            app:layout_constraintTop_toTopOf="@id/tv_status"
+            app:spreadAlpha="0.48"
+            app:spreadAutoStart="false"
+            app:spreadCenterColor="?colorSurface"
+            app:spreadColor="?colorPrimary"
+            app:spreadCount="3"
+            app:spreadHorizontal="16dp"
+            app:spreadStyle="fill"
+            app:spreadVertical="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_spectate"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:insetTop="@dimen/spacing_small"
+                android:insetBottom="@dimen/spacing_small"
+                android:text="@string/spectate"
+                app:icon="@drawable/ic_twotone_eye_24" />
+
+        </xjunz.tool.mycard.ui.MaterialButtonSpreadContainer>
 
         <TextView
             android:id="@+id/tv_prompt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_unit"
+            app:layout_constraintEnd_toEndOf="@+id/container_btn_spectate"
             app:layout_constraintStart_toStartOf="@id/tv_status"
             app:layout_constraintTop_toBottomOf="@id/tv_status"
             tools:text="Start at 2022-01-01 00:00:00\nHas lasted for 12 m 24 s" />

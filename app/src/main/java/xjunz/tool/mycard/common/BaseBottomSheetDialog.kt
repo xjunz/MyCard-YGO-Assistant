@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import androidx.core.view.doOnPreDraw
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -28,12 +29,13 @@ abstract class BaseBottomSheetDialog<T : ViewBinding> : BottomSheetDialogFragmen
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogStyle)
     }
 
+    protected lateinit var behavior: BottomSheetBehavior<FrameLayout>
+
     @SuppressLint("RestrictedApi", "VisibleForTests")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).also {
             it.setContentView(binding.root)
-            onDialogCreated(it)
-            val behavior = (it as BottomSheetDialog).behavior
+            behavior = (it as BottomSheetDialog).behavior
             //behavior.skipCollapsed = true
             binding.root.doOnPreDraw { v ->
                 if ((v.parent as View).top > 0) {
@@ -41,6 +43,7 @@ abstract class BaseBottomSheetDialog<T : ViewBinding> : BottomSheetDialogFragmen
                 }
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
+            onDialogCreated(it)
         }
     }
 

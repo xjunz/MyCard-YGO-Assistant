@@ -3,10 +3,15 @@ package xjunz.tool.mycard.main
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -48,8 +53,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigationBar()
         initViewPager()
-        bindMonitorService()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this, android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                    if (!it) {
+                        finish()
+                    }
+                }.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                bindMonitorService()
+            }
+        } else {
+            bindMonitorService()
+        }
         checkForUpdatesIfNeeded()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                finish()
+            }
+        })
     }
 
     private fun checkForUpdatesIfNeeded() {
@@ -171,10 +196,6 @@ class MainActivity : AppCompatActivity() {
                 else -> adapter?.notifyItemMoved(0, 2)
             }
         }
-    }
-
-    override fun onBackPressed() {
-        finish()
     }
 
     override fun onDestroy() {
