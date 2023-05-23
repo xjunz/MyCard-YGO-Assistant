@@ -7,6 +7,7 @@ import xjunz.tool.mycard.Constants
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.monitor.push.DuelPushManager
 
@@ -139,7 +140,8 @@ object PlayerInfoManager {
     }
 
     fun isFollowed(name: String): Boolean {
-        return followed.contains(name)
+        return (AccountManager.hasLogin()
+                && AccountManager.reqUsername() == name) || followed.contains(name)
     }
 
     private operator fun <K, V> LruCache<K, V>.set(k: K, value: V) = put(k, value)

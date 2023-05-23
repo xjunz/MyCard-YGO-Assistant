@@ -2,12 +2,14 @@ package xjunz.tool.mycard.main.history
 
 import android.app.Dialog
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -23,15 +25,31 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
+import xjunz.tool.mycard.app
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogHistoryBinding
 import xjunz.tool.mycard.info.PlayerInfoLoaderClient
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.lazyViewModel
+import xjunz.tool.mycard.ktx.resColor
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setTooltipCompat
+import xjunz.tool.mycard.ktx.viewUrlSafely
+import xjunz.tool.mycard.main.PlayerInfoDialog
 import xjunz.tool.mycard.model.DuelRecord
+import xjunz.tool.mycard.util.TimeParser
 
 
 /**
@@ -74,6 +92,10 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
         requireActivity().resolveAttribute(androidx.appcompat.R.attr.colorError).resColor
     }
 
+    private val sharedPrefs by lazy {
+        app.sharedPrefsOf("history")
+    }
+
     fun setPlayerName(name: String): HistoryDialog {
         lifecycleScope.launch {
             lifecycle.withCreated {
@@ -82,6 +104,8 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
         }
         return this
     }
+
+    private var balloon: Balloon? = null
 
     override fun onDialogCreated(dialog: Dialog) {
         initChartView()
@@ -132,9 +156,20 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                     R.string.format_dp.format((if (isPlayerA) pta else ptb).toInt().toString())
                 binding.tvDpChanges.setTextColor(stateListColor)
                 val dpDelta = (if (isPlayerA) pta - pta_ex else ptb - ptb_ex).toInt()
-                binding.tvDpChanges.text =
-                    R.string.format_dp.format(if (dpDelta >= 0) "+$dpDelta" else dpDelta.toString())
-                binding.tvTime.text = R.string.format_duel_duration.format(start_time, end_time)
+                binding.tvDpChanges.text = buildSpannedString {
+                    append(
+                        R.string.format_dp.format(if (dpDelta >= 0) "+$dpDelta" else dpDelta.toString()),
+                        StyleSpan(Typeface.BOLD),
+                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    if (isfirstwin && win) {
+                        append(R.string.first_win.resText)
+                    }
+                }
+                binding.tvTime.text = R.string.format_duel_duration.format(
+                    TimeParser.reformatTime(start_time),
+                    TimeParser.reformatTime(end_time)
+                )
                 if (win) {
                     binding.tvWinLogo.setText(R.string.win)
                 } else {
@@ -155,8 +190,37 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                     )
                 }
                 binding.tvVsPlayerName.setOnClickListener {
-                    HistoryDialog().setPlayerName(opponentPlayerName)
-                        .show(parentFragmentManager, "$opponentPlayerName-history")
+                    balloon?.dismiss()
+                    sharedPrefs.edit(true) {
+                        putBoolean("show-balloon", false)
+                    }
+                    PlayerInfoDialog().setPlayerName(opponentPlayerName)
+                        .show(parentFragmentManager, "player-info")
+                }
+                if (!sharedPrefs.getBoolean("show-balloon", true)) {
+                    return@observe
+                }
+                if (balloon != null) {
+                    balloon?.dismiss()
+                } else {
+                    balloon = createBalloon(requireContext()) {
+                        setWidthRatio(.8f)
+                        setHeight(BalloonSizeSpec.WRAP)
+                        setTextResource(R.string.tip_show_player_info)
+                        setTextSize(15f)
+                        setIconDrawableResource(R.drawable.ic_twotone_info_24)
+                        setIconColor(Color.WHITE)
+                        setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                        setArrowSize(10)
+                        setArrowPosition(0.5f)
+                        setPadding(12)
+                        setCornerRadius(8f)
+                        setBackgroundColor(primaryColor)
+                        setBalloonAnimation(BalloonAnimation.ELASTIC)
+                        setLifecycleOwner(this@HistoryDialog)
+                        build()
+                    }
+                    balloon?.showAlignBottom(binding.tvVsPlayerName)
                 }
             }
         }

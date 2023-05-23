@@ -5,7 +5,10 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.IBinder
+import android.os.Looper
 import android.transition.ChangeBounds
 import android.transition.Slide
 import android.transition.TransitionManager
@@ -32,7 +35,17 @@ import xjunz.tool.mycard.databinding.ActivityDuelDetailsBinding
 import xjunz.tool.mycard.game.GameLauncher.spectateCheckLogin
 import xjunz.tool.mycard.info.PlayerInfoLoaderClient
 import xjunz.tool.mycard.info.PlayerInfoManager
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.applySystemInsets
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.formatDurationMinSec
+import xjunz.tool.mycard.ktx.formatToDate
+import xjunz.tool.mycard.ktx.lazyViewModel
+import xjunz.tool.mycard.ktx.requireSerializableExtra
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.setTooltipCompat
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.DuelListAdapter
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.history.HistoryDialog
@@ -84,7 +97,6 @@ class DuelDetailsActivity : AppCompatActivity() {
     }
 
     @SuppressLint("RestrictedApi", "VisibleForTests")
-    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         duel = intent.requireSerializableExtra(EXTRA_DUEL)
@@ -378,7 +390,7 @@ class DuelDetailsActivity : AppCompatActivity() {
                 tvRankDelta.isVisible = false
             } else {
                 tvRank.text = player.rank.toString()
-                tvDp.text = player.pt.toString()
+                tvDp.text = player.pt.toInt().toString()
                 tvStats.text = R.string.format_stats.format(
                     player.athletic_all, player.athletic_win,
                     player.athletic_lose, player.athletic_draw
@@ -422,8 +434,8 @@ class DuelDetailsActivity : AppCompatActivity() {
                 duration = 1240
                 doOnEnd {
                     binding.root.beginDelayedTransition(MaterialFadeThrough())
-                    viewModel.dpDeltas[which] = duel.requirePlayer(which).pt -
-                            viewModel.reqPrevDuel.requirePlayer(which).pt
+                    viewModel.dpDeltas[which] = (duel.requirePlayer(which).pt -
+                            viewModel.reqPrevDuel.requirePlayer(which).pt).toInt()
                     viewModel.rankDeltas[which] = rankDelta
                     // bind info when the animator is ended
                     bindPlayerInfo(which)

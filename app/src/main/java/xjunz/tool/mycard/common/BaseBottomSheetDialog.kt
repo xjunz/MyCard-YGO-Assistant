@@ -29,7 +29,7 @@ abstract class BaseBottomSheetDialog<T : ViewBinding> : BottomSheetDialogFragmen
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogStyle)
     }
 
-    protected lateinit var behavior: BottomSheetBehavior<FrameLayout>
+    private lateinit var behavior: BottomSheetBehavior<FrameLayout>
 
     @SuppressLint("RestrictedApi", "VisibleForTests")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

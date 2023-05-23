@@ -5,22 +5,20 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-data class LeaderboardPlayer(
-    val athletic_all: Int,
-    val athletic_draw: Int,
-    val athletic_lose: Int,
-    val athletic_win: Int,
-    val entertain_all: Int,
-    val entertain_draw: Int,
-    val entertain_lose: Int,
-    val entertain_win: Int,
-    val exp: Double,
-    val id: Int? = null,
-    val pt: Double,
-    @SerialName("username") val name: String
-) {
+open class LeaderboardPlayer(
+    override val athletic_all: Int,
+    override val athletic_draw: Int,
+    override val athletic_lose: Int,
+    override val athletic_win: Int,
+    override val exp: Float,
+    override val pt: Float,
+    @SerialName("username")
+    override var name: String
+) : BasePlayer() {
+
     @Transient
-    var rank: Int = -1
+    override var rank: Int = -1
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

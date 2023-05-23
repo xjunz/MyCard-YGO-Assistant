@@ -21,7 +21,14 @@ import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.FragmentMineBinding
 import xjunz.tool.mycard.game.GameLauncher
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.applySystemInsets
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.lazyActivityViewModel
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.setTooltipCompat
+import xjunz.tool.mycard.ktx.showSimplePromptDialog
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.account.LoginDialog
 import xjunz.tool.mycard.main.history.HistoryDialog
@@ -30,6 +37,7 @@ import xjunz.tool.mycard.main.tools.CustomRoomDialog
 import xjunz.tool.mycard.main.tools.PrescriptsDownloadDialog
 import xjunz.tool.mycard.main.tools.ProbabilityCalculatorDialog
 import xjunz.tool.mycard.outer.Feedbacks
+import xjunz.tool.mycard.util.TimeParser
 
 class MineFragment : Fragment(), LifecycleEventObserver {
 
@@ -164,7 +172,7 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                     tvName.isVisible = true
                 }
                 tvName.text = userInfo.name
-                tvMemberSince.text = userInfo.memberSince
+                tvMemberSince.text = TimeParser.reformatTime(userInfo.created_at)
                 val avatar = loadAvatar()
                 if (avatar == null) {
                     ivAvatar.setImageResource(R.mipmap.ic_launcher_round)
@@ -190,8 +198,8 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                 if (loaded != null) {
                     binding.apply {
                         tvRank.text = loaded.rank.toString()
-                        tvPt.text = loaded.pt.toString()
-                        tvExp.text = loaded.exp.toString()
+                        tvPt.text = loaded.pt.toInt().toString()
+                        tvExp.text = loaded.exp.toInt().toString()
                         tvStats.text = R.string.format_stats.format(
                             loaded.athletic_all, loaded.athletic_win,
                             loaded.athletic_lose, loaded.athletic_draw

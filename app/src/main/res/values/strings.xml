@@ -297,4 +297,6 @@
     </string-array>
     <string name="chart_lengend_desc">D.P changes in latest 25 duels</string>
     <string name="chart_desc">Tap the chart to view the duel record</string>
+    <string name="first_win">(First Win)</string>
+    <string name="tip_show_player_info">Tap the player name to show player info!</string>
 </resources>

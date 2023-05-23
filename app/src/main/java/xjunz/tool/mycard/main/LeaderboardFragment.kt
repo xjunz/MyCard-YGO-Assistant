@@ -22,13 +22,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.*
-import io.ktor.client.request.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.BrowserUserAgent
+import io.ktor.client.plugins.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
@@ -36,7 +41,19 @@ import xjunz.tool.mycard.common.InputDialog
 import xjunz.tool.mycard.databinding.FragmentLeaderboardBinding
 import xjunz.tool.mycard.databinding.ItemLeaderboardBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.applySystemInsets
+import xjunz.tool.mycard.ktx.asStateList
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.dpFloat
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.formatToDate
+import xjunz.tool.mycard.ktx.lazyActivityViewModel
+import xjunz.tool.mycard.ktx.resColor
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setTooltipCompat
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.model.LeaderboardPlayer
 
 class LeaderboardFragment : Fragment() {
@@ -52,6 +69,7 @@ class LeaderboardFragment : Fragment() {
             json(Json {
                 prettyPrint = true
                 isLenient = true
+                ignoreUnknownKeys = true
             })
         }
     }
@@ -169,11 +187,19 @@ class LeaderboardFragment : Fragment() {
                 setTitle(R.string.search_for_player.resText)
                 setHint(R.string.input_player_name.resText)
                 setPositiveButton {
-                    LeaderboardPlayerInfoDialog().show(parentFragmentManager, "player_info")
+                    PlayerInfoDialog().setPlayerName(it).show(parentFragmentManager, "player-info")
                     return@setPositiveButton null
                 }
+            }.show(parentFragmentManager, "search-player")
+        }
+        viewModel.onPlayerInfoChanged.observe(viewLifecycleOwner) { name ->
+            if (name == null) return@observe
+            val index = leaderboardPlayers.indexOfFirst {
+                it.name == name
             }
-
+            if (index >= 0) {
+                adapter.notifyItemChanged(index, true)
+            }
         }
     }
 
@@ -215,14 +241,8 @@ class LeaderboardFragment : Fragment() {
             init {
                 binding.root.background = createBackground()
                 binding.root.setOnClickListener {
-                    LeaderboardPlayerInfoDialog()
-                        .setLeaderboardPlayer(leaderboardPlayers[adapterPosition])
-                        .doOnTagChanged {
-                            notifyItemChanged(adapterPosition, true)
-                        }
-                        .doOnStarClicked {
-                            binding.ibStar.performClick()
-                        }
+                    PlayerInfoDialog()
+                        .setPlayer(leaderboardPlayers[adapterPosition])
                         .show(parentFragmentManager, "LeaderboardPlayerInfoDialog")
                 }
                 binding.ibStar.setOnClickListener {
@@ -300,14 +320,16 @@ class LeaderboardFragment : Fragment() {
                         else -> requireContext().resolveAttribute(android.R.attr.textColorPrimary).resColor
                     }
                 )
-                when {
-                    position in 0..2 -> {
-                        tvRank.setTypeface(null, Typeface.BOLD_ITALIC)
+                when (position) {
+                    in 0..2 -> {
+                        tvRank.setTypeface(null, Typeface.BOLD)
                     }
-                    position in 3..9 -> {
+
+                    in 3..9 -> {
                         tvRank.setTypeface(null, Typeface.BOLD)
                         tvRank.setTextColor(primaryTextColor)
                     }
+
                     else -> {
                         tvRank.setTypeface(null, Typeface.BOLD)
                         tvRank.setTextColor(tertiaryTextColor)
@@ -323,9 +345,11 @@ class LeaderboardFragment : Fragment() {
                 0 -> {
                     holder.setCorner(leftTop = 16.dpFloat, rightTop = 16.dpFloat)
                 }
+
                 itemCount - 1 -> {
                     holder.setCorner(leftBottom = 16.dpFloat, rightBottom = 16.dpFloat)
                 }
+
                 else -> {
                     holder.setCorner()
                 }

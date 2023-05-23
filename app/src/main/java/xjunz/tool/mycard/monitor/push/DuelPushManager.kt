@@ -395,8 +395,4 @@ object DuelPushManager {
                 .parseAsHtml()
         return buildPushNotification(duel, content)
     }
-
-    fun toggleWhiteHotPush(shouldPush: Boolean) {
-
-    }
 }

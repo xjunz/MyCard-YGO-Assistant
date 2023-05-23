@@ -110,7 +110,7 @@ class ConditionSet(
         for (i in 0 until conditions.size) {
             total *= (deckCardCount - i).toBigDecimal()
         }
-        result = (occurrence.toBigDecimal().divide(total, 10, BigDecimal.ROUND_CEILING))
+        result = occurrence.toBigDecimal() / total
     }
 
     private fun preprocessConditions() {

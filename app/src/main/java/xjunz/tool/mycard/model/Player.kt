@@ -5,25 +5,20 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-data class Player(
-    @SerialName("arena_rank") val rank: Int,
-    val athletic_all: Int,
-    val athletic_draw: Int,
-    val athletic_lose: Int,
-    val athletic_win: Int,
+class Player(
+    @SerialName("arena_rank")
+    override var rank: Int,
+    override val athletic_all: Int,
+    override val athletic_draw: Int,
+    override val athletic_lose: Int,
+    override val athletic_win: Int,
+    override val pt: Float,
+    override val exp: Float,
     val athletic_wl_ratio: Float,
-    val entertain_all: Int,
-    val entertain_draw: Int,
-    val entertain_lose: Int,
-    val entertain_win: Int,
-    val entertain_wl_ratio: Float,
-    val exp: Int,
-    val exp_rank: Int,
-    val pt: Int
-) : java.io.Serializable {
+) : BasePlayer(), java.io.Serializable {
 
     @Transient
-    lateinit var name: String
+    override lateinit var name: String
 
     val isNewcomer get() = rank == 0
 

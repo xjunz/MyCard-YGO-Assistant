@@ -289,4 +289,6 @@
     <string name="search">搜索</string>
     <string name="input_player_name">请输入用户名</string>
     <string name="search_for_player">查找玩家</string>
+    <string name="first_win">(首胜)</string>
+    <string name="tip_show_player_info">点击玩家名称可显示玩家信息哦！</string>
 </resources>

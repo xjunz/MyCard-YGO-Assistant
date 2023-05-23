@@ -24,7 +24,16 @@ import xjunz.tool.mycard.game.GameLauncher
 import xjunz.tool.mycard.game.GameLauncher.spectateCheckLogin
 import xjunz.tool.mycard.info.PlayerInfoManager
 import xjunz.tool.mycard.info.PlayerInfoManager.isFollowed
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.broadcast
+import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.get
+import xjunz.tool.mycard.ktx.launchActivity
+import xjunz.tool.mycard.ktx.longToast
+import xjunz.tool.mycard.ktx.requireActivity
+import xjunz.tool.mycard.ktx.resColor
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.main.detail.DuelDetailsActivity
 import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
@@ -35,7 +44,7 @@ import xjunz.tool.mycard.monitor.push.DuelPushManager.checkCriteriaConsideringDe
 import xjunz.tool.mycard.ui.SpreadingRippleDrawable
 import xjunz.tool.mycard.util.ViewIdleStateDetector
 import xjunz.tool.mycard.util.errorLog
-import java.util.*
+import java.util.Collections
 
 /**
  * Note: this adapter must be attached to the [RecyclerView] after the service
@@ -45,7 +54,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
     DuelMonitorEventObserver {
 
     object Action {
-        const val REFRESH_ITEM = 1
+        const val REFRESH_DUEL = 1
         const val REFRESH_ALL = 2
         const val REFRESH_ORDER = 3
     }
@@ -70,7 +79,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
 
         fun broadcastItemChanged(duel: Duel, payload: Int) {
             app.broadcast(ACTION_REFRESH) {
-                putExtra(Extra.ACTION, Action.REFRESH_ITEM)
+                putExtra(Extra.ACTION, Action.REFRESH_DUEL)
                 putExtra(Extra.DUEL_ID, duel.id)
                 putExtra(Extra.PAYLOAD, payload)
             }
@@ -410,7 +419,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
     private val refreshReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getIntExtra(Extra.ACTION, -1)) {
-                Action.REFRESH_ITEM -> {
+                Action.REFRESH_DUEL -> {
                     val id = intent.getStringExtra(Extra.DUEL_ID)
                     checkNotNull(id)
                     val index = duelList.indexOfFirst { it.id == id }

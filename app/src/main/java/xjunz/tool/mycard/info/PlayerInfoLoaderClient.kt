@@ -1,16 +1,24 @@
 package xjunz.tool.mycard.info
 
 import android.util.Log
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.BrowserUserAgent
+import io.ktor.client.plugins.ContentNegotiation
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.http.isSuccess
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.main.account.AccountManager
@@ -114,6 +122,16 @@ class PlayerInfoLoaderClient : Closeable {
                 .contains(false)
                 .not()
         }
+
+    suspend fun queryPlayerInfo(name: String): Player? {
+        return runCatching {
+            client.get(Apis.BASE_API + Apis.API_PLAYER_INFO) {
+                parameter("username", name)
+            }.body<Player>()
+        }.getOrNull()?.also {
+            it.name = name
+        }
+    }
 
     private suspend fun fetchPlayerInfoFromRemote(duel: Duel, @PlayerNumber which: Int): Boolean {
         val name = duel.requirePlayerName(which)

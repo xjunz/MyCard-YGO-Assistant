@@ -22,8 +22,8 @@ android {
         applicationId "xjunz.tool.mycard"
         minSdk 23
         targetSdk 33
-        versionCode 15
-        versionName "2.1.2"
+        versionCode 17
+        versionName "2.1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -51,6 +51,7 @@ android {
     viewBinding {
         enabled = true
     }
+    namespace 'xjunz.tool.mycard'
 }
 
 dependencies {
@@ -79,6 +80,7 @@ dependencies {
     implementation 'io.github.xjunz:return-transition-patcher:1.1.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation "com.github.skydoves:balloon:1.5.3"
 
     // unit test
     testImplementation 'junit:junit:4.+'

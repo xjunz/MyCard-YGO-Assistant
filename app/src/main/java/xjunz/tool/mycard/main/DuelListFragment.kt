@@ -20,7 +20,15 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.FragmentDuelBinding
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.applySystemInsets
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.formatToDate
+import xjunz.tool.mycard.ktx.launchSharedElementActivity
+import xjunz.tool.mycard.ktx.lazyActivityViewModel
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.settings.SettingsActivity
 import xjunz.tool.mycard.monitor.State
 
@@ -34,6 +42,8 @@ class DuelListFragment : Fragment() {
     private val duelAdapter by lazy { DuelListAdapter() }
 
     private lateinit var binding: FragmentDuelBinding
+
+    private val headerChecker = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -97,6 +107,18 @@ class DuelListFragment : Fragment() {
                 viewModel.monitorState.observe(viewLifecycleOwner, promptObserver)
             }
         }
+        val checker = object : Runnable {
+            override fun run() {
+                if (shouldShowHeader && System.currentTimeMillis()
+                    - viewModel.monitorService.lastUpdateTimestamp > 1000 * 60 * 30
+                ) {
+                    viewModel.monitorService.clearAllIfOutOfDate()
+                    shouldShowHeader = false
+                }
+                headerChecker.postDelayed(this, 30 * 1000)
+            }
+        }
+        headerChecker.post(checker)
     }
 
     private val promptObserver = Observer<Int> {
@@ -134,9 +156,11 @@ class DuelListFragment : Fragment() {
                         State.DISCONNECTED_IDLE -> {
                             text = R.string.start_service.resText
                         }
+
                         State.DISCONNECTED_NETWORK -> {
                             text = R.string.restart_service.resText
                         }
+
                         else -> if (shouldCountDown) {
                             isEnabled = false
                             shouldCountDown = false
@@ -146,6 +170,7 @@ class DuelListFragment : Fragment() {
                         }
                     }
                 }
+
                 State.CONNECTED -> {
                     setOnClickListener {
                         MaterialAlertDialogBuilder(context).setTitle(R.string.prompt)
@@ -159,6 +184,7 @@ class DuelListFragment : Fragment() {
                     isEnabled = true
                     text = R.string.stop_monitor_service.resText
                 }
+
                 State.CONNECTING -> {
                     isActivated = false
                     isEnabled = false

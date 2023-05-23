@@ -30,4 +30,11 @@ class MainViewModel : ViewModel() {
     val hasUpdates = MutableLiveData(false)
 
     val isMineAsHome = MutableLiveData(Configs.isMineAsHome)
+
+    val onPlayerInfoChanged = MutableLiveData<String?>()
+
+    fun notifyPlayerInfoChanged(name: String) {
+        onPlayerInfoChanged.value = name
+        onPlayerInfoChanged.postValue(null)
+    }
 }
