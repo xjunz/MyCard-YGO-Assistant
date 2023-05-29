@@ -9,10 +9,11 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="8dp"
         android:text="@string/edit_criteria"
         android:textAppearance="?textAppearanceHeadlineSmall"
+        android:textColor="?colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,30 +38,14 @@
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <include
-        android:id="@+id/card_player_1"
-        layout="@layout/layout_player_criteria_editor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        app:layout_constraintTop_toBottomOf="@id/til_preset"
-        app:layout_goneMarginTop="@dimen/spacing_large" />
-
-    <include
-        android:id="@+id/card_player_2"
-        layout="@layout/layout_player_criteria_editor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        app:layout_constraintTop_toBottomOf="@id/card_player_1" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_push_delay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="8dp"
         android:hint="@string/hint_push_delay"
-        app:layout_constraintTop_toBottomOf="@id/card_player_2"
+        app:layout_constraintTop_toBottomOf="@+id/til_preset"
+        app:layout_goneMarginTop="16dp"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -70,17 +55,34 @@
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <include
+        android:id="@+id/card_player_1"
+        layout="@layout/layout_player_criteria_editor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/til_push_delay"
+        app:layout_goneMarginTop="@dimen/spacing_large" />
+
+    <include
+        android:id="@+id/card_player_2"
+        layout="@layout/layout_player_criteria_editor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/card_player_1" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_confirm"
         style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_unit"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="16dp"
         android:text="@android:string/ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_discard"
-        app:layout_constraintTop_toBottomOf="@+id/til_push_delay" />
+        app:layout_constraintTop_toBottomOf="@+id/card_player_2" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_discard"

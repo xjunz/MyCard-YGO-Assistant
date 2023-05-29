@@ -18,6 +18,8 @@ interface DuelMonitorEventObserver {
      */
     fun onDuelCreated(created: Duel) {}
 
+    fun onPlayersInfoLoadedFromService(duel: Duel) {}
+
     /**
      * Called when the duel list is cleared manually due to connection failure.
      */

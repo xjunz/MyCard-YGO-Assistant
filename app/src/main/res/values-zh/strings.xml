@@ -88,11 +88,11 @@
     <string name="rank_lower_bound">排名下限</string>
     <string name="criteria_for_one_player">一方玩家的条件</string>
     <string name="criteria_for_the_other_player">另一方玩家的条件</string>
-    <string name="requires_followed_duelist">需要包含已关注玩家</string>
+    <string name="requires_followed_duelist">需为已关注玩家</string>
     <string name="unlimited_criteria">无效条件：所有对局都满足这个条件</string>
     <string name="invalid_rank_range">排名上限需大于等于排名下限</string>
     <string name="criteria_existed">已存在完全相同的条件</string>
-    <string name="hint_push_delay">推送延迟（分钟）</string>
+    <string name="hint_push_delay">对局开始（？）分钟后推送</string>
     <string name="prompt_rank_zero">不存在排名0，最高排名为1</string>
     <string name="prompt_max_criteria_count">条件过多，请尝试删除某些条件然后重试</string>
     <string name="manage_tags">管理标签</string>
@@ -282,13 +282,39 @@
     <string name="duel_history">对战历史</string>
     <string name="format_history">的对战历史</string>
     <string name="chart_desc">点击表格可查看对战记录</string>
-    <string name="chart_lengend_desc">最近25场对局的D.P积分变化</string>
+    <string name="chart_legend_desc">最近25场对局的D.P积分变化</string>
     <string name="win">胜</string>
     <string name="lose">负</string>
-    <string name="format_duel_duration">开始于: %s\n结束于: %s</string>
+    <string name="format_duel_duration">开始于: %s\n结束于: %s\n用时: %s</string>
     <string name="search">搜索</string>
     <string name="input_player_name">请输入用户名</string>
     <string name="search_for_player">查找玩家</string>
     <string name="first_win">(首胜)</string>
     <string name="tip_show_player_info">点击玩家名称可显示玩家信息哦！</string>
+    <string name="filter_and_sort">筛选和排序</string>
+    <string name="min_duel_duration">对局至少开始（？）分钟</string>
+    <string name="reset">重置</string>
+    <string name="sort_by">排序方式</string>
+    <string name="order">顺序</string>
+    <string name="tip_no_duel_matches_filter">没有符合当前过滤规则的对局</string>
+    <string name="tip_filter_and_sort">点击此可以对当前对局进行排序和过滤哦！</string>
+    <string name="unfollow_all">清空所有已关注玩家</string>
+    <string name="prompt_unfollow_all_players">你确定要清空所有已关注玩家吗？</string>
+    <string name="clear_all_tags">清空所有标签</string>
+    <string name="prompt_remove_all_tags">你确定要清空所有标签吗？</string>
+    <string name="player_key_word">玩家关键词</string>
+
+    <string-array name="duel_list_sort_by">
+        <item>按对局开始时间（默认）</item>
+        <item>按对局双方最高排名</item>
+        <item>按对局双方排名之和</item>
+        <item>按对局双方排名之差</item>
+        <item>按对局双方最高胜率</item>
+        <item>按对局双方胜率之和</item>
+        <item>按对局双方胜率之差</item>
+    </string-array>
+    <string-array name="orders">
+        <item>升序</item>
+        <item>降序</item>
+    </string-array>
 </resources>

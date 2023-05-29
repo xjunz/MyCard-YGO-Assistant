@@ -79,7 +79,9 @@ class AboutDialog : DialogFragment() {
 
     private fun UpdateInfo.formatUpdateInfo(): CharSequence {
         return R.string.html_updates_info.format(
-            versionShort, Formatter.formatFileSize(requireContext(), binary.size), changelog
+            versionShort,
+            Formatter.formatFileSize(requireContext(), binary.size),
+            changelog.replace("\n", "<br>")
         ).parseAsHtml()
     }
 

@@ -60,10 +60,10 @@ object DuelPushManager {
 
     private data class PendingPush(
         var duel: Duel,
-        val criteria: MutableList<DuelPushCriteria>,
+        val criteria: MutableList<DuelFilterCriteria>,
         var isSuffocated: Boolean = false
     ) {
-        inline val emergentCriteria: DuelPushCriteria?
+        inline val emergentCriteria: DuelFilterCriteria?
             get() {
                 return criteria.getOrNull(0)
             }
@@ -107,9 +107,9 @@ object DuelPushManager {
         }
     }
 
-    val ALL_CRITERIA get() = allCriteria as List<DuelPushCriteria> // exposed as immutable
+    val ALL_CRITERIA get() = allCriteria as List<DuelFilterCriteria> // exposed as immutable
 
-    private var allCriteria: MutableList<DuelPushCriteria> = mutableListOf()
+    private var allCriteria: MutableList<DuelFilterCriteria> = mutableListOf()
 
     private val sharedPrefs by lazy {
         app.sharedPrefsOf("push")
@@ -126,7 +126,7 @@ object DuelPushManager {
         withContext(Dispatchers.Default) {
             sharedPrefs.all.asSequence().filter { it.value is CharSequence }.forEach {
                 try {
-                    allCriteria.add(DuelPushCriteria.parseFromJson(it.value as String))
+                    allCriteria.add(DuelFilterCriteria.parseFromJson(it.value as String))
                 } catch (t: Throwable) {
                     errorLog("Remove an invalid criteria: ${it.value}.")
                     sharedPrefs.edit().remove(it.key).apply()
@@ -247,11 +247,11 @@ object DuelPushManager {
         }
     }
 
-    private fun DuelPushCriteria.persist() {
+    private fun DuelFilterCriteria.persist() {
         sharedPrefs.edit().putString(id, encodeToJson()).apply()
     }
 
-    fun DuelPushCriteria.update() {
+    fun DuelFilterCriteria.update() {
         markAsUpdated()
         val iterator = pendingPushes.iterator()
         // remove pushes that no longer match the criteria
@@ -286,12 +286,12 @@ object DuelPushManager {
         }
     }
 
-    fun DuelPushCriteria.addToAll() {
+    fun DuelFilterCriteria.addToAll() {
         allCriteria.add(ready())
         persist()
     }
 
-    fun DuelPushCriteria.removeFromAll() {
+    fun DuelFilterCriteria.removeFromAll() {
         allCriteria.remove(this)
         sharedPrefs.edit().remove(id).apply()
         val iterator = pendingPushes.iterator()
@@ -376,7 +376,10 @@ object DuelPushManager {
             .setWhen(duel.startTimestamp).build()
     }
 
-    private fun buildCheckedPushNotification(duel: Duel, criteria: DuelPushCriteria): Notification {
+    private fun buildCheckedPushNotification(
+        duel: Duel,
+        criteria: DuelFilterCriteria
+    ): Notification {
         val destTags = mutableSetOf<String>()
         criteria.onePlayerCriteria?.requiredTag?.let { destTags.add(it) }
         criteria.theOtherPlayerCriteria?.requiredTag?.let { destTags.add(it) }

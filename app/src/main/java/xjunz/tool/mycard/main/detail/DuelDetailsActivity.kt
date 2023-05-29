@@ -21,6 +21,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.WindowCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
+import androidx.core.view.postDelayed
 import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -197,6 +198,9 @@ class DuelDetailsActivity : AppCompatActivity() {
                 //TODO show retry button
             }
         }
+        binding.root.postDelayed(1000 * 60 * 3L) {
+            finish()
+        }
     }
 
     private fun bindPlayerNames() {
@@ -315,10 +319,12 @@ class DuelDetailsActivity : AppCompatActivity() {
             else R.string.format_duel_ended.format(
                 start, end, duel.duration.formatDurationMinSec()
             )
+
             isConnected -> if (duel.isStartTimeUnknown) null
             else R.string.format_duel_in_progress.format(
                 start, (System.currentTimeMillis() - duel.startTimestamp).formatDurationMinSec()
             )
+
             else -> if (duel.isStartTimeUnknown) R.string.duel_state_unknown.resText
             else R.string.format_duel_start.format(start)
         }

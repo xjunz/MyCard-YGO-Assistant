@@ -64,7 +64,7 @@
                 android:id="@+id/tv_timeliness_tip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_twotone_info_24"
+                android:drawableStart="@drawable/ic_outline_info_24"
                 android:drawablePadding="@dimen/spacing_unit"
                 android:drawableTint="?colorPrimary"
                 android:gravity="center|start"

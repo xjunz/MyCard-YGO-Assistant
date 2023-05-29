@@ -2,6 +2,9 @@ package xjunz.tool.mycard.model
 
 import androidx.annotation.IntDef
 import java.io.Serializable
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * @author xjunz 2022/2/24
@@ -21,6 +24,8 @@ data class Duel(
         const val PLAYER_2 = 1
         val PLAYERS = PLAYER_1..PLAYER_2
     }
+
+    var localCreateTimestamp: Long = System.currentTimeMillis()
 
     @Retention(AnnotationRetention.SOURCE)
     @IntDef(PLAYER_1, PLAYER_2)
@@ -74,6 +79,33 @@ data class Duel(
     inline val isStartTimeUnknown get() = startTimestamp == -1L
 
     inline val isEnded get() = endTimestamp != -1L
+
+    inline val comparablePlayer1Rank get() = if (player1!!.rank == 0) Int.MAX_VALUE shr 2 else player1!!.rank
+
+    inline val comparablePlayer2Rank get() = if (player2!!.rank == 0) Int.MAX_VALUE shr 2 else player2!!.rank
+
+    inline val comparableBestRank get() = min(comparablePlayer1Rank, comparablePlayer2Rank)
+
+    inline val comparableSumRank get() = comparablePlayer1Rank + comparablePlayer2Rank
+
+    inline val comparableDiffRank get() = abs(player1!!.rank - player2!!.rank)
+
+    inline val winRateBest
+        get() = max(
+            player1!!.athletic_wl_ratio,
+            player2!!.athletic_wl_ratio
+        )
+
+    inline val winRateSum
+        get() = player1!!.athletic_wl_ratio + player2!!.athletic_wl_ratio
+
+    inline val winRateDiff
+        get() = abs(player1!!.athletic_wl_ratio - player2!!.athletic_wl_ratio)
+
+    fun containsKeyword(keyword: String?): Boolean {
+        return keyword.isNullOrEmpty()
+                || (player1Name.contains(keyword) || player2Name.contains(keyword))
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

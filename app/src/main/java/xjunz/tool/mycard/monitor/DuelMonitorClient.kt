@@ -7,14 +7,31 @@ import android.os.Looper
 import android.os.Message
 import android.util.ArraySet
 import androidx.lifecycle.MutableLiveData
-import io.ktor.client.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.websocket.*
-import io.ktor.websocket.*
-import kotlinx.coroutines.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.BrowserUserAgent
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.plugins.websocket.wss
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
-import kotlinx.serialization.json.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.info.DuelRepository
@@ -62,6 +79,12 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
             eventObservers?.forEach {
                 it.onAllDuelCleared()
             }
+        }
+    }
+
+    fun notifyPlayersInfoLoadedFromService(duel: Duel) {
+        eventObservers?.forEach {
+            it.onPlayersInfoLoadedFromService(duel)
         }
     }
 
@@ -139,12 +162,15 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
                     is TimeoutCancellationException, is SocketTimeoutException,
                     is LongTimeNoFrameCancellationException
                     -> State.DISCONNECTED_TIMED_OUT
+
                     null, is CancellationException, is ClosedReceiveChannelException
                     -> State.DISCONNECTED_USER_REQUEST
+
                     is NetworkErrorException -> State.DISCONNECTED_NETWORK
                     is SocketException, is UnknownHostException ->
                         if (e.message?.contains("reset") == true) State.DISCONNECTED_REJECTED
                         else State.DISCONNECTED_SERVER
+
                     else -> State.DISCONNECTED_UNEXPECTED
                 }
             )
@@ -227,6 +253,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
 
                 eventObservers?.dispatchToMain { forEach { it.onInitialized(duelList) } }
             }
+
             EVENT_DELETE -> {
                 val id = root.getString(KEY_DATA)
                 val index = duelList.indexOfFirst { it.id == id }
@@ -237,6 +264,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
                 found.cancelPush()
                 eventObservers?.dispatchToMain { forEach { observer -> observer.onDuelDeleted(found) } }
             }
+
             EVENT_CREATE -> {
                 val data = root.getObject(KEY_DATA)
                 val duel = parseDuel(data, data.getArray(KEY_USERS))
@@ -244,6 +272,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
                 duelList.add(duel)
                 eventObservers?.dispatchToMain { forEach { it.onDuelCreated(duel) } }
             }
+
             else -> printLog("unknown event: $event")
         }
     }

@@ -7,16 +7,23 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.*
+import androidx.core.view.WindowCompat
+import androidx.core.view.doOnPreDraw
+import androidx.core.view.forEachIndexed
+import androidx.core.view.get
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
 import kotlinx.coroutines.Dispatchers
@@ -191,11 +198,21 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
                 }
+
                 mineAsHome -> adapter?.notifyItemMoved(2, 0)
 
                 else -> adapter?.notifyItemMoved(0, 2)
             }
         }
+        binding.viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val behavior =
+                    (binding.navigationBar.layoutParams as CoordinatorLayout.LayoutParams).behavior
+                            as HideBottomViewOnScrollBehavior<View>
+                behavior.slideUp(binding.navigationBar)
+            }
+        })
     }
 
     override fun onDestroy() {

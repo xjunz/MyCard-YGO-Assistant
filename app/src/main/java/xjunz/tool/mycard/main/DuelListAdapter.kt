@@ -34,7 +34,9 @@ import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resText
 import xjunz.tool.mycard.ktx.resolveAttribute
 import xjunz.tool.mycard.ktx.setTooltipCompat
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.detail.DuelDetailsActivity
+import xjunz.tool.mycard.main.filter.DuelListFilterCriteria
 import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.monitor.DuelMonitorEventObserver
@@ -50,7 +52,8 @@ import java.util.Collections
  * Note: this adapter must be attached to the [RecyclerView] after the service
  * is bound.
  */
-class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
+class DuelListAdapter(private val mvm: MainViewModel) :
+    RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
     DuelMonitorEventObserver {
 
     object Action {
@@ -127,7 +130,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         super.onAttachedToRecyclerView(recyclerView)
         host = recyclerView
         viewModel.monitorService.observeEventSticky(this)
-        viewModel.hasDataShown.value = duelList.isNotEmpty()
+        //viewModel.hasDataShown.value = duelList.isNotEmpty()
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 isScrolling = newState != RecyclerView.SCROLL_STATE_IDLE
@@ -188,11 +191,28 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
 
     /******************************* Bind View Holder **************************************/
 
-    private fun bindPlayerRanksFromRemote(duel: Duel) {
+    private fun bindPlayersInfoFromRemote(duel: Duel, fromScroll: Boolean) {
         lifecycleScope.launch {
             if (!viewModel.playerInfoLoader.queryAllPlayerInfo(duel)) return@launch
             val index = duelList.indexOf(duel)
-            if (index != -1) notifyItemChanged(index, Payload.RANK)
+            if (fromScroll) {
+                notifyItemChanged(index, Payload.RANK)
+            } else {
+                notifyPlayersInfoLoaded(index, duel)
+            }
+        }
+    }
+
+    private fun notifyPlayersInfoLoaded(index: Int, duel: Duel) {
+        if (index >= 0) {
+            duelList.removeAt(index)
+            val insertion = -(Collections.binarySearch(duelList, duel, comparator) + 1)
+            if (insertion >= 0) {
+                duelList.add(insertion, duel)
+                notifyItemMoved(index, insertion)
+                notifyItemChanged(insertion, Payload.RANK)
+                viewModel.hasDataShown.value = true
+            }
         }
     }
 
@@ -265,6 +285,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
                         bindPlayerNames(binding, duel)
                         bindPlayerRanks(binding, duel)
                     }
+
                     Payload.TAGS -> bindTags(binding, duel)
                 }
             }
@@ -286,7 +307,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         bindCheckedStates(binding, duel)
         bindPlayerRanks(binding, duel)
         if (!isScrolling && !isDisconnected && !duel.areAllPlayersLoaded) {
-            bindPlayerRanksFromRemote(duel)
+            bindPlayersInfoFromRemote(duel, false)
         }
         if (firstStage) {
             val easeIn = AnimationUtils.loadAnimation(context, R.anim.mtrl_item_ease_enter)
@@ -321,19 +342,60 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         val old = ArrayList(duelList)
         duelList.clear()
         duelList.addAll(list)
+        var isEmptyAfterFiltered = duelList.isNotEmpty()
+        filterDuelList(duelList)
+        isEmptyAfterFiltered = isEmptyAfterFiltered && duelList.isEmpty()
         // sort the list to pin duels with followed players if needed
-        if (Configs.shouldPinFollowedDuels) duelList.sortWith(pinComparator)
+        duelList.sortWith(comparator)
         if (old.isEmpty()) {
             notifyItemRangeInserted(0, duelList.size)
         } else {
             diffList(old)
         }
         viewModel.hasDataShown.value = duelList.isNotEmpty()
+        if (isEmptyAfterFiltered) {
+            toast(R.string.tip_no_duel_matches_filter)
+        }
     }
 
-    private val pinComparator = Comparator<Duel> { o1, o2 ->
-        val ret = -o1.isFollowed().compareTo(o2.isFollowed())
-        if (ret == 0) o1.compareTo(o2) else ret
+    private val comparator = Comparator<Duel> { o1, o2 ->
+        var c = 0
+        if (Configs.shouldPinFollowedDuels) {
+            c = -o1.isFollowed().compareTo(o2.isFollowed())
+        }
+        if (c == 0) {
+            c = -o1.areAllPlayersLoaded.compareTo(o2.areAllPlayersLoaded)
+            if (c == 0) {
+                if (o1.areAllPlayersLoaded && o2.areAllPlayersLoaded) {
+                    val filter = Configs.duelListFilter
+                    c = when (filter.sortBy) {
+                        DuelListFilterCriteria.SORT_BY_RANK_BEST ->
+                            o1.comparableBestRank.compareTo(o2.comparableBestRank)
+
+                        DuelListFilterCriteria.SORT_BY_RANK_SUM ->
+                            o1.comparableSumRank.compareTo(o2.comparableSumRank)
+
+                        DuelListFilterCriteria.SORT_BY_RANK_DIFF ->
+                            o1.comparableDiffRank.compareTo(o2.comparableDiffRank)
+
+                        DuelListFilterCriteria.SORT_BY_WIN_RATE_BEST ->
+                            o1.winRateBest.compareTo(o2.winRateBest)
+
+                        DuelListFilterCriteria.SORT_BY_WIN_RATE_SUM ->
+                            o1.winRateSum.compareTo(o2.winRateSum)
+
+                        DuelListFilterCriteria.SORT_BY_WIN_RATE_DIFF ->
+                            o1.winRateDiff.compareTo(o2.winRateDiff)
+
+                        else -> o1.ordinal.compareTo(o2.ordinal)
+                    }
+                    if (!filter.isAscending) c = -c
+                } else {
+                    c = o1.ordinal.compareTo(o2.ordinal)
+                }
+            }
+        }
+        return@Comparator c
     }
 
     override fun onDuelDeleted(deleted: Duel) {
@@ -347,8 +409,11 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
     }
 
     override fun onDuelCreated(created: Duel) {
+        if (Configs.duelListFilter.duelCriteria?.checkConsideringDelay(created) == false) {
+            return
+        }
         if (Configs.shouldPinFollowedDuels && created.isFollowed()) {
-            val insertion = -(Collections.binarySearch(duelList, created, pinComparator) + 1)
+            val insertion = -(Collections.binarySearch(duelList, created, comparator) + 1)
             check(insertion >= 0)
             duelList.add(insertion, created)
             notifyItemInserted(insertion)
@@ -357,6 +422,11 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
             notifyItemInserted(duelList.size - 1)
         }
         viewModel.hasDataShown.value = true
+    }
+
+    override fun onPlayersInfoLoadedFromService(duel: Duel) {
+        val index = duelList.indexOf(duel)
+        notifyPlayersInfoLoaded(index, duel)
     }
 
     override fun onAllDuelCleared() {
@@ -384,7 +454,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
 
                         override val target: View = itemView
 
-                        override fun onIdle() = bindPlayerRanksFromRemote(duel)
+                        override fun onIdle() = bindPlayersInfoFromRemote(duel, true)
 
                         override fun shouldStop() = !target.isAttachedToWindow
                     })
@@ -399,7 +469,7 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
         if (Configs.shouldPinFollowedDuels) {
             val toPin = duel.isFollowed()
             duelList.removeAt(position)
-            val insertion = -(Collections.binarySearch(duelList, duel, pinComparator) + 1)
+            val insertion = -(Collections.binarySearch(duelList, duel, comparator) + 1)
             // check contract
             check(if (toPin) insertion <= position else insertion >= position)
             duelList.add(insertion, duel)
@@ -433,18 +503,46 @@ class DuelListAdapter : RecyclerView.Adapter<DuelListAdapter.DuelViewHolder>(),
                         errorLog("Cannot find duel: $id in duel list. Is it removed just now?")
                     }
                 }
+
                 Action.REFRESH_ALL -> notifyItemRangeChanged(
                     0, duelList.size,
                     intent.getIntExtra(Extra.PAYLOAD, Payload.ALL)
                 )
+
                 Action.REFRESH_ORDER -> {
                     if (Configs.shouldPinFollowedDuels) {
-                        duelList.sortWith(pinComparator)
+                        duelList.sortWith(comparator)
                     } else {
                         duelList.sort()
                     }
                     notifyItemRangeChanged(0, duelList.size, Payload.FOLLOWING_STATE)
                 }
+            }
+        }
+    }
+
+    private fun filterDuelList(list: MutableList<Duel>) {
+        Configs.duelListFilter.duelCriteria?.let {
+            list.removeAll { duel ->
+                !duel.containsKeyword(Configs.duelListFilter.keyword)
+                        || !it.checkConsideringDelay(duel)
+            }
+        }
+    }
+
+    fun notifyFilterChanged() {
+        viewModel.binder?.let {
+            val old = ArrayList(duelList)
+            duelList.clear()
+            duelList.addAll(it.duelList)
+            var isEmptyAfterFiltered = duelList.isNotEmpty()
+            filterDuelList(duelList)
+            isEmptyAfterFiltered = isEmptyAfterFiltered && duelList.isEmpty()
+            duelList.sortWith(comparator)
+            diffList(old)
+            viewModel.hasDataShown.value = duelList.isNotEmpty()
+            if (isEmptyAfterFiltered) {
+                toast(R.string.tip_no_duel_matches_filter)
             }
         }
     }

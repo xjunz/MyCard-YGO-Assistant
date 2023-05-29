@@ -19,9 +19,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.main.account.AccountManager
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.model.Duel.PlayerNumber
 import xjunz.tool.mycard.model.History
@@ -41,11 +41,7 @@ class PlayerInfoLoaderClient : Closeable {
                 socketTimeoutMillis = 5_000
             }
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(Configs.LenientJson)
             }
             install(HttpRequestRetry) {
                 maxRetries = 2

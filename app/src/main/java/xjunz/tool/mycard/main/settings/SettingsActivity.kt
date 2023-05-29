@@ -61,6 +61,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.btnManageFollowed.setOnClickListener {
             FollowedPlayerManagerDialog().show(supportFragmentManager, "followed-manager")
         }
+        binding.btnClose.setOnClickListener {
+            finishAfterTransition()
+        }
     }
 
     private fun initTransitions() {

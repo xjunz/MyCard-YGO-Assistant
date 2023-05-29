@@ -11,13 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_dp_milestone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="16dp">
 
         <TextView
             android:id="@+id/tv_rank"
@@ -44,17 +44,17 @@
         android:layout_marginStart="@dimen/dp_12"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:maxLines="1"
+        android:maxLines="2"
         android:textColor="?android:textColorPrimary"
         android:textSize="17sp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_rank_container"
         app:layout_constraintEnd_toStartOf="@+id/tv_tag"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/ll_rank_container"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem/random" />
+        app:layout_constraintTop_toTopOf="@+id/ll_rank_container"
+        tools:text="@tools:sample/lorem" />
 
     <TextView
         android:id="@+id/tv_tag"
@@ -85,9 +85,9 @@
         android:background="?selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
         android:src="@drawable/selector_ib_icon_star_player"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_rank_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ll_rank_container"
         app:tint="@color/color_icon_star_tint"
         tools:ignore="ContentDescription" />
 
@@ -106,4 +106,33 @@
         android:layout_marginHorizontal="1dp"
         android:background="?colorSurface"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider_milestone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:dividerColor="@color/material_on_surface_stroke"
+        app:layout_constraintBottom_toBottomOf="@id/tv_dp_milestone"
+        app:layout_constraintTop_toTopOf="@id/tv_dp_milestone" />
+
+    <TextView
+        android:id="@+id/tv_dp_milestone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_dp_milestone"
+        android:gravity="center"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        app:drawableStartCompat="@drawable/baseline_flag_24"
+        app:drawableTint="?colorPrimary"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@+id/mask_bott"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_rank_container"
+        tools:text="1400DP" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,10 +26,11 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/configurations"
-                android:textAppearance="?textAppearanceDisplaySmall"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textColor="?colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,11 +38,21 @@
                 android:id="@+id/sw_disable_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/bg_outlined_cornered_padding_box"
                 android:text="@string/disable_notifications"
                 android:theme="@style/ThemeOverlay.Material3.PrimaryContainerOnSurface"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_close"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_baseline_close_24"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/sw_pin_followed_duels"
@@ -51,8 +62,7 @@
                 android:background="@drawable/bg_outlined_cornered_padding_box"
                 android:text="@string/pin_duel_with_following"
                 android:theme="@style/ThemeOverlay.Material3.PrimaryContainerOnSurface"
-                app:layout_constraintTop_toBottomOf="@id/sw_disable_notifications"
-                tools:layout_editor_absoluteX="16dp" />
+                app:layout_constraintTop_toBottomOf="@id/sw_disable_notifications" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/btg_manager"
@@ -83,11 +93,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_unit"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_outlined_cornered_padding_box"
                 app:cardCornerRadius="@dimen/corner_normal"
                 app:contentPaddingLeft="@dimen/spacing_normal"
                 app:contentPaddingRight="@dimen/spacing_normal"
-                app:layout_constraintTop_toBottomOf="@id/btg_manager">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btg_manager"
+                tools:layout_editor_absoluteX="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"

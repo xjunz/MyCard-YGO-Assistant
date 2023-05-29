@@ -131,6 +131,17 @@ object PlayerInfoManager {
         DuelPushManager.removeUnmatchedPendingPushes()
     }
 
+    fun unfollowAll() {
+        followedSp.edit().remove(SP_KEY_FOLLOWED_PLAYERS).apply()
+        followed.clear()
+        DuelPushManager.removeUnmatchedPendingPushes()
+    }
+
+    fun clearAllTags() {
+        tagSp.edit().clear().apply()
+        tagCache.evictAll()
+    }
+
     fun compatFollowAll(set: Set<String>) {
         followedSp.edit().putStringSet(SP_KEY_FOLLOWED_PLAYERS, set).apply()
     }

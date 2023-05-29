@@ -18,17 +18,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.createBalloon
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.FragmentDuelBinding
 import xjunz.tool.mycard.ktx.applySystemInsets
+import xjunz.tool.mycard.ktx.asStateList
 import xjunz.tool.mycard.ktx.beginDelayedTransition
 import xjunz.tool.mycard.ktx.dp
 import xjunz.tool.mycard.ktx.format
 import xjunz.tool.mycard.ktx.formatToDate
 import xjunz.tool.mycard.ktx.launchSharedElementActivity
 import xjunz.tool.mycard.ktx.lazyActivityViewModel
+import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.ktx.toast
+import xjunz.tool.mycard.main.filter.DuelListFilterDialog
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.main.settings.SettingsActivity
 import xjunz.tool.mycard.monitor.State
 
@@ -39,7 +50,7 @@ class DuelListFragment : Fragment() {
 
     private val viewModel by lazyActivityViewModel<MainViewModel>()
 
-    private val duelAdapter by lazy { DuelListAdapter() }
+    private val duelAdapter by lazy { DuelListAdapter(viewModel) }
 
     private lateinit var binding: FragmentDuelBinding
 
@@ -93,6 +104,20 @@ class DuelListFragment : Fragment() {
                 MaterialFadeThrough(), target = binding.connectivityPrompt
             )
             binding.connectivityPrompt.isVisible = !it
+            if (Configs.hasFilterApplied) {
+                if (!it && viewModel.isServiceBound()
+                    && viewModel.monitorState.value == State.CONNECTED
+                ) {
+                    binding.btnFilter.iconTint =
+                        requireContext().resolveAttribute(com.google.android.material.R.attr.colorError).resColor.asStateList
+                } else {
+                    binding.btnFilter.iconTint =
+                        requireContext().resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor.asStateList
+                }
+            } else {
+                binding.btnFilter.iconTint =
+                    requireContext().resolveAttribute(android.R.attr.textColorTertiary).resColor.asStateList
+            }
         }
         binding.btnClearAll.setOnClickListener {
             viewModel.monitorService.clearAllIfOutOfDate()
@@ -107,6 +132,11 @@ class DuelListFragment : Fragment() {
                 viewModel.monitorState.observe(viewLifecycleOwner, promptObserver)
             }
         }
+        viewModel.onDuelListFilterChanged.observe(viewLifecycleOwner) {
+            if (it) {
+                duelAdapter.notifyFilterChanged()
+            }
+        }
         val checker = object : Runnable {
             override fun run() {
                 if (shouldShowHeader && System.currentTimeMillis()
@@ -119,6 +149,17 @@ class DuelListFragment : Fragment() {
             }
         }
         headerChecker.post(checker)
+        binding.tvTitle.setOnClickListener {
+            binding.btnFilter.performClick()
+        }
+        binding.btnFilter.setOnClickListener {
+            DuelListFilterDialog().show(parentFragmentManager, "filter")
+        }
+        binding.btnFilter.setTooltipCompat(R.string.filter_and_sort.resText)
+        binding.btnFilter.setOnLongClickListener {
+            duelAdapter.notifyFilterChanged()
+            return@setOnLongClickListener true
+        }
     }
 
     private val promptObserver = Observer<Int> {
@@ -140,6 +181,8 @@ class DuelListFragment : Fragment() {
         }
         if (it in State.DISCONNECTED_ERROR && viewModel.hasDataShown.value == true) toast(prompt)
     }
+
+    private var balloon: Balloon? = null
 
     private val controllerObserver = Observer<Int> { state ->
         binding.topBar.beginDelayedTransition()
@@ -172,6 +215,31 @@ class DuelListFragment : Fragment() {
                 }
 
                 State.CONNECTED -> {
+                    if (Configs.shouldShowFilterBalloon) {
+                        if (balloon != null) {
+                            balloon?.dismiss()
+                        } else {
+                            balloon = createBalloon(requireContext()) {
+                                setWidthRatio(.8f)
+                                setHeight(BalloonSizeSpec.WRAP)
+                                setTextResource(R.string.tip_filter_and_sort)
+                                setTextSize(13f)
+                                setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                                setArrowSize(10)
+                                setArrowPosition(0.5f)
+                                setPadding(12)
+                                setCornerRadius(8f)
+                                setBackgroundColor(requireContext().resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
+                                setBalloonAnimation(BalloonAnimation.ELASTIC)
+                                setLifecycleOwner(viewLifecycleOwner)
+                                build()
+                                setOnBalloonDismissListener {
+                                    Configs.shouldShowFilterBalloon = false
+                                }
+                            }
+                            balloon?.showAlignBottom(binding.btnFilter)
+                        }
+                    }
                     setOnClickListener {
                         MaterialAlertDialogBuilder(context).setTitle(R.string.prompt)
                             .setMessage(R.string.tip_stop_service)

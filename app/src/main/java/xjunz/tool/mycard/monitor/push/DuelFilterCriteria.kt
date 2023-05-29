@@ -7,9 +7,10 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.info.PlayerInfoManager
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.Duel
 import xjunz.tool.mycard.model.Player
-import xjunz.tool.mycard.monitor.push.DuelPushCriteria.PlayerCriteria
+import xjunz.tool.mycard.monitor.push.DuelFilterCriteria.PlayerCriteria
 
 /**
  * Contract: If any [PlayerCriteria] is not [limited][PlayerCriteria.isLimited], it should be
@@ -18,7 +19,7 @@ import xjunz.tool.mycard.monitor.push.DuelPushCriteria.PlayerCriteria
  * @author xjunz 2022/2/24
  */
 @Serializable
-data class DuelPushCriteria(
+data class DuelFilterCriteria(
     @IntRange(from = 0)
     var pushDelayInMinute: Int = 0,
     var onePlayerCriteria: PlayerCriteria? = null,// one player criteria should not equal to..
@@ -32,10 +33,17 @@ data class DuelPushCriteria(
      * Call this to indicate that this instance is ready for persist storage. Hence, we will assign an id
      * to it.
      */
-    fun ready(): DuelPushCriteria {
+    fun ready(): DuelFilterCriteria {
         check(id == null)
         id = hashCode().toString()
         return this
+    }
+
+    fun deepClone(): DuelFilterCriteria {
+        return copy(
+            onePlayerCriteria = onePlayerCriteria?.copy(),
+            theOtherPlayerCriteria = theOtherPlayerCriteria?.copy()
+        )
     }
 
     @Transient
@@ -45,8 +53,8 @@ data class DuelPushCriteria(
         updated = true
     }
 
-    fun getPlayerCriteria(@IntRange(from = 0, to = 1) index: Int) =
-        if (index == 0) onePlayerCriteria else theOtherPlayerCriteria
+    fun getPlayerCriteria(@Duel.PlayerNumber which: Int) =
+        if (which == 0) onePlayerCriteria else theOtherPlayerCriteria
 
     @Transient
     var formattedString: String? = null
@@ -68,6 +76,7 @@ data class DuelPushCriteria(
 
         companion object {
             const val NO_LIMIT = -1
+            private val EMPTY = PlayerCriteria()
         }
 
         inline val isLimited get() = hashCode() != 0
@@ -95,15 +104,16 @@ data class DuelPushCriteria(
         }
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
+            val theOther = other ?: EMPTY
+            if (this === theOther) return true
+            if (javaClass != theOther.javaClass) return false
 
-            other as PlayerCriteria
+            theOther as PlayerCriteria
 
-            if (rankStart != other.rankStart) return false
-            if (rankEnd != other.rankEnd) return false
-            if (requireFollowed != other.requireFollowed) return false
-            if (requiredTag != other.requiredTag) return false
+            if (rankStart != theOther.rankStart) return false
+            if (rankEnd != theOther.rankEnd) return false
+            if (requireFollowed != theOther.requireFollowed) return false
+            if (requiredTag != theOther.requiredTag) return false
             return true
         }
 
@@ -119,8 +129,9 @@ data class DuelPushCriteria(
     fun checkConsideringDelay(duel: Duel): Boolean {
         if (!check(duel)) return false
         if (pushDelayInMinute != 0) {
-            if (duel.startTimestamp == -1L) return false
-            if (System.currentTimeMillis() - duel.startTimestamp < pushDelayInMinute * 60_000) return false
+            val timestamp =
+                if (duel.startTimestamp == -1L) duel.localCreateTimestamp else duel.startTimestamp
+            if (System.currentTimeMillis() - timestamp < pushDelayInMinute * 60_000) return false
         }
         return true
     }
@@ -146,44 +157,44 @@ data class DuelPushCriteria(
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        val theOther = other ?: EMPTY
+        if (this === theOther) return true
+        if (theOther !is DuelFilterCriteria) return false
 
-        other as DuelPushCriteria
-        if (pushDelayInMinute != other.pushDelayInMinute) return false
-        if (onePlayerCriteria == other.onePlayerCriteria
-            && theOtherPlayerCriteria == other.theOtherPlayerCriteria
-        ) return true
-        if (onePlayerCriteria == other.theOtherPlayerCriteria &&
-            theOtherPlayerCriteria == other.onePlayerCriteria
-        ) return true
-        return false
+        if (pushDelayInMinute != theOther.pushDelayInMinute) return false
+        if (onePlayerCriteria != theOther.onePlayerCriteria) return false
+        if (theOtherPlayerCriteria != theOther.theOtherPlayerCriteria) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = 31 + onePlayerCriteria.hashCode()
-        result = 31 * result + theOtherPlayerCriteria.hashCode()
+        var result = pushDelayInMinute
+        result = 31 * result + (onePlayerCriteria?.hashCode() ?: 0)
+        result = 31 * result + (theOtherPlayerCriteria?.hashCode() ?: 0)
         return result
     }
 
 
     companion object {
 
-        fun parseFromJson(json: String): DuelPushCriteria {
-            return Json.decodeFromString(json)
+        fun parseFromJson(json: String): DuelFilterCriteria {
+            return Configs.LenientJson.decodeFromString(json)
         }
+
+        private val EMPTY = DuelFilterCriteria()
 
         val PRESET_CRITERIA_ARRAY by lazy {
             arrayOf(
-                DuelPushCriteria(
+                DuelFilterCriteria(
                     onePlayerCriteria = PlayerCriteria(requireFollowed = true),
                     theOtherPlayerCriteria = null
                 ),
-                DuelPushCriteria(
+                DuelFilterCriteria(
                     onePlayerCriteria = PlayerCriteria(1, 100),
                     theOtherPlayerCriteria = PlayerCriteria(1, 100)
                 ),
-                DuelPushCriteria(
+                DuelFilterCriteria(
                     onePlayerCriteria = PlayerCriteria(1, 2000),
                     theOtherPlayerCriteria = PlayerCriteria(1, 2000),
                     pushDelayInMinute = 30

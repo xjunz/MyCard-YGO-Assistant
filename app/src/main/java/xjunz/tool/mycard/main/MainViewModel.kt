@@ -33,8 +33,15 @@ class MainViewModel : ViewModel() {
 
     val onPlayerInfoChanged = MutableLiveData<String?>()
 
+    val onDuelListFilterChanged = MutableLiveData(false)
+
     fun notifyPlayerInfoChanged(name: String) {
         onPlayerInfoChanged.value = name
         onPlayerInfoChanged.postValue(null)
+    }
+
+    fun notifyDuelListFilterChanged() {
+        onDuelListFilterChanged.value = true
+        onDuelListFilterChanged.postValue(false)
     }
 }

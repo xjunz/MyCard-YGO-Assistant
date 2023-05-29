@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/transparent"
@@ -11,6 +12,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="et_rank_end,et_rank_start,til_tag,sw_require_followed_player,view" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_reset"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_twotone_replay_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toStartOf="@id/ib_expand"
+            app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ib_expand"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:icon="@drawable/selector_icon_criteria_expand_or_collapse"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title" />
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -18,23 +46,28 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="?colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/et_rank_start"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginBottom="16dp"
+            tools:text="一方玩家的条件" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_rank_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_unit"
+            android:layout_marginTop="16dp"
             android:hint="@string/rank_lower_bound"
             android:inputType="numberDecimal"
             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:layout_constraintBottom_toTopOf="@+id/til_tag"
             app:layout_constraintEnd_toStartOf="@id/et_rank_end"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_rank_end"
@@ -47,7 +80,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/et_rank_start"
-            app:layout_constraintTop_toTopOf="@id/et_rank_start" />
+            app:layout_constraintTop_toTopOf="@id/et_rank_start"
+            tools:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_tag"
@@ -64,17 +98,19 @@
                 android:id="@+id/menu_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
+            android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:background="?colorPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@id/sw_require_followed_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sw_require_followed_player" />
+            app:layout_constraintTop_toTopOf="@id/sw_require_followed_player"
+            tools:visibility="gone" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/sw_require_followed_player"
@@ -85,6 +121,7 @@
             android:theme="@style/ThemeOverlay.Material3.PrimaryContainerOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_tag" />
+            app:layout_constraintTop_toBottomOf="@id/til_tag"
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

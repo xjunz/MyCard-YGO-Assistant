@@ -1,6 +1,7 @@
 package xjunz.tool.mycard.main
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
@@ -34,7 +35,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.InputDialog
@@ -54,7 +54,9 @@ import xjunz.tool.mycard.ktx.resText
 import xjunz.tool.mycard.ktx.resolveAttribute
 import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.ktx.toast
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.LeaderboardPlayer
+import java.util.Collections
 
 class LeaderboardFragment : Fragment() {
 
@@ -62,15 +64,15 @@ class LeaderboardFragment : Fragment() {
 
     private lateinit var binding: FragmentLeaderboardBinding
 
+    private val sharedPrefs by lazy {
+        requireActivity().getSharedPreferences("players", Context.MODE_PRIVATE)
+    }
+
     private val client = HttpClient(OkHttp) {
         BrowserUserAgent()
         expectSuccess = false
         install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            })
+            json(Configs.LenientJson)
         }
     }
 
@@ -183,13 +185,23 @@ class LeaderboardFragment : Fragment() {
             binding.cvTitle.alpha = alpha
         }
         binding.fabSearch.setOnClickListener {
+            val spKey = "search_history"
+            val history = sharedPrefs.getStringSet(spKey, Collections.emptySet())!!.toList()
             InputDialog().apply {
                 setTitle(R.string.search_for_player.resText)
                 setHint(R.string.input_player_name.resText)
                 setPositiveButton {
-                    PlayerInfoDialog().setPlayerName(it).show(parentFragmentManager, "player-info")
+                    PlayerInfoDialog().setPlayerName(it)
+                        .doOnInfoLoaded { name ->
+                            val newList = (history + Collections.singleton(name)).toMutableList()
+                            if (history.size > 10) {
+                                newList.removeAt(0)
+                            }
+                            sharedPrefs.edit().putStringSet(spKey, newList.toSet()).apply()
+                        }.show(parentFragmentManager, "player-info")
                     return@setPositiveButton null
                 }
+                setDropDownData(history)
             }.show(parentFragmentManager, "search-player")
         }
         viewModel.onPlayerInfoChanged.observe(viewLifecycleOwner) { name ->
@@ -287,6 +299,21 @@ class LeaderboardFragment : Fragment() {
             }
         }
 
+        private fun bindMilestone(binding: ItemLeaderboardBinding, index: Int) {
+            val next = leaderboardPlayers.getOrNull(index + 1)?.pt ?: Float.MAX_VALUE
+            val current = leaderboardPlayers[index].pt
+            val milestone = (current / 100).toInt() * 100
+            if (next < milestone) {
+                binding.tvDpMilestone.isVisible = true
+                binding.dividerMilestone.isVisible = true
+                binding.maskBott.isVisible = true
+                binding.tvDpMilestone.text = R.string.format_dp.format(milestone)
+            } else {
+                binding.tvDpMilestone.isVisible = false
+                binding.dividerMilestone.isVisible = false
+            }
+        }
+
         override fun onBindViewHolder(
             holder: ViewHolder, position: Int, payloads: MutableList<Any>
         ) {
@@ -317,7 +344,8 @@ class LeaderboardFragment : Fragment() {
                         0 -> R.color.color_champion.resColor
                         1 -> R.color.color_second.resColor
                         2 -> R.color.color_third.resColor
-                        else -> requireContext().resolveAttribute(android.R.attr.textColorPrimary).resColor
+                        else -> tvRank.currentTextColor
+                        //   else -> requireContext().resolveAttribute(android.R.attr.textColorPrimary).resColor
                     }
                 )
                 when (position) {
@@ -339,22 +367,16 @@ class LeaderboardFragment : Fragment() {
                 setIbStarTooltip(ibStar)
             }
             holder.binding.maskTop.isVisible = position != 0
-            holder.binding.maskBott.isVisible =
-                position != itemCount - 1 && position != 2 && (position + 1) % 10 != 0
+            holder.binding.maskBott.isVisible = position != itemCount - 1
             when (position) {
-                0 -> {
-                    holder.setCorner(leftTop = 16.dpFloat, rightTop = 16.dpFloat)
-                }
+                0 -> holder.setCorner(leftTop = 16.dpFloat, rightTop = 16.dpFloat)
 
-                itemCount - 1 -> {
-                    holder.setCorner(leftBottom = 16.dpFloat, rightBottom = 16.dpFloat)
-                }
+                itemCount - 1 -> holder.setCorner(leftBottom = 16.dpFloat, rightBottom = 16.dpFloat)
 
-                else -> {
-                    holder.setCorner()
-                }
+                else -> holder.setCorner()
             }
             bindTags(holder.binding, player.name)
+            bindMilestone(holder.binding, position)
             if (firstStage) {
                 val easeIn =
                     AnimationUtils.loadAnimation(requireContext(), R.anim.mtrl_item_ease_enter)

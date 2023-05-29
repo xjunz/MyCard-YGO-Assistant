@@ -37,10 +37,17 @@ class PlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlayerInfoBindin
 
         lateinit var playerName: String
 
+        var onInfoLoaded: ((name: String) -> Unit)? = null
+
         fun loadPlayerInfo(name: String) {
             viewModelScope.launch {
                 player.value = withContext(Dispatchers.IO) {
                     client.queryPlayerInfo(name)
+                }
+                player.value?.let {
+                    if (it.athletic_all > 0) {
+                        onInfoLoaded?.invoke(playerName)
+                    }
                 }
             }
         }
@@ -65,6 +72,15 @@ class PlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlayerInfoBindin
             lifecycle.withCreated {
                 viewModel.playerName = name
                 viewModel.loadPlayerInfo(name)
+            }
+        }
+        return this
+    }
+
+    fun doOnInfoLoaded(block: (String) -> Unit): PlayerInfoDialog {
+        lifecycleScope.launch {
+            lifecycle.withCreated {
+                viewModel.onInfoLoaded = block
             }
         }
         return this

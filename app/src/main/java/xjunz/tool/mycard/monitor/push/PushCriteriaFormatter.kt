@@ -7,13 +7,13 @@ import xjunz.tool.mycard.ktx.resStr
 
 object PushCriteriaFormatter {
 
-    private const val NL = DuelPushCriteria.PlayerCriteria.NO_LIMIT
+    private const val NL = DuelFilterCriteria.PlayerCriteria.NO_LIMIT
 
     private val oneTheOther = R.array.one_the_other.resArray
 
     private val SEPARATOR = R.string.criteria_separator.resStr
 
-    fun format(criteria: DuelPushCriteria): String {
+    fun format(criteria: DuelFilterCriteria): String {
         val all = listOf(criteria.onePlayerCriteria, criteria.theOtherPlayerCriteria)
         val sb = StringBuilder()
         val nonNullCount = all.count { it != null }

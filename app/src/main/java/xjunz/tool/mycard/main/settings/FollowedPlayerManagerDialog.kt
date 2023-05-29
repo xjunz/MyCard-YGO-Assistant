@@ -20,6 +20,10 @@ class FollowedPlayerManagerDialog : BaseBottomSheetDialog<DialogFollowedPlayerMa
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogStyle)
     }
 
+    private val BUNDLE_KEY_SHOW_UNFOLLOW_ALL_DIALOG = "bundle.key.SHOW_UNFOLLOW_ALL_DIALOG"
+
+    private var unfollowAllConfirmationDialog: Dialog? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState).also {
             it.setContentView(binding.root)
@@ -32,6 +36,14 @@ class FollowedPlayerManagerDialog : BaseBottomSheetDialog<DialogFollowedPlayerMa
 
     private val playerAdapter by lazy {
         DropdownArrayAdapter(requireContext(), followedPlayers)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(
+            BUNDLE_KEY_SHOW_UNFOLLOW_ALL_DIALOG,
+            unfollowAllConfirmationDialog?.isShowing == true
+        )
     }
 
     override fun onDialogCreated(dialog: Dialog) {
@@ -67,5 +79,25 @@ class FollowedPlayerManagerDialog : BaseBottomSheetDialog<DialogFollowedPlayerMa
                 binding.menuFollowedPlayer.text = null
             }
         }
+        binding.btnUnfollowAll.setOnClickListener {
+            showUnfollowAllConfirmationDialog()
+        }
+    }
+
+    override fun onDialogCreated(dialog: Dialog, savedInstanceState: Bundle?) {
+        if (savedInstanceState?.getBoolean(BUNDLE_KEY_SHOW_UNFOLLOW_ALL_DIALOG) == true) {
+            showUnfollowAllConfirmationDialog()
+        }
+    }
+
+
+    private fun showUnfollowAllConfirmationDialog() {
+        unfollowAllConfirmationDialog =
+            requireContext().showSimplePromptDialog(msg = R.string.prompt_unfollow_all_players) {
+                PlayerInfoManager.unfollowAll()
+                followedPlayers.clear()
+                playerAdapter.notifyDataSetChanged()
+                DuelListAdapter.broadcastOrderChanged()
+            }
     }
 }

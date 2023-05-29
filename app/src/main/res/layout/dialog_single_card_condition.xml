@@ -179,8 +179,7 @@
         android:hint="@string/optional_remark"
         android:labelFor="@id/et_remark"
         app:layout_constraintTop_toBottomOf="@id/container_any_in_collection"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Large"
-        tools:layout_editor_absoluteX="24dp">
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Large">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_remark"

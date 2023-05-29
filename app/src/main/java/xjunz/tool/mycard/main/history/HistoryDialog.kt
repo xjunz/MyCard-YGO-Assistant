@@ -2,7 +2,6 @@ package xjunz.tool.mycard.main.history
 
 import android.app.Dialog
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -40,6 +39,8 @@ import xjunz.tool.mycard.databinding.DialogHistoryBinding
 import xjunz.tool.mycard.info.PlayerInfoLoaderClient
 import xjunz.tool.mycard.ktx.beginDelayedTransition
 import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.formatDurationMinSec
+import xjunz.tool.mycard.ktx.formatToDate
 import xjunz.tool.mycard.ktx.lazyViewModel
 import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resStr
@@ -110,6 +111,9 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
     override fun onDialogCreated(dialog: Dialog) {
         initChartView()
         viewModel.loadHistory()
+        binding.ibClose.setOnClickListener {
+            dismiss()
+        }
         binding.tvPlayerName.text = buildSpannedString {
             append(
                 viewModel.playerName,
@@ -166,9 +170,12 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                         append(R.string.first_win.resText)
                     }
                 }
+                val start = TimeParser.parseTime(start_time)
+                val end = TimeParser.parseTime(end_time)
                 binding.tvTime.text = R.string.format_duel_duration.format(
-                    TimeParser.reformatTime(start_time),
-                    TimeParser.reformatTime(end_time)
+                    start.formatToDate(),
+                    end.formatToDate(),
+                    (end - start).formatDurationMinSec()
                 )
                 if (win) {
                     binding.tvWinLogo.setText(R.string.win)
@@ -207,9 +214,7 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                         setWidthRatio(.8f)
                         setHeight(BalloonSizeSpec.WRAP)
                         setTextResource(R.string.tip_show_player_info)
-                        setTextSize(15f)
-                        setIconDrawableResource(R.drawable.ic_twotone_info_24)
-                        setIconColor(Color.WHITE)
+                        setTextSize(12f)
                         setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
                         setArrowSize(10)
                         setArrowPosition(0.5f)
@@ -255,7 +260,7 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
             Entry(index + 1F, pt)
         }
         // create a dataset and give it a type
-        val set = LineDataSet(values, R.string.chart_lengend_desc.resStr)
+        val set = LineDataSet(values, R.string.chart_legend_desc.resStr)
 
         set.setDrawIcons(false)
 
@@ -293,7 +298,7 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
 
         // set color of filled area
         set.fillDrawable =
-            ContextCompat.getDrawable(requireContext(), R.drawable.chart_area_gradient)
+            ContextCompat.getDrawable(requireContext(), R.drawable.bg_chart_area_gradient)
         set.fillAlpha = 35
 
         val dataSets: ArrayList<ILineDataSet> = ArrayList()

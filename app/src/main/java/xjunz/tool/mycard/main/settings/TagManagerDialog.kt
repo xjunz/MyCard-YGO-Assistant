@@ -13,6 +13,7 @@ import xjunz.tool.mycard.common.DropdownArrayAdapter
 import xjunz.tool.mycard.databinding.DialogTagManagerBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
 import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.showSimplePromptDialog
 import xjunz.tool.mycard.ktx.textString
 import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.DuelListAdapter
@@ -20,6 +21,10 @@ import xjunz.tool.mycard.main.detail.TagAdapter
 import xjunz.tool.mycard.util.Motions
 
 class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
+
+    private val BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG = "bundle.key.SHOW_CLEAR_ALL_DIALOG"
+
+    private var clearAllConfirmationDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +99,33 @@ class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
         binding.etAddPlayer.doOnPreDraw { v ->
             v.updatePadding(right = binding.btnAddTag.width + 16.dp)
         }
+        binding.btnClearAll.setOnClickListener {
+            showClearAllConfirmationDialog()
+        }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(
+            BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG,
+            clearAllConfirmationDialog?.isShowing == true
+        )
+    }
+
+    override fun onDialogCreated(dialog: Dialog, savedInstanceState: Bundle?) {
+        super.onDialogCreated(dialog, savedInstanceState)
+        if (savedInstanceState?.getBoolean(BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG) == true) {
+            showClearAllConfirmationDialog()
+        }
+    }
+
+    private fun showClearAllConfirmationDialog() {
+        clearAllConfirmationDialog =
+            requireContext().showSimplePromptDialog(msg = R.string.prompt_remove_all_tags) {
+                DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.TAGS)
+                PlayerInfoManager.unfollowAll()
+                taggedPlayer.clear()
+                refreshTagAdapter()
+            }
+    }
 }

@@ -6,6 +6,7 @@ import androidx.core.util.set
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Serializable
 class ConditionSet(
@@ -110,7 +111,7 @@ class ConditionSet(
         for (i in 0 until conditions.size) {
             total *= (deckCardCount - i).toBigDecimal()
         }
-        result = occurrence.toBigDecimal() / total
+        result = occurrence.toBigDecimal().divide(total, 10, RoundingMode.HALF_EVEN)
     }
 
     private fun preprocessConditions() {

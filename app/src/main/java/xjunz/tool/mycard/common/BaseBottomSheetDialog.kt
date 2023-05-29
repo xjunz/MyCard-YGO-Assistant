@@ -44,7 +44,12 @@ abstract class BaseBottomSheetDialog<T : ViewBinding> : BottomSheetDialogFragmen
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
             onDialogCreated(it)
+            onDialogCreated(it, savedInstanceState)
         }
+    }
+
+    open fun onDialogCreated(dialog: Dialog, savedInstanceState: Bundle?) {
+
     }
 
     abstract fun onDialogCreated(dialog: Dialog)

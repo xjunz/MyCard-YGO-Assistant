@@ -1,5 +1,6 @@
 package xjunz.tool.mycard.monitor
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
@@ -90,6 +91,7 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
             wssClient.cancelIfNeeded()
         }
 
+        @SuppressLint("MissingPermission")
         private val stateObserver = Observer<Int> {
             notificationManager.notify(FOREGROUND_SERVICE_ID, buildForegroundNotification(it))
         }
@@ -162,9 +164,11 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
                     )
                 )
             }
+
             State.CONNECTING -> {
                 builder.setContentText(R.string.starting_service.resStr)
             }
+
             State.CONNECTED -> {
                 builder.setContentText(R.string.service_is_running.resStr).addAction(
                     NotificationCompat.Action(
@@ -173,6 +177,7 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
                     )
                 )
             }
+
             else -> error("unexpected state: $state")
         }
         return builder.build()
@@ -204,12 +209,14 @@ class DuelMonitorService : Service(), DuelMonitorEventObserver {
             val userInvolved = AccountManager.hasLogin()
                     && created.containsPlayer(AccountManager.reqUsername())
             if (userInvolved && playerInfoLoader.queryAllPlayerInfo(created)) {
+                wssClient.notifyPlayersInfoLoadedFromService(created)
                 created.pushSelfInvolved()
                 return@launch
             }
             val requireRank = DuelPushManager.ALL_CRITERIA.any { it.isEnabled }
                     && !Configs.isNotificationDisabled
             if (requireRank && playerInfoLoader.queryAllPlayerInfo(created)) {
+                wssClient.notifyPlayersInfoLoadedFromService(created)
                 created.checkAllCriteriaAndPush()
             }
         }

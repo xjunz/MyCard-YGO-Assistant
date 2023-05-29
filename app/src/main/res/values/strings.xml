@@ -280,7 +280,7 @@
     <string name="edit_collection">Edit this collection</string>
     <string name="duel_history">Duel History</string>
     <string name="format_history">\'s Duel History</string>
-    <string name="format_duel_duration">Started at: %s \nEnded at: %s</string>
+    <string name="format_duel_duration">Started at: %s \nEnded at: %s\nDuration: %s</string>
     <string name="win">W</string>
     <string name="lose">L</string>
     <string name="search">search</string>
@@ -295,8 +295,33 @@
         <item>Email</item>
         <item>Tencent QQ™ Group</item>
     </string-array>
-    <string name="chart_lengend_desc">D.P changes in latest 25 duels</string>
+    <string name="chart_legend_desc">D.P changes in latest 25 duels</string>
     <string name="chart_desc">Tap the chart to view the duel record</string>
     <string name="first_win">(First Win)</string>
     <string name="tip_show_player_info">Tap the player name to show player info!</string>
+    <string name="filter_and_sort">Filter &amp; Sort</string>
+    <string name="min_duel_duration">Min duel duration in minute</string>
+    <string name="reset">Reset</string>
+    <string name="sort_by">Sort by</string>
+    <string name="order">Order</string>
+    <string name="tip_no_duel_matches_filter">No duel matches current filter.</string>
+    <string name="tip_filter_and_sort">Tap here to filter or sort current duel list!</string>
+    <string name="unfollow_all">Clear all following players</string>
+    <string name="prompt_unfollow_all_players">Are you sure to unfollow all players?</string>
+    <string name="clear_all_tags">Clear all tags</string>
+    <string name="prompt_remove_all_tags">Are you sure to remove all tags?</string>
+    <string name="player_key_word">玩家关键词</string>
+    <string-array name="duel_list_sort_by">
+        <item>Duel start time (default)</item>
+        <item>Best rank in both players</item>
+        <item>Rank sum of both players</item>
+        <item>Rank difference between both players</item>
+        <item>Best win rate in both players</item>
+        <item>Win rate sum of both players</item>
+        <item>Win rate difference between both players</item>
+    </string-array>
+    <string-array name="orders">
+        <item>Ascend</item>
+        <item>Descend</item>
+    </string-array>
 </resources>
