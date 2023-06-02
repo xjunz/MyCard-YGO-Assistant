@@ -3,11 +3,13 @@ package xjunz.tool.mycard.ktx
 import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.graphics.drawable.Drawable
+import android.os.SystemClock
 import android.text.InputFilter
 import android.transition.ChangeBounds
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -108,4 +110,19 @@ fun View.shake() {
         this, View.TRANSLATION_X,
         0F, 20F, -20F, 15F, -15F, 10F, -10F, 5F, -5F, 0F
     ).start()
+}
+
+
+inline fun View.setOnDoubleClickListener(crossinline listener: () -> Unit) {
+    var prevClickTimestamp = -1L
+    setOnClickListener {
+        prevClickTimestamp = if (prevClickTimestamp == -1L
+            && SystemClock.uptimeMillis() - prevClickTimestamp <= ViewConfiguration.getDoubleTapTimeout()
+        ) {
+            listener.invoke()
+            -1L
+        } else {
+            SystemClock.uptimeMillis()
+        }
+    }
 }

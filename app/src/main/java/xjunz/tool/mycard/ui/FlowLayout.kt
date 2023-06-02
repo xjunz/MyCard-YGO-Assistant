@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import com.google.android.material.R
 import com.google.android.material.shape.MaterialShapeDrawable
 import xjunz.tool.mycard.ktx.asStateList
 import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.dpFloat
 import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resolveAttribute
 
@@ -82,6 +82,19 @@ class FlowLayout @JvmOverloads constructor(
         return MarginLayoutParams(context, attrs)
     }
 
+    private val primaryColor by lazy {
+        ColorUtils.setAlphaComponent(
+            context.resolveAttribute(R.attr.colorPrimary).resColor, (.8 * 0xFF).toInt()
+        ).asStateList
+    }
+
+    private val textBackground by lazy {
+        MaterialShapeDrawable().apply {
+            fillColor = primaryColor
+            setCornerSize(16.dpFloat)
+        }
+    }
+
     private fun generateView(): TextView {
         val view = TextView(context)
         view.setTextAppearance(R.style.TextAppearance_Material3_LabelSmall)
@@ -89,14 +102,7 @@ class FlowLayout @JvmOverloads constructor(
             CHILD_PADDING_HORIZONTAL, CHILD_PADDING_VERTICAL,
             CHILD_PADDING_HORIZONTAL, CHILD_PADDING_VERTICAL
         )
-        val background = MaterialShapeDrawable()
-        background.fillColor = ColorUtils.setAlphaComponent(
-            context.resolveAttribute(R.attr.colorPrimary).resColor, (.8 * 0xFF).toInt()
-        ).asStateList
-        view.doOnPreDraw {
-            background.setCornerSize(it.height / 2F)
-        }
-        view.background = background
+        view.background = textBackground.mutate()
         view.setTextColor(context.resolveAttribute(R.attr.colorOnPrimary).resColor)
         return view
     }

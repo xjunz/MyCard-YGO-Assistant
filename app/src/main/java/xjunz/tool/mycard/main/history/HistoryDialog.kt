@@ -8,7 +8,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -33,14 +32,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
-import xjunz.tool.mycard.app
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogHistoryBinding
 import xjunz.tool.mycard.info.PlayerInfoLoaderClient
 import xjunz.tool.mycard.ktx.beginDelayedTransition
 import xjunz.tool.mycard.ktx.format
 import xjunz.tool.mycard.ktx.formatDurationMinSec
-import xjunz.tool.mycard.ktx.formatToDate
 import xjunz.tool.mycard.ktx.lazyViewModel
 import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resStr
@@ -49,6 +46,7 @@ import xjunz.tool.mycard.ktx.resolveAttribute
 import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.ktx.viewUrlSafely
 import xjunz.tool.mycard.main.PlayerInfoDialog
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.model.DuelRecord
 import xjunz.tool.mycard.util.TimeParser
 
@@ -91,10 +89,6 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
 
     private val errorColor by lazy {
         requireActivity().resolveAttribute(androidx.appcompat.R.attr.colorError).resColor
-    }
-
-    private val sharedPrefs by lazy {
-        app.sharedPrefsOf("history")
     }
 
     fun setPlayerName(name: String): HistoryDialog {
@@ -170,12 +164,10 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                         append(R.string.first_win.resText)
                     }
                 }
-                val start = TimeParser.parseTime(start_time)
-                val end = TimeParser.parseTime(end_time)
                 binding.tvTime.text = R.string.format_duel_duration.format(
-                    start.formatToDate(),
-                    end.formatToDate(),
-                    (end - start).formatDurationMinSec()
+                    TimeParser.reformatTime(start_time),
+                    TimeParser.reformatTime(end_time),
+                    (TimeParser.parseTime(end_time) - TimeParser.parseTime(start_time)).formatDurationMinSec()
                 )
                 if (win) {
                     binding.tvWinLogo.setText(R.string.win)
@@ -198,20 +190,17 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                 }
                 binding.tvVsPlayerName.setOnClickListener {
                     balloon?.dismiss()
-                    sharedPrefs.edit(true) {
-                        putBoolean("show-balloon", false)
-                    }
+                    Configs.shouldShowHistoryPlayerNameBalloon = false
                     PlayerInfoDialog().setPlayerName(opponentPlayerName)
                         .show(parentFragmentManager, "player-info")
                 }
-                if (!sharedPrefs.getBoolean("show-balloon", true)) {
+                if (!Configs.shouldShowHistoryPlayerNameBalloon) {
                     return@observe
                 }
                 if (balloon != null) {
                     balloon?.dismiss()
                 } else {
                     balloon = createBalloon(requireContext()) {
-                        setWidthRatio(.8f)
                         setHeight(BalloonSizeSpec.WRAP)
                         setTextResource(R.string.tip_show_player_info)
                         setTextSize(12f)

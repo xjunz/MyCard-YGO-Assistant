@@ -18,18 +18,4 @@ data class User(
     val salt: String? = null,
     val updated_at: String? = null,
     val username: String
-) {
-
-    inline val memberSince: String
-        get() {
-            val newSequence = CharArray(created_at.length)
-            created_at.forEachIndexed { index, c ->
-                if (c.isLetter()) {
-                    newSequence[index] = ' '
-                } else {
-                    newSequence[index] = c
-                }
-            }
-            return newSequence.joinToString("")
-        }
-}
+)

@@ -17,6 +17,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.forEachIndexed
 import androidx.core.view.get
+import androidx.core.view.postDelayed
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -26,6 +27,10 @@ import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import xjunz.tool.mycard.BuildConfig
@@ -34,7 +39,11 @@ import xjunz.tool.mycard.app
 import xjunz.tool.mycard.databinding.ActivityMainBinding
 import xjunz.tool.mycard.ktx.applySystemInsets
 import xjunz.tool.mycard.ktx.lazyViewModel
+import xjunz.tool.mycard.ktx.resColor
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.monitor.DuelMonitorService
+import xjunz.tool.mycard.monitor.State
 import xjunz.tool.mycard.outer.UpdateChecker
 import xjunz.tool.mycard.util.debugLog
 
@@ -82,6 +91,29 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         })
+        viewModel.shouldShowBackToTopBalloon.observe(this) {
+            if (it) {
+                viewModel.shouldShowBottomBar.value = true
+                binding.realNavigationBar.postDelayed(300) {
+                    createBalloon(this) {
+                        setHeight(BalloonSizeSpec.WRAP)
+                        setTextResource(R.string.tip_back_to_top)
+                        setTextSize(13f)
+                        setArrowPositionRules(ArrowPositionRules.ALIGN_BALLOON)
+                        setArrowSize(10)
+                        setPadding(12)
+                        setCornerRadius(8f)
+                        setBackgroundColor(resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
+                        setBalloonAnimation(BalloonAnimation.ELASTIC)
+                        setLifecycleOwner(this@MainActivity)
+                        build()
+                        setOnBalloonDismissListener {
+                            Configs.shouldShowBackToTopBalloon = false
+                        }
+                    }.showAlignTop(binding.realNavigationBar, -binding.realNavigationBar.width / 3)
+                }
+            }
+        }
     }
 
     private fun checkForUpdatesIfNeeded() {
@@ -167,6 +199,18 @@ class MainActivity : AppCompatActivity() {
                     if (viewModel.isMineAsHome.value == true) R.menu.mine_as_home
                     else R.menu.menu_bottom_bar, menu
                 )
+            }
+            setOnItemReselectedListener {
+                viewModel.notifyOnNavigationItemReselected(it.itemId)
+            }
+            viewModel.hasDataShown.observe(this@MainActivity) {
+                val badge = binding.realNavigationBar.getOrCreateBadge(R.id.item_duel)
+                if (viewModel.isServiceBound() && viewModel.monitorService.state.value == State.CONNECTED) {
+                    badge.isVisible = true
+                    badge.number = viewModel.binder?.duelList?.size ?: 0
+                } else {
+                    badge.isVisible = false
+                }
             }
         }
     }

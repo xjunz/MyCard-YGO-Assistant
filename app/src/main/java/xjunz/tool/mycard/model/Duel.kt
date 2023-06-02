@@ -104,7 +104,7 @@ data class Duel(
 
     fun containsKeyword(keyword: String?): Boolean {
         return keyword.isNullOrEmpty()
-                || (player1Name.contains(keyword) || player2Name.contains(keyword))
+                || (player1Name.contains(keyword, true) || player2Name.contains(keyword, true))
     }
 
     override fun equals(other: Any?): Boolean {

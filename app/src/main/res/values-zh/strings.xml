@@ -252,7 +252,7 @@
     <string name="remove_notification">移除通知</string>
     <string name="about_text">此应用以<b>Apache-License 2.0</b>协议<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>
         \n\n如果你喜欢此应用，可以点击下方⌈捐赠⌋按钮以支持我的工作。</string>
-    <string name="credits">特别鸣谢<a href='https://www.pgyer.com/ygomobilecn'>YGO Mobile</a>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
+    <string name="credits">特别鸣谢<a href='https://ygomobile.top/'>YGO Mobile</a>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
     <string name="check_update">检查更新</string>
     <string name="donate">捐赠</string>
     <string name="version_info">版本信息</string>
@@ -303,6 +303,8 @@
     <string name="clear_all_tags">清空所有标签</string>
     <string name="prompt_remove_all_tags">你确定要清空所有标签吗？</string>
     <string name="player_key_word">玩家关键词</string>
+    <string name="tip_return_to_top">已回到顶部</string>
+    <string name="tip_back_to_top">点击可回到顶部哦！</string>
 
     <string-array name="duel_list_sort_by">
         <item>按对局开始时间（默认）</item>

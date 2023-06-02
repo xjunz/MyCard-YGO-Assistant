@@ -35,6 +35,15 @@ class MainViewModel : ViewModel() {
 
     val onDuelListFilterChanged = MutableLiveData(false)
 
+    val onNavigationReselected = MutableLiveData<Int>()
+
+    val shouldShowBackToTopBalloon = MutableLiveData(false)
+
+    fun notifyOnNavigationItemReselected(id: Int) {
+        onNavigationReselected.value = id
+        onNavigationReselected.postValue(-1)
+    }
+
     fun notifyPlayerInfoChanged(name: String) {
         onPlayerInfoChanged.value = name
         onPlayerInfoChanged.postValue(null)

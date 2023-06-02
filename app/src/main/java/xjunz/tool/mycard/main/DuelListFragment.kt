@@ -14,7 +14,9 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -137,6 +139,31 @@ class DuelListFragment : Fragment() {
                 duelAdapter.notifyFilterChanged()
             }
         }
+        val llm = binding.rvDuel.layoutManager as LinearLayoutManager
+        viewModel.onNavigationReselected.observe(viewLifecycleOwner) {
+            if (it == R.id.item_duel) {
+                if (llm.findFirstCompletelyVisibleItemPosition() != 0) {
+                    binding.rvDuel.smoothScrollToPosition(0)
+                    toast(R.string.tip_return_to_top)
+                }
+            }
+        }
+        if (Configs.shouldShowBackToTopBalloon) {
+            binding.rvDuel.addOnScrollListener(object : OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if (llm.findFirstCompletelyVisibleItemPosition() >= 20) {
+                            binding.rvDuel.removeOnScrollListener(this)
+                            viewModel.shouldShowBackToTopBalloon.value = true
+                        }
+                    }
+                }
+            })
+        }
+        binding.tvTitle.setOnLongClickListener {
+            Configs.clearBalloonPrefs()
+            return@setOnLongClickListener true
+        }
         val checker = object : Runnable {
             override fun run() {
                 if (shouldShowHeader && System.currentTimeMillis()
@@ -220,7 +247,6 @@ class DuelListFragment : Fragment() {
                             balloon?.dismiss()
                         } else {
                             balloon = createBalloon(requireContext()) {
-                                setWidthRatio(.8f)
                                 setHeight(BalloonSizeSpec.WRAP)
                                 setTextResource(R.string.tip_filter_and_sort)
                                 setTextSize(13f)

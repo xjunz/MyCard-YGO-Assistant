@@ -175,6 +175,10 @@ class DuelListAdapter(private val mvm: MainViewModel) :
                 }
                 duelList[adapterPosition].spectateCheckLogin(context)
             }
+            binding.root.setOnLongClickListener {
+                binding.ibWatch.performClick()
+                return@setOnLongClickListener true
+            }
             binding.ibWatch.setTooltipCompat(R.string.spectate.resText)
             binding.root.setOnClickListener {
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
@@ -404,8 +408,8 @@ class DuelListAdapter(private val mvm: MainViewModel) :
         if (index != -1) {
             duelList.removeAt(index)
             notifyItemRemoved(index)
-            viewModel.hasDataShown.value = duelList.isNotEmpty()
         }
+        viewModel.hasDataShown.value = duelList.isNotEmpty()
     }
 
     override fun onDuelCreated(created: Duel) {

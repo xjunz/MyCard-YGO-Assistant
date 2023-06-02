@@ -310,7 +310,9 @@
     <string name="prompt_unfollow_all_players">Are you sure to unfollow all players?</string>
     <string name="clear_all_tags">Clear all tags</string>
     <string name="prompt_remove_all_tags">Are you sure to remove all tags?</string>
-    <string name="player_key_word">玩家关键词</string>
+    <string name="player_key_word">Player keyword</string>
+    <string name="tip_return_to_top">Back to top</string>
+    <string name="tip_back_to_top">Tap to return to the top of list!</string>
     <string-array name="duel_list_sort_by">
         <item>Duel start time (default)</item>
         <item>Best rank in both players</item>

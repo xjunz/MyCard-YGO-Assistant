@@ -56,7 +56,11 @@ class TagAdapter(private var playerName: String) :
             binding.root.setOnClickListener {
                 val pos = adapterPosition
                 // developer tag is not editable
-                if (playerName == Constants.DEVELOPER_NAME) return@setOnClickListener
+                if (playerName == Constants.DEVELOPER_NAME) {
+                    toast("(>.<)")
+                    binding.root.shake()
+                    return@setOnClickListener
+                }
                 if (pos == 0) {
                     if (tags.size == Configs.MAX_TAG_COUNT_PER_PLAYER) {
                         longToast(

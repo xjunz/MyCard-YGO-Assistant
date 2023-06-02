@@ -25,38 +25,42 @@ object Configs {
         ignoreUnknownKeys = true
     }
 
-    private val sharedPrefs by lazy {
+    private val configSharedPrefs by lazy {
         app.sharedPrefsOf("configs")
+    }
+
+    private val balloonShardPrefs by lazy {
+        app.sharedPrefsOf("balloon")
     }
 
     private const val SP_KEY_NOTIFICATION_DISABLED = "notification_disabled"
 
     var isNotificationDisabled: Boolean
         get() {
-            return sharedPrefs.getBoolean(SP_KEY_NOTIFICATION_DISABLED, false)
+            return configSharedPrefs.getBoolean(SP_KEY_NOTIFICATION_DISABLED, false)
         }
         set(value) {
-            sharedPrefs.edit().putBoolean(SP_KEY_NOTIFICATION_DISABLED, value).apply()
+            configSharedPrefs.edit().putBoolean(SP_KEY_NOTIFICATION_DISABLED, value).apply()
         }
 
     private const val SP_KEY_PIN_FOLLOWED_DUELS = "pin_followed_duels"
 
     var shouldPinFollowedDuels: Boolean
         get() {
-            return sharedPrefs.getBoolean(SP_KEY_PIN_FOLLOWED_DUELS, false)
+            return configSharedPrefs.getBoolean(SP_KEY_PIN_FOLLOWED_DUELS, false)
         }
         set(value) {
-            sharedPrefs.edit().putBoolean(SP_KEY_PIN_FOLLOWED_DUELS, value).apply()
+            configSharedPrefs.edit().putBoolean(SP_KEY_PIN_FOLLOWED_DUELS, value).apply()
         }
 
     private const val SP_KEY_MINE_AS_HOME = "mine_as_home"
 
     var isMineAsHome: Boolean
         get() {
-            return sharedPrefs.getBoolean(SP_KEY_MINE_AS_HOME, false)
+            return configSharedPrefs.getBoolean(SP_KEY_MINE_AS_HOME, false)
         }
         set(value) {
-            sharedPrefs.edit().putBoolean(SP_KEY_MINE_AS_HOME, value).apply()
+            configSharedPrefs.edit().putBoolean(SP_KEY_MINE_AS_HOME, value).apply()
         }
 
     private const val SP_KEY_DUEL_LIST_FILTER = "duel_list_filter"
@@ -74,30 +78,59 @@ object Configs {
     private var _duelListFilter: DuelListFilterCriteria? = null
         get() {
             if (field == null) {
-                val serialized = sharedPrefs.getString(SP_KEY_DUEL_LIST_FILTER, null) ?: return null
+                val serialized =
+                    configSharedPrefs.getString(SP_KEY_DUEL_LIST_FILTER, null) ?: return null
                 field = LenientJson.decodeFromString(serialized)
             }
             return field
         }
         set(value) {
             field = if (value == null) {
-                sharedPrefs.edit().remove(SP_KEY_DUEL_LIST_FILTER).apply()
+                configSharedPrefs.edit().remove(SP_KEY_DUEL_LIST_FILTER).apply()
                 null
             } else {
-                sharedPrefs.edit()
+                configSharedPrefs.edit()
                     .putString(SP_KEY_DUEL_LIST_FILTER, LenientJson.encodeToString(value))
                     .apply()
                 value
             }
         }
 
-    const val SP_KEY_SHOW_FILTER_BALLOON = "show_filter_balloon"
+    fun clearBalloonPrefs() {
+        balloonShardPrefs.edit().clear().apply()
+        shouldShowHistoryPlayerNameBalloon = true
+        shouldShowFilterBalloon = true
+        shouldShowBackToTopBalloon = true
+    }
+
+    private const val SP_KEY_SHOW_FILTER_BALLOON = "show_filter_balloon"
 
     var shouldShowFilterBalloon: Boolean
         get() {
-            return sharedPrefs.getBoolean(SP_KEY_SHOW_FILTER_BALLOON, true)
+            return balloonShardPrefs.getBoolean(SP_KEY_SHOW_FILTER_BALLOON, true)
         }
         set(value) {
-            sharedPrefs.edit().putBoolean(SP_KEY_SHOW_FILTER_BALLOON, value).apply()
+            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_FILTER_BALLOON, value).apply()
+        }
+
+    private const val SP_KEY_SHOW_BACK_TO_TOP_BALLOON = "show_back_to_top_balloon"
+
+    var shouldShowBackToTopBalloon: Boolean
+        get() {
+            return balloonShardPrefs.getBoolean(SP_KEY_SHOW_BACK_TO_TOP_BALLOON, true)
+        }
+        set(value) {
+            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_BACK_TO_TOP_BALLOON, value).apply()
+        }
+
+    private const val SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON = "show_history_player_name_balloon"
+
+    var shouldShowHistoryPlayerNameBalloon: Boolean
+        get() {
+            return balloonShardPrefs.getBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, true)
+        }
+        set(value) {
+            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, value)
+                .apply()
         }
 }
