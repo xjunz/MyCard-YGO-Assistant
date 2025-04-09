@@ -6,8 +6,17 @@ import android.net.Uri
 import android.util.StringBuilderPrinter
 import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import xjunz.tool.mycard.*
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.App
+import xjunz.tool.mycard.BuildConfig
+import xjunz.tool.mycard.Constants
+import xjunz.tool.mycard.R
+import xjunz.tool.mycard.app
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.formatToDate
+import xjunz.tool.mycard.ktx.launchIntentSafely
+import xjunz.tool.mycard.ktx.resArray
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.viewUrlSafely
 import java.io.File
 
 /**
@@ -45,9 +54,9 @@ object Feedbacks {
                             Intent(Intent.ACTION_VIEW, uri)
                                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         } else {
-                            Intent(Intent.ACTION_SEND, uri)
+                            Intent(Intent.ACTION_SEND)
                                 .putExtra(Intent.EXTRA_STREAM, uri)
-                                .setType("text/plain")
+                                .setDataAndType(uri, "text/plain")
                                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
                         context.launchIntentSafely(

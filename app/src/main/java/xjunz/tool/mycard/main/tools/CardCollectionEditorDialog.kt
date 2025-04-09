@@ -15,7 +15,11 @@ import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.DropdownArrayAdapter
 import xjunz.tool.mycard.databinding.DialogCardColletionEditorBinding
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.lazyViewModel
+import xjunz.tool.mycard.ktx.setMaxLength
+import xjunz.tool.mycard.ktx.shake
+import xjunz.tool.mycard.ktx.textString
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.settings.Configs
 
 /**
@@ -28,6 +32,8 @@ class CardCollectionEditorDialog : DialogFragment() {
         var initialName: CharSequence? = null
 
         var initialCount: Int = 0
+
+        var dropdownItems = emptyList<String>()
     }
 
     private val viewModel by lazyViewModel<InnerViewModel>()
@@ -61,7 +67,7 @@ class CardCollectionEditorDialog : DialogFragment() {
     fun setCollectionNameDropdown(preset: List<String>): CardCollectionEditorDialog {
         lifecycleScope.launch {
             lifecycle.withCreated {
-                binding.etNameInput.setDropDownData(preset)
+                viewModel.dropdownItems = preset
             }
         }
         return this
@@ -103,6 +109,7 @@ class CardCollectionEditorDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.etNameInput.setDropDownData(viewModel.dropdownItems)
         binding.etCountInput.setText(viewModel.initialCount.toString())
         binding.etNameInput.setText(viewModel.initialName)
         binding.etNameInput.setMaxLength(2)

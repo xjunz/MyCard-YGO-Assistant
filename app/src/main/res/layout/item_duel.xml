@@ -42,7 +42,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/iv_vs"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@tools:sample/lorem/random" />
 
     <TextView
         android:id="@+id/tv_rank_1"
@@ -50,12 +50,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/spacing_unit"
+        android:ellipsize="end"
+        android:maxWidth="100dp"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="@id/tv_player_1"
         app:layout_constraintEnd_toStartOf="@+id/ib_watch"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/tv_player_1"
         app:layout_constraintTop_toTopOf="@id/tv_player_1"
-        tools:text="123" />
+        tools:text="@tools:sample/lorem/random" />
 
     <xjunz.tool.mycard.ui.FlowLayout
         android:id="@+id/tag_container1"

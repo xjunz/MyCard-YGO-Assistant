@@ -24,5 +24,5 @@ object Apis {
     const val BASE_API_ACCOUNTS = "https://api.moecube.com/accounts/"
     const val API_LOGIN = "signin"
     const val HOST_DUEL_LIST = "tiramisu.moecube.com"
-    const val HOST_ATHLETIC = "tiramisu.mycard.moe"
+    const val HOST_ATHLETIC = "tiramisu.moenext.com"
 }

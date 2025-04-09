@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.animation.AnimationUtils
+import androidx.core.content.edit
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
@@ -27,7 +28,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.BrowserUserAgent
-import io.ktor.client.plugins.ContentNegotiation
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.Dispatchers
@@ -155,15 +156,8 @@ class LeaderboardFragment : Fragment() {
             requireContext().resolveAttribute(com.google.android.material.R.attr.colorSurface).resColor,
             (.8 * 0XFF).toInt()
         ).toDrawable()
-        var rvPaddingTop = -1
         binding.topBar.applySystemInsets { v, insets ->
             v.updatePadding(top = insets.top)
-            if (rvPaddingTop == -1) {
-                rvPaddingTop = v.height + insets.top
-                binding.rvLeaderboard.updatePadding(
-                    top = rvPaddingTop, bottom = viewModel.bottomBarHeight.value!!
-                )
-            }
         }
         viewModel.bottomBarHeight.observe(viewLifecycleOwner) {
             binding.fabSearch.updateLayoutParams<MarginLayoutParams> {
@@ -197,7 +191,7 @@ class LeaderboardFragment : Fragment() {
                             if (history.size > 10) {
                                 newList.removeAt(0)
                             }
-                            sharedPrefs.edit().putStringSet(spKey, newList.toSet()).apply()
+                            sharedPrefs.edit { putStringSet(spKey, newList.toSet()) }
                         }.show(parentFragmentManager, "player-info")
                     return@setPositiveButton null
                 }

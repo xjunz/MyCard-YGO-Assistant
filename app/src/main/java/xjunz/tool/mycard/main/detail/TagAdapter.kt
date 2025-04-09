@@ -10,7 +10,13 @@ import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.InputDialog
 import xjunz.tool.mycard.databinding.ItemTagViewBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.longToast
+import xjunz.tool.mycard.ktx.requireActivity
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.shake
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.settings.Configs
 
 /**
@@ -105,9 +111,8 @@ class TagAdapter(private var playerName: String) :
                         }
                         setNegativeAsImportant()
                         setNegativeButton(R.string.delete_tag.resText) s@{
-                            val index = PlayerInfoManager.removeTag(playerName, tag)
-                            if (index == -1) return@s true
-                            notifyItemRemoved(index + 1)
+                            if (!PlayerInfoManager.removeTag(playerName, tag)) return@s true
+                            notifyItemRemoved(pos)
                             if (tags.isEmpty()) {
                                 notifyItemChanged(0)
                             }

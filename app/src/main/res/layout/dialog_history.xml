@@ -7,11 +7,11 @@
     android:paddingHorizontal="16dp">
 
     <TextView
-        android:id="@+id/tv_player_name"
+        android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:text="@string/duel_history"
         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
@@ -19,57 +19,87 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="?colorPrimary"
+        app:layout_constraintEnd_toEndOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ib_open_in_browser"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@string/open_in_browser"
         app:icon="@drawable/ic_twotone_open_in_new_24"
         app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
         app:layout_constraintEnd_toStartOf="@id/ib_close"
-        app:layout_constraintTop_toTopOf="@+id/tv_player_name" />
+        app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ib_close"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:contentDescription="@string/close"
         app:icon="@drawable/ic_baseline_close_24"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
+        app:layout_constraintBottom_toBottomOf="@+id/ib_open_in_browser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_player_name" />
+        app:layout_constraintTop_toTopOf="@+id/ib_open_in_browser" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_query_count"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="@string/query_history_count"
+        app:layout_constraintTop_toBottomOf="@+id/tv_player_name"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/et_query_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         android:layout_width="0dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/record_container"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="350dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_player_name" />
+        app:layout_constraintTop_toBottomOf="@id/til_query_count" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/line_chart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/til_query_count" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/record_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/bg_item_duel"
         android:padding="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_prev"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line_chart"
@@ -149,4 +179,38 @@
             tools:backgroundTint="#FF0000"
             tools:text="1420" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_prev"
+        style="@style/Widget.Material3.Button.IconButton.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:icon="@drawable/baseline_arrow_left_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/material_on_surface_stroke" />
+
+    <TextView
+        android:id="@+id/tv_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:layout_constraintBottom_toBottomOf="@id/btn_next"
+        app:layout_constraintEnd_toStartOf="@id/btn_next"
+        app:layout_constraintStart_toEndOf="@id/btn_prev"
+        app:layout_constraintTop_toTopOf="@id/btn_next" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
+        style="@style/Widget.Material3.Button.IconButton.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:icon="@drawable/baseline_arrow_right_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/material_on_surface_stroke" />
 </androidx.constraintlayout.widget.ConstraintLayout>

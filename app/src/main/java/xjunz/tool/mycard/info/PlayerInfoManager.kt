@@ -97,18 +97,26 @@ object PlayerInfoManager {
         }
     }
 
-    fun removeTag(name: String, tag: String): Int {
-        val cache = tagCache[name]
-        if (cache.isNullOrEmpty()) return -1
-        val removedIndex = cache.indexOf(tag)
-        if (removedIndex == -1) return -1
-        (cache as MutableList).removeAt(removedIndex)
-        if (cache.isEmpty()) tagCache.remove(name)
+    fun removeTag(tag: String): List<String> {
+        val victims = mutableListOf<String>()
+        getTaggedPlayers().forEach {
+            if (removeTag(it, tag)) {
+                victims.add(it)
+            }
+        }
+        return victims.takeIf { it.isNotEmpty() } ?: emptyList()
+    }
 
+    fun removeTag(name: String, tag: String): Boolean {
+        val cache = tagCache[name]
+        if (!cache.isNullOrEmpty()) {
+            (cache as MutableList).remove(tag)
+            if (cache.isEmpty()) tagCache.remove(name)
+        }
         val key = name.tagSpKey
-        val tagSequence = tagSp.getString(key, null) ?: return -1
+        val tagSequence = tagSp.getString(key, null) ?: return false
         val index = tagSequence.indexOf("$tag|")
-        if (index < 0) return -1
+        if (index < 0) return false
         val newSequence = tagSequence.removeRange(index, index + tag.length + 1)
         if (newSequence.isEmpty()) {
             tagSp.edit().remove(key).apply()
@@ -116,7 +124,7 @@ object PlayerInfoManager {
             tagSp.edit().putString(key, newSequence).apply()
         }
         DuelPushManager.removeUnmatchedPendingPushes()
-        return removedIndex
+        return true
     }
 
     private val followed: MutableSet<String> by lazy {

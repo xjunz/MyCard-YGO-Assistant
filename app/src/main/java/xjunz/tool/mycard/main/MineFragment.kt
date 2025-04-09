@@ -172,7 +172,7 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                     tvName.isVisible = true
                 }
                 tvName.text = userInfo.name
-                tvMemberSince.text = TimeParser.reformatTime(userInfo.created_at)
+                tvMemberSince.text = TimeParser.reformatTime(userInfo.createdAt)
                 val avatar = loadAvatar()
                 if (avatar == null) {
                     ivAvatar.setImageResource(R.mipmap.ic_launcher_round)

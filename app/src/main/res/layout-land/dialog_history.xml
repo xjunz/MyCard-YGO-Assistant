@@ -29,6 +29,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/open_in_browser"
             app:icon="@drawable/ic_twotone_open_in_new_24"
             app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
             app:layout_constraintEnd_toStartOf="@id/ib_close"
@@ -39,32 +40,50 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:contentDescription="@string/close"
             app:icon="@drawable/ic_baseline_close_24"
             app:layout_constraintBottom_toBottomOf="@+id/tv_player_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_player_name" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_query_count"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/query_history_count"
+            app:layout_constraintTop_toBottomOf="@+id/ib_close"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/et_query_count"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/record_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_player_name" />
+            app:layout_constraintTop_toBottomOf="@+id/til_query_count" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/line_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/line_chart" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/record_container"

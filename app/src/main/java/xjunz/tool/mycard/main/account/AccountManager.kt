@@ -2,7 +2,6 @@ package xjunz.tool.mycard.main.account
 
 import android.graphics.Bitmap
 import androidx.core.content.edit
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.model.User
@@ -54,17 +53,6 @@ object AccountManager {
             remove(SP_KEY_LOGIN_TIMESTAMP)
         }
         app.getFileStreamPath(LOCAL_AVATAR_NAME).delete()
-    }
-
-    // reserved
-    private fun checkExpiration(): Boolean {
-        if (hasLogin() &&
-            System.currentTimeMillis() - getLoginTimestamp() > LOGIN_STATE_EXPIRED_DURATION
-        ) {
-            logout()
-            return true
-        }
-        return false
     }
 
     fun hasLogin(): Boolean {
@@ -125,7 +113,7 @@ object AccountManager {
     fun persistUserInfo(user: User) {
         this.user = user
         sharedPrefs.edit {
-            putString(SP_KEY_USER, Json.encodeToString(User.serializer(), user))
+            putString(SP_KEY_USER, Json.encodeToString(user))
             putLong(SP_KEY_LOGIN_TIMESTAMP, System.currentTimeMillis())
         }
     }

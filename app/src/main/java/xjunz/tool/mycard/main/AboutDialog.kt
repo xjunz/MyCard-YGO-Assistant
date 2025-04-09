@@ -60,7 +60,7 @@ class AboutDialog : DialogFragment() {
                             MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.has_updates)
                                 .setMessage(it.formatUpdateInfo())
                                 .setPositiveButton(R.string.download) { _, _ ->
-                                    requireContext().viewUrlSafely(Constants.APP_DOWNLOAD_URL)
+                                    requireContext().viewUrlSafely(it.update_url)
                                 }.setNegativeButton(android.R.string.cancel, null).show()
                         } else {
                             toast(R.string.no_new_version)

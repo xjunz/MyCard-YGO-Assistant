@@ -20,7 +20,7 @@
     <string name="input_is_empty">Your input is empty</string>
     <string name="log_in_succeeded">Log in succeeded!</string>
     <string name="log_in_failed">Log in failed due to %s </string>
-    <string name="no_game_launcher_found">No app to launch the game, try out YGO Mobile</string>
+    <string name="no_game_launcher_found">No app to launch the game, try out YGO Mobile!</string>
     <string name="format_unexpected_error">Unexpected error occurred: %s</string>
     <string name="format_error_code">Error occurred: %d</string>
     <string name="username_or_pwd_incorrect">Either the username or password is incorrect</string>
@@ -295,8 +295,8 @@
         <item>Email</item>
         <item>Tencent QQ™ Group</item>
     </string-array>
-    <string name="chart_legend_desc">D.P changes in latest 25 duels</string>
-    <string name="chart_desc">Tap the chart to view the duel record</string>
+    <string name="chart_legend_desc">D.P changes in latest %d duels</string>
+    <string name="chart_desc">*Try tapping or pinching the chart</string>
     <string name="first_win">(First Win)</string>
     <string name="tip_show_player_info">Tap the player name to show player info!</string>
     <string name="filter_and_sort">Filter &amp; Sort</string>
@@ -313,6 +313,10 @@
     <string name="player_key_word">Player keyword</string>
     <string name="tip_return_to_top">Back to top</string>
     <string name="tip_back_to_top">Tap to return to the top of list!</string>
+    <string name="delete_tag_for_all_players">Delete a specific tag for all players</string>
+    <string name="format_prompt_delete_tag">Are you sure to delete tag "%s" for all players?</string>
+    <string name="query_history_count">Historical duel count</string>
+    <string name="close">Close</string>
     <string-array name="duel_list_sort_by">
         <item>Duel start time (default)</item>
         <item>Best rank in both players</item>

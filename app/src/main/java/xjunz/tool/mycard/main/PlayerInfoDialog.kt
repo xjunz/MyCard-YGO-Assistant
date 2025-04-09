@@ -124,6 +124,9 @@ class PlayerInfoDialog : BaseBottomSheetDialog<DialogLeaderboardPlayerInfoBindin
                 updateStarTooltip(ibStar)
                 rvTags.adapter = tagAdapter
                 ibHistory.setOnClickListener {
+                    if (tag == "player-info-from-history") {
+                        dismiss()
+                    }
                     HistoryDialog().setPlayerName(viewModel.playerName)
                         .show(parentFragmentManager, "history")
                 }

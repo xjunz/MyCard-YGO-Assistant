@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/ll_rank_container"
         app:layout_constraintTop_toTopOf="@+id/ll_rank_container"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@tools:sample/lorem/random" />
 
     <TextView
         android:id="@+id/tv_tag"
@@ -75,7 +75,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/tv_name"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="@tools:sample/full_names" />
+        tools:text="@tools:sample/lorem/random" />
 
     <ImageButton
         android:id="@+id/ib_star"

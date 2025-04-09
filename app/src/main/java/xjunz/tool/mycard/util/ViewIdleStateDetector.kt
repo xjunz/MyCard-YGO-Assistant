@@ -65,7 +65,6 @@ object ViewIdleStateDetector {
         msg.obj = callback
         handler.sendMessageDelayed(msg, FAST_SCROLL_CHECK_PERIOD)
     }
-
     fun clearAll() {
         handler.removeCallbacksAndMessages(null)
     }

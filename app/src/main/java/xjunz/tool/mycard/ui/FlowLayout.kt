@@ -88,13 +88,6 @@ class FlowLayout @JvmOverloads constructor(
         ).asStateList
     }
 
-    private val textBackground by lazy {
-        MaterialShapeDrawable().apply {
-            fillColor = primaryColor
-            setCornerSize(16.dpFloat)
-        }
-    }
-
     private fun generateView(): TextView {
         val view = TextView(context)
         view.setTextAppearance(R.style.TextAppearance_Material3_LabelSmall)
@@ -102,7 +95,10 @@ class FlowLayout @JvmOverloads constructor(
             CHILD_PADDING_HORIZONTAL, CHILD_PADDING_VERTICAL,
             CHILD_PADDING_HORIZONTAL, CHILD_PADDING_VERTICAL
         )
-        view.background = textBackground.mutate()
+        view.background = MaterialShapeDrawable().apply {
+            fillColor = primaryColor
+            setCornerSize(16.dpFloat)
+        }
         view.setTextColor(context.resolveAttribute(R.attr.colorOnPrimary).resColor)
         return view
     }
@@ -113,7 +109,10 @@ class FlowLayout @JvmOverloads constructor(
      * @param index the index of the view, the default value is 0.
      */
     fun addText(index: Int = 0): TextView {
-        return generateView().also { addView(it, index) }
+        return generateView().also {
+            addView(it, index)
+            invalidate()
+        }
     }
 
 }

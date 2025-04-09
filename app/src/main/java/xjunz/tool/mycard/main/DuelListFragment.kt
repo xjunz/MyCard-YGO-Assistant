@@ -256,7 +256,7 @@ class DuelListFragment : Fragment() {
                                 setPadding(12)
                                 setCornerRadius(8f)
                                 setBackgroundColor(requireContext().resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
-                                setBalloonAnimation(BalloonAnimation.ELASTIC)
+                                setBalloonAnimation(BalloonAnimation.FADE)
                                 setLifecycleOwner(viewLifecycleOwner)
                                 build()
                                 setOnBalloonDismissListener {

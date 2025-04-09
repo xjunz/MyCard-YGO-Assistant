@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -136,8 +137,11 @@ class DuelListAdapter(private val mvm: MainViewModel) :
                 isScrolling = newState != RecyclerView.SCROLL_STATE_IDLE
             }
         })
-        context.registerReceiver(
-            refreshReceiver, IntentFilter(ACTION_REFRESH)
+        ContextCompat.registerReceiver(
+            context,
+            refreshReceiver,
+            IntentFilter(ACTION_REFRESH),
+            ContextCompat.RECEIVER_NOT_EXPORTED
         )
         lifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_DESTROY) cleanUp()
@@ -174,10 +178,6 @@ class DuelListAdapter(private val mvm: MainViewModel) :
                     return@setOnClickListener
                 }
                 duelList[adapterPosition].spectateCheckLogin(context)
-            }
-            binding.root.setOnLongClickListener {
-                binding.ibWatch.performClick()
-                return@setOnLongClickListener true
             }
             binding.ibWatch.setTooltipCompat(R.string.spectate.resText)
             binding.root.setOnClickListener {

@@ -13,6 +13,8 @@ import xjunz.tool.mycard.common.DropdownArrayAdapter
 import xjunz.tool.mycard.databinding.DialogTagManagerBinding
 import xjunz.tool.mycard.info.PlayerInfoManager
 import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.setEntries
 import xjunz.tool.mycard.ktx.showSimplePromptDialog
 import xjunz.tool.mycard.ktx.textString
 import xjunz.tool.mycard.ktx.toast
@@ -23,8 +25,10 @@ import xjunz.tool.mycard.util.Motions
 class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
 
     private val BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG = "bundle.key.SHOW_CLEAR_ALL_DIALOG"
+    private val BUNDLE_KEY_DELETING_TAG = "bundle.key.DELETING_TAG"
 
-    private var clearAllConfirmationDialog: Dialog? = null
+    private var currentShowingDialog: Dialog? = null
+    private var deletingTag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +81,21 @@ class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
 
     private var currentPlayerName: String? = null
 
+    private fun initMenuDeleteTag() {
+        val tags = PlayerInfoManager.getAllDistinctTags()
+        binding.menuDeleteTag.setEntries(tags) {
+            deletingTag = tags[it]
+            showDeleteTagConfirmationDialog()
+        }
+    }
+
     override fun onDialogCreated(dialog: Dialog) {
         binding.menuTaggedPlayer.setAdapter(taggedPlayerAdapter)
         binding.menuTaggedPlayer.setOnItemClickListener { _, _, position, _ ->
             currentPlayerName = taggedPlayer[position]
             refreshTagAdapter()
         }
+        initMenuDeleteTag()
         binding.btnAddTag.setOnClickListener {
             val name = binding.etAddPlayer.textString
             if (name.isBlank()) {
@@ -108,8 +121,9 @@ class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
         super.onSaveInstanceState(outState)
         outState.putBoolean(
             BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG,
-            clearAllConfirmationDialog?.isShowing == true
+            currentShowingDialog?.isShowing == true
         )
+        outState.putString(BUNDLE_KEY_DELETING_TAG, deletingTag)
     }
 
     override fun onDialogCreated(dialog: Dialog, savedInstanceState: Bundle?) {
@@ -117,15 +131,34 @@ class TagManagerDialog : BaseBottomSheetDialog<DialogTagManagerBinding>() {
         if (savedInstanceState?.getBoolean(BUNDLE_KEY_SHOW_CLEAR_ALL_DIALOG) == true) {
             showClearAllConfirmationDialog()
         }
+        deletingTag = savedInstanceState?.getString(BUNDLE_KEY_DELETING_TAG, null)
+        if (deletingTag != null) {
+            showDeleteTagConfirmationDialog()
+        }
     }
 
     private fun showClearAllConfirmationDialog() {
-        clearAllConfirmationDialog =
+        currentShowingDialog =
             requireContext().showSimplePromptDialog(msg = R.string.prompt_remove_all_tags) {
-                DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.TAGS)
-                PlayerInfoManager.unfollowAll()
+                PlayerInfoManager.clearAllTags()
                 taggedPlayer.clear()
                 refreshTagAdapter()
+                DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.TAGS)
+            }
+    }
+
+    private fun showDeleteTagConfirmationDialog() {
+        val tag = requireNotNull(deletingTag)
+        currentShowingDialog = requireContext()
+            .showSimplePromptDialog(msg = R.string.format_prompt_delete_tag.format(tag)) {
+                val victims = PlayerInfoManager.removeTag(tag)
+                taggedPlayer.removeAll(victims)
+                DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.TAGS)
+                if (victims.contains(currentPlayerName)) {
+                    refreshTagAdapter()
+                }
+                initMenuDeleteTag()
+                binding.menuDeleteTag.text.clear()
             }
     }
 }

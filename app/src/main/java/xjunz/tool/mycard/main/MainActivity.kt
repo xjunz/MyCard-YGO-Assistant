@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                         setPadding(12)
                         setCornerRadius(8f)
                         setBackgroundColor(resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
-                        setBalloonAnimation(BalloonAnimation.ELASTIC)
+                        setBalloonAnimation(BalloonAnimation.FADE)
                         setLifecycleOwner(this@MainActivity)
                         build()
                         setOnBalloonDismissListener {

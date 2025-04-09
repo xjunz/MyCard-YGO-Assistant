@@ -281,8 +281,8 @@
     </string-array>
     <string name="duel_history">对战历史</string>
     <string name="format_history">的对战历史</string>
-    <string name="chart_desc">点击表格可查看对战记录</string>
-    <string name="chart_legend_desc">最近25场对局的D.P积分变化</string>
+    <string name="chart_desc">*尝试点击或双指扩缩图表</string>
+    <string name="chart_legend_desc">最近%d场对局的D.P积分变化</string>
     <string name="win">胜</string>
     <string name="lose">负</string>
     <string name="format_duel_duration">开始于: %s\n结束于: %s\n用时: %s</string>
@@ -305,6 +305,10 @@
     <string name="player_key_word">玩家关键词</string>
     <string name="tip_return_to_top">已回到顶部</string>
     <string name="tip_back_to_top">点击可回到顶部哦！</string>
+    <string name="delete_tag_for_all_players">为所有玩家删除指定标签</string>
+    <string name="format_prompt_delete_tag">你确定要为所有玩家移除标签\"%s\"吗？</string>
+    <string name="query_history_count">历史决斗数量</string>
+    <string name="close">关闭</string>
 
     <string-array name="duel_list_sort_by">
         <item>按对局开始时间（默认）</item>

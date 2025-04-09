@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/spacing_normal">
@@ -25,10 +26,31 @@
         android:hint="@string/tagged_players"
         android:labelFor="@id/menu_tagged_player"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal"
+        tools:layout_editor_absoluteX="16dp">
 
         <AutoCompleteTextView
             android:id="@+id/menu_tagged_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_delete_tag"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/delete_tag_for_all_players"
+        android:labelFor="@id/menu_delete_tag"
+        app:layout_constraintTop_toBottomOf="@+id/til_tagged_player"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal"
+        tools:layout_editor_absoluteX="16dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/menu_delete_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none" />
@@ -41,8 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_unit"
         android:hint="@string/tag_new_player"
-        app:layout_constraintTop_toBottomOf="@id/til_tagged_player"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal">
+        app:layout_constraintTop_toBottomOf="@+id/til_delete_tag"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Normal"
+        tools:layout_editor_absoluteX="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_add_player"
@@ -66,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="@id/til_add_player" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/tag_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -101,5 +124,5 @@
         android:text="@string/clear_all_tags"
         app:backgroundTint="?colorError"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tag_container" />
 </androidx.constraintlayout.widget.ConstraintLayout>

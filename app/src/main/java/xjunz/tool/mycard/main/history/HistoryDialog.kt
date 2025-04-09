@@ -43,6 +43,7 @@ import xjunz.tool.mycard.ktx.resColor
 import xjunz.tool.mycard.ktx.resStr
 import xjunz.tool.mycard.ktx.resText
 import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setEntries
 import xjunz.tool.mycard.ktx.setTooltipCompat
 import xjunz.tool.mycard.ktx.viewUrlSafely
 import xjunz.tool.mycard.main.PlayerInfoDialog
@@ -56,22 +57,42 @@ import xjunz.tool.mycard.util.TimeParser
  */
 class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
 
+    companion object {
+        val QUERY_COUNT_ENTRIES = arrayOf(10, 20, 30, 50, 100)
+        const val DEFAULT_QUERY_COUNT = 20
+    }
+
+
     class ViewModel : androidx.lifecycle.ViewModel() {
 
         lateinit var playerName: String
 
         private val client = PlayerInfoLoaderClient()
 
-        val records = MutableLiveData<List<DuelRecord>>()
+        val isLoading = MutableLiveData(true)
+
+        private var maxRecords = emptyList<DuelRecord>()
+
+        val records = MutableLiveData<List<DuelRecord>?>()
 
         val selectedIndex = MutableLiveData(0)
 
-        fun loadHistory() {
+        fun loadHistory(count: Int) {
             viewModelScope.launch {
-                val history = withContext(Dispatchers.IO) {
-                    client.queryPlayerHistory(playerName, 25)
+                if (maxRecords.size >= count) {
+                    records.value = maxRecords.subList(0, count)
+                    return@launch
                 }
-                records.value = history?.records
+                isLoading.value = true
+                val history = withContext(Dispatchers.IO) {
+                    client.queryPlayerHistory(playerName, count)
+                }
+                isLoading.value = false
+                val currentRecords = history?.records
+                if (currentRecords != null && currentRecords.size > maxRecords.size) {
+                    maxRecords = currentRecords;
+                }
+                records.value = currentRecords
             }
         }
 
@@ -104,37 +125,63 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
 
     override fun onDialogCreated(dialog: Dialog) {
         initChartView()
-        viewModel.loadHistory()
+        initDropDown()
+        viewModel.loadHistory(DEFAULT_QUERY_COUNT)
+        binding.ibClose.setTooltipCompat(R.string.close.resText)
         binding.ibClose.setOnClickListener {
             dismiss()
         }
-        binding.tvPlayerName.text = buildSpannedString {
-            append(
-                viewModel.playerName,
-                ForegroundColorSpan(primaryColor),
-                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            append(R.string.format_history.resText)
+        binding.btnPrev?.setOnClickListener {
+            val value = viewModel.selectedIndex.value
+            if (value != null && value > 0) {
+                binding.lineChart.highlightValue(value.toFloat(), 0)
+            }
         }
+        binding.btnNext?.setOnClickListener {
+            val value = viewModel.selectedIndex.value
+            if (value != null && value < (viewModel.records.value?.size ?: 0) - 1) {
+                binding.lineChart.highlightValue(value.toFloat() + 2, 0)
+            }
+        }
+        if (binding.tvTitle == null) {
+            binding.tvPlayerName.text = buildSpannedString {
+                append(
+                    viewModel.playerName,
+                    ForegroundColorSpan(primaryColor),
+                    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                append(R.string.format_history.resText)
+            }
+        } else {
+            binding.tvPlayerName.text = viewModel.playerName
+        }
+
         binding.ibOpenInBrowser.setTooltipCompat(R.string.open_in_browser.resText)
         binding.ibOpenInBrowser.setOnClickListener {
             requireActivity().viewUrlSafely("https://mycard.moe/ygopro/arena/#/userinfo?username=${viewModel.playerName}")
         }
-        viewModel.records.observe(this) {
+        viewModel.isLoading.observe(this) {
             binding.root.rootView.beginDelayedTransition()
-            binding.lineChart.isInvisible = it == null
-            if (it == null) {
+            binding.tilQueryCount.isEnabled = !it
+            if (it) {
                 binding.progress.show()
             } else {
                 binding.progress.hide()
             }
-            if (it != null) {
-                setChartData(it)
-                viewModel.selectedIndex.value = it.size - 1
+            binding.lineChart.isInvisible = it
+        }
+        viewModel.records.observe(this) {
+            if (it == null) {
+                return@observe
             }
+            setChartData(it)
+            viewModel.selectedIndex.value = it.lastIndex.coerceAtLeast(0)
         }
         viewModel.selectedIndex.observe(this) {
             if (it == null) return@observe
+            val recordSize = viewModel.records.value?.size ?: 0;
+            val selectedRecordNumber = (it + 1).coerceAtMost(recordSize)
+            binding.tvIndicator?.text = "%d/%d".format(selectedRecordNumber, recordSize)
             val record = viewModel.records.value?.asReversed()?.getOrNull(it)
             record?.apply {
                 binding.root.rootView.beginDelayedTransition()
@@ -192,7 +239,7 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                     balloon?.dismiss()
                     Configs.shouldShowHistoryPlayerNameBalloon = false
                     PlayerInfoDialog().setPlayerName(opponentPlayerName)
-                        .show(parentFragmentManager, "player-info")
+                        .show(parentFragmentManager, "player-info-from-history")
                 }
                 if (!Configs.shouldShowHistoryPlayerNameBalloon) {
                     return@observe
@@ -210,7 +257,7 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                         setPadding(12)
                         setCornerRadius(8f)
                         setBackgroundColor(primaryColor)
-                        setBalloonAnimation(BalloonAnimation.ELASTIC)
+                        setBalloonAnimation(BalloonAnimation.FADE)
                         setLifecycleOwner(this@HistoryDialog)
                         build()
                     }
@@ -218,6 +265,15 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                 }
             }
         }
+    }
+
+    private fun initDropDown() {
+        binding.etQueryCount.threshold = Int.MAX_VALUE
+        binding.etQueryCount.setEntries(QUERY_COUNT_ENTRIES) {
+            val count = QUERY_COUNT_ENTRIES[it]
+            viewModel.loadHistory(count)
+        }
+        binding.etQueryCount.setText(DEFAULT_QUERY_COUNT.toString())
     }
 
     private fun initChartView() {
@@ -228,10 +284,12 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
             }
             axisRight.setDrawLabels(false)
             xAxis.granularity = 1F
-
             setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
                 override fun onValueSelected(e: Entry, h: Highlight) {
-                    viewModel.selectedIndex.value = (e.x - 1).toInt()
+                    val x = (e.x - 1).toInt()
+                    if (viewModel.selectedIndex.value != x) {
+                        viewModel.selectedIndex.value = x
+                    }
                 }
 
                 override fun onNothingSelected() {
@@ -249,13 +307,15 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
             Entry(index + 1F, pt)
         }
         // create a dataset and give it a type
-        val set = LineDataSet(values, R.string.chart_legend_desc.resStr)
+        val set = LineDataSet(
+            values,
+            R.string.chart_legend_desc.format(records.size)
+        )
 
         set.setDrawIcons(false)
 
         // draw dashed line
         set.enableDashedLine(10f, 5f, 0f)
-
         // black lines and points
         set.color = primaryColor
         set.setCircleColor(primaryColor)

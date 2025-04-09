@@ -107,7 +107,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
             socketTimeoutMillis = 10_000
         }
         install(WebSockets) {
-            pingInterval = 10_000
+            pingIntervalMillis = 10_000
         }
     })
 
