@@ -28,7 +28,7 @@ class LeftTopPinView @JvmOverloads constructor(
     private val backColor by lazy {
         ColorUtils.compositeColors(
             ColorUtils.setAlphaComponent(
-                context.resolveAttribute(R.attr.colorPrimary).resColor,
+                context.resolveAttribute(androidx.appcompat.R.attr.colorPrimary).resColor,
                 (.92 * 0xFF).toInt()
             ),
             context.resolveAttribute(R.attr.colorSurface).resColor

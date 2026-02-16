@@ -82,7 +82,10 @@ class DuelPushCriteriaEditorDialog : BaseBottomSheetDialog<DialogCriteriaEditorB
     fun doOnConfirmed(block: (DuelFilterCriteria) -> Unit): DuelPushCriteriaEditorDialog {
         lifecycleScope.launch {
             lifecycle.withCreated {
-                viewModel.onConfirmed = block
+                viewModel.onConfirmed = {
+                    block(it)
+                    dismiss()
+                }
             }
         }
         return this

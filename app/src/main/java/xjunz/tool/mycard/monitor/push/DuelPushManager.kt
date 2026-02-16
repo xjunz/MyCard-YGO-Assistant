@@ -13,6 +13,7 @@ import androidx.collection.ArrayMap
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.edit
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.os.postDelayed
 import androidx.core.text.parseAsHtml
@@ -248,7 +249,7 @@ object DuelPushManager {
     }
 
     private fun DuelFilterCriteria.persist() {
-        sharedPrefs.edit().putString(id, encodeToJson()).apply()
+        sharedPrefs.edit { putString(id, encodeToJson()) }
     }
 
     fun DuelFilterCriteria.update() {

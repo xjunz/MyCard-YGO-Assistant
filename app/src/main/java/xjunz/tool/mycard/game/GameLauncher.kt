@@ -23,7 +23,7 @@ object GameLauncher {
 
     private const val ACTION_LAUNCH_YGO_MOBILE_GAME = "ygomobile.intent.action.GAME"
 
-    private inline val token get() = Generator.generateToken(AccountManager.reqUserId())
+    private inline val token get() = Generator.generateToken(AccountManager.reqU16Secret())
 
     /**
      * Check whether there is a game launcher on the device.

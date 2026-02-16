@@ -21,7 +21,7 @@
         android:layout_gravity="bottom"
         android:alpha=".92"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior">
+        app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/real_navigation_bar"

@@ -25,7 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
+import com.google.android.material.behavior.HideViewOnScrollBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.skydoves.balloon.ArrowPositionRules
 import com.skydoves.balloon.BalloonAnimation
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
                         setArrowSize(10)
                         setPadding(12)
                         setCornerRadius(8f)
-                        setBackgroundColor(resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
+                        setBackgroundColor(resolveAttribute(androidx.appcompat.R.attr.colorPrimary).resColor)
                         setBalloonAnimation(BalloonAnimation.FADE)
                         setLifecycleOwner(this@MainActivity)
                         build()
@@ -163,9 +163,9 @@ class MainActivity : AppCompatActivity() {
     private fun initNavigationBar() {
         binding.navigationBar.apply {
             val behavior = (layoutParams as CoordinatorLayout.LayoutParams).behavior
-            if (behavior != null && behavior is HideBottomViewOnScrollBehavior) {
+            if (behavior != null && behavior is HideViewOnScrollBehavior) {
                 viewModel.shouldShowBottomBar.observe(this@MainActivity) { should ->
-                    if (should) behavior.slideUp(this) else behavior.slideDown(this)
+                    if (should) behavior.slideIn(this) else behavior.slideOut(this)
                 }
             }
             doOnPreDraw {
@@ -253,8 +253,8 @@ class MainActivity : AppCompatActivity() {
                 super.onPageSelected(position)
                 val behavior =
                     (binding.navigationBar.layoutParams as CoordinatorLayout.LayoutParams).behavior
-                            as HideBottomViewOnScrollBehavior<View>
-                behavior.slideUp(binding.navigationBar)
+                            as HideViewOnScrollBehavior<View>
+                behavior.slideIn(binding.navigationBar)
             }
         })
     }

@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.util.Pair
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import xjunz.tool.mycard.R
+import xjunz.tool.mycard.app
 
 /**
  * Resolve the resource id of an attr resource.
@@ -75,7 +76,7 @@ fun Context.requireActivity(): AppCompatActivity {
 }
 
 inline fun Context.broadcast(action: String, block: Intent.() -> Unit = {}) {
-    sendBroadcast(Intent(action).also(block))
+    sendBroadcast(Intent(action).setPackage(app.packageName).also(block))
 }
 
 /**

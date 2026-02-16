@@ -70,7 +70,7 @@ class DuelListFragment : Fragment() {
     private val countDownHandler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (viewModel.monitorState.value !in State.DISCONNECTED) return
+            if (viewModel.monitorState.value!! !in State.DISCONNECTED) return
             binding.topBar.beginDelayedTransition()
             val remaining = msg.what
             if (remaining == 0) {
@@ -111,10 +111,10 @@ class DuelListFragment : Fragment() {
                     && viewModel.monitorState.value == State.CONNECTED
                 ) {
                     binding.btnFilter.iconTint =
-                        requireContext().resolveAttribute(com.google.android.material.R.attr.colorError).resColor.asStateList
+                        requireContext().resolveAttribute(androidx.appcompat.R.attr.colorError).resColor.asStateList
                 } else {
                     binding.btnFilter.iconTint =
-                        requireContext().resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor.asStateList
+                        requireContext().resolveAttribute(androidx.appcompat.R.attr.colorPrimary).resColor.asStateList
                 }
             } else {
                 binding.btnFilter.iconTint =
@@ -255,7 +255,7 @@ class DuelListFragment : Fragment() {
                                 setArrowPosition(0.5f)
                                 setPadding(12)
                                 setCornerRadius(8f)
-                                setBackgroundColor(requireContext().resolveAttribute(com.google.android.material.R.attr.colorPrimary).resColor)
+                                setBackgroundColor(requireContext().resolveAttribute(androidx.appcompat.R.attr.colorPrimary).resColor)
                                 setBalloonAnimation(BalloonAnimation.FADE)
                                 setLifecycleOwner(viewLifecycleOwner)
                                 build()
@@ -340,7 +340,7 @@ class DuelListFragment : Fragment() {
         if (!viewModel.isServiceBound()) return
         viewModel.monitorState.apply {
             removeObservers(viewLifecycleOwner)
-            if (value in State.DISCONNECTED) value = State.DISCONNECTED_IDLE
+            if (value!! in State.DISCONNECTED) value = State.DISCONNECTED_IDLE
         }
         countDownHandler.removeCallbacksAndMessages(null)
     }

@@ -84,7 +84,8 @@ class FlowLayout @JvmOverloads constructor(
 
     private val primaryColor by lazy {
         ColorUtils.setAlphaComponent(
-            context.resolveAttribute(R.attr.colorPrimary).resColor, (.8 * 0xFF).toInt()
+            context.resolveAttribute(androidx.appcompat.R.attr.colorPrimary).resColor,
+            (.8 * 0xFF).toInt()
         ).asStateList
     }
 

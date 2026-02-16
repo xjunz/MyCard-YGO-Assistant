@@ -19,8 +19,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
@@ -29,7 +27,17 @@ import xjunz.tool.mycard.databinding.DialogCalculatorBinding
 import xjunz.tool.mycard.databinding.ItemCalculatorResultBinding
 import xjunz.tool.mycard.databinding.ItemCardConditionBinding
 import xjunz.tool.mycard.databinding.ItemConditionSetBinding
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.dp
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.resArray
+import xjunz.tool.mycard.ktx.resStr
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.scrollPositionToCenter
+import xjunz.tool.mycard.ktx.setEntries
+import xjunz.tool.mycard.ktx.showSimplePromptDialog
+import xjunz.tool.mycard.ktx.textString
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.settings.Configs
 import xjunz.tool.mycard.util.debugLog
 import java.math.BigDecimal
@@ -347,8 +355,8 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
         RecyclerView.ViewHolder(itemBinding.root) {
         init {
             itemBinding.root.setOnClickListener {
-                if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
-                val condition = conditions[adapterPosition]
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                val condition = conditions[bindingAdapterPosition]
                 val oldCount = condition.collectionCount
                 CardConditionEditorDialog()
                     .setExistingCollectionNames((conditions.asSequence().filter {
@@ -360,8 +368,8 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
                         condition, binding.menuDeckCardCount.textString.toInt()
                     ).setDefCollection(latestUsedCollectionName, latestUsedCollectionCount)
                     .doOnConfirmed { newCondition ->
-                        conditions[adapterPosition] = newCondition
-                        cardsAdapter.notifyItemChanged(adapterPosition)
+                        conditions[bindingAdapterPosition] = newCondition
+                        cardsAdapter.notifyItemChanged(bindingAdapterPosition)
                         if (newCondition.collectionCount != oldCount) {
                             conditionSets.flatMap { it.conditions }.forEach {
                                 if (it.collectionName == newCondition.collectionName) {
@@ -377,10 +385,10 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
                     }.show(childFragmentManager, "condition-editor")
             }
             itemBinding.ibDelete.setOnClickListener {
-                if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 requireActivity().showSimplePromptDialog(msg = R.string.prompt_delete_criteria) {
-                    conditions.removeAt(adapterPosition)
-                    cardsAdapter.notifyItemRemoved(adapterPosition)
+                    conditions.removeAt(bindingAdapterPosition)
+                    cardsAdapter.notifyItemRemoved(bindingAdapterPosition)
                     cardsAdapter.notifyItemRangeChanged(0, conditions.size, 1)
                     binding.etHandCardsCount.setText(conditions.size.toString())
                 }
@@ -436,7 +444,7 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
 
             init {
                 binding.chipResult.setOnClickListener {
-                    val conditionSet = conditionSets[adapterPosition]
+                    val conditionSet = conditionSets[bindingAdapterPosition]
                     val ret = conditionSet.getResult()
                     val msg = if (ret == null) {
                         R.string.result_not_calculated.resText
@@ -489,7 +497,7 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
             RecyclerView.ViewHolder(item.root) {
             init {
                 item.root.setOnCloseIconClickListener {
-                    val data = conditionSets[adapterPosition]
+                    val data = conditionSets[bindingAdapterPosition]
                     requireActivity().showSimplePromptDialog(msg = R.string.prompt_remove_condition_set) {
                         val curIndex = conditionSets.indexOf(data)
                         check(curIndex >= 0)
@@ -508,26 +516,26 @@ class ProbabilityCalculatorDialog : BaseBottomSheetDialog<DialogCalculatorBindin
                     }
                 }
                 item.root.setOnClickListener {
-                    val newSelection = conditionSets[adapterPosition]
+                    val newSelection = conditionSets[bindingAdapterPosition]
                     if (currentSelection === newSelection) {
                         InputDialog().apply {
                             setInitialInput(newSelection.label)
                             setPositiveButton { text ->
                                 newSelection.label = text
-                                notifyItemChanged(adapterPosition, 1)
+                                notifyItemChanged(bindingAdapterPosition, 1)
                                 return@setPositiveButton null
                             }
                         }.show(parentFragmentManager, "label")
                     } else {
                         val oldIndex = conditionSets.indexOf(currentSelection)
-                        currentSelection = conditionSets[adapterPosition]
+                        currentSelection = conditionSets[bindingAdapterPosition]
                         bindViews()
-                        notifyItemChanged(adapterPosition)
+                        notifyItemChanged(bindingAdapterPosition)
                         notifyItemChanged(oldIndex)
                         resultsAdapter.notifyItemChanged(oldIndex)
-                        resultsAdapter.notifyItemChanged(adapterPosition)
-                        binding.rvConditions.scrollPositionToCenter(adapterPosition, true)
-                        binding.rvResult.scrollPositionToCenter(adapterPosition, true)
+                        resultsAdapter.notifyItemChanged(bindingAdapterPosition)
+                        binding.rvConditions.scrollPositionToCenter(bindingAdapterPosition, true)
+                        binding.rvResult.scrollPositionToCenter(bindingAdapterPosition, true)
                     }
                 }
             }

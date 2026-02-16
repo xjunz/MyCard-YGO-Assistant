@@ -40,7 +40,6 @@ import xjunz.tool.mycard.ktx.formatDurationMinSec
 import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.account.Generator
 import xjunz.tool.mycard.model.MatchResult
-import xjunz.tool.mycard.util.printLog
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
@@ -104,7 +103,6 @@ class MatchDialog : BaseBottomSheetDialog<DialogMatchBinding>() {
                 }
             }.onSuccess {
                 anticipation = it
-                printLog(binding.root.height.toString())
                 mainHandler.removeCallbacks(durationUpdater)
                 dialog?.findViewById<ViewGroup>(android.R.id.content)
                     ?.beginDelayedTransition()

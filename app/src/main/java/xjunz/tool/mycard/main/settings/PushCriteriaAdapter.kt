@@ -64,27 +64,27 @@ class PushCriteriaAdapter : RecyclerView.Adapter<PushCriteriaAdapter.PushCriteri
                 binding.flBtnContainer.isVisible = !expanded
             }
             binding.swEnabled.setOnClickListener {
-                val criterion = criteria[adapterPosition]
+                val criterion = criteria[bindingAdapterPosition]
                 criterion.isEnabled = !criterion.isEnabled
                 criterion.update()
                 DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.CHECKED_STATE)
             }
             binding.btnEdit.setOnClickListener {
-                val criterion = criteria[adapterPosition]
+                val criterion = criteria[bindingAdapterPosition]
                 DuelPushCriteriaEditorDialog().editCriteria(criterion).doOnConfirmed {
                     it.update()
                     beginDelayedTransition()
-                    notifyItemChanged(adapterPosition)
+                    notifyItemChanged(bindingAdapterPosition)
                     DuelListAdapter.broadcastAllChanged(DuelListAdapter.Payload.CHECKED_STATE)
                 }.show(context.requireActivity().supportFragmentManager, "edit-criteria")
             }
             binding.btnDelete.setOnClickListener {
-                val criterion = criteria[adapterPosition]
+                val criterion = criteria[bindingAdapterPosition]
                 context.showSimplePromptDialog(msg = string.prompt_delete_criteria) {
                     criterion.removeFromAll()
                     beginDelayedTransition()
-                    notifyItemChanged(adapterPosition - 1)
-                    notifyItemRemoved(adapterPosition)
+                    notifyItemChanged(bindingAdapterPosition - 1)
+                    notifyItemRemoved(bindingAdapterPosition)
                 }
             }
         }

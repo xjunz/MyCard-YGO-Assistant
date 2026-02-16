@@ -12,7 +12,11 @@ import androidx.lifecycle.withStarted
 import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.databinding.DialogInputBinding
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.asStateList
+import xjunz.tool.mycard.ktx.resColor
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.resolveAttribute
+import xjunz.tool.mycard.ktx.setMaxLength
 
 /**
  * @author xjunz 2022/3/10
@@ -60,7 +64,7 @@ class InputDialog : DialogFragment() {
         lifecycleScope.launch {
             lifecycle.withStarted {
                 val colorError =
-                    requireContext().resolveAttribute(com.google.android.material.R.attr.colorError)
+                    requireContext().resolveAttribute(androidx.appcompat.R.attr.colorError)
                         .resColor.asStateList
                 binding.btnNegative.strokeColor = colorError
                 binding.btnNegative.setTextColor(colorError)

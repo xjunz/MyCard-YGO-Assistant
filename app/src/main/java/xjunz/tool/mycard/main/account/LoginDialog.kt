@@ -13,18 +13,30 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xjunz.tool.mycard.R
+import xjunz.tool.mycard.app
 import xjunz.tool.mycard.common.BaseBottomSheetDialog
 import xjunz.tool.mycard.databinding.DialogLoginBinding
-import xjunz.tool.mycard.ktx.*
+import xjunz.tool.mycard.ktx.beginDelayedTransition
+import xjunz.tool.mycard.ktx.broadcast
+import xjunz.tool.mycard.ktx.format
+import xjunz.tool.mycard.ktx.longToast
+import xjunz.tool.mycard.ktx.resText
+import xjunz.tool.mycard.ktx.textString
+import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.util.HttpStatusCodeException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
 class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
 
+    companion object {
+        const val ACTION_ON_LOGIN = "top.xjunz.action.ON_LOGIN"
+    }
+
     private val client by lazy { LoginClient(lifecycle) }
 
     override fun onDialogCreated(dialog: Dialog) {
+        isCancelable = false
         binding.etUsername.setText(AccountManager.getRememberedUsername())
         binding.btnDismiss.setOnClickListener { dismiss() }
         binding.btnLogin.setOnClickListener {
@@ -34,10 +46,12 @@ class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
                 inputUsername.isBlank() -> {
                     binding.tilUsername.error = R.string.field_cannot_be_null.resText
                 }
+
                 inputPassword.length < 8 -> {
                     binding.tilUsername.error = null
                     binding.tilPassword.error = R.string.input_too_short.resText
                 }
+
                 else -> {
                     binding.tilUsername.error = null
                     binding.tilPassword.error = null
@@ -49,6 +63,7 @@ class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
                             toast(R.string.log_in_succeeded)
                             dismiss()
                             onSuccess?.invoke()
+                            app.broadcast(ACTION_ON_LOGIN)
                         }.onFailure {
                             startTransition(false)
                             promptError(it)
@@ -81,9 +96,11 @@ class LoginDialog : BaseBottomSheetDialog<DialogLoginBinding>() {
             is LoginClient.LoginCredentialException -> {
                 longToast(R.string.username_or_pwd_incorrect)
             }
+
             is HttpStatusCodeException -> {
                 longToast(R.string.format_error_code.format(t.code.value))
             }
+
             is TimeoutCancellationException -> longToast(R.string.request_timed_out)
             else -> longToast(R.string.format_unexpected_error.format(t?.message))
         }

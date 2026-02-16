@@ -115,7 +115,7 @@
         android:text="@string/configurations"
         android:transitionName="@string/configurations"
         app:icon="@drawable/ic_twotone_settings_24"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/connectivity_prompt"

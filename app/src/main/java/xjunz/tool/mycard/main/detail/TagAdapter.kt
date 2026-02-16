@@ -60,7 +60,7 @@ class TagAdapter(private var playerName: String) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                val pos = adapterPosition
+                val pos = bindingAdapterPosition
                 // developer tag is not editable
                 if (playerName == Constants.DEVELOPER_NAME) {
                     toast("(>.<)")

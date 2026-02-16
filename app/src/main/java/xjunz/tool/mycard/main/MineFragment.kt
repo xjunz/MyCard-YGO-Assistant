@@ -1,5 +1,9 @@
 package xjunz.tool.mycard.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -7,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -16,6 +21,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
@@ -45,6 +51,14 @@ class MineFragment : Fragment(), LifecycleEventObserver {
 
     private lateinit var binding: FragmentMineBinding
 
+    private val loginBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (context != null && intent?.action == LoginDialog.ACTION_ON_LOGIN) {
+                refresh()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,6 +78,12 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                 requireActivity().lifecycle.addObserver(this@MineFragment)
             }
         }
+        ContextCompat.registerReceiver(
+            requireContext(),
+            loginBroadcastReceiver,
+            IntentFilter(LoginDialog.ACTION_ON_LOGIN),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     private suspend fun loadAvatar(): Bitmap? {
@@ -81,21 +101,23 @@ class MineFragment : Fragment(), LifecycleEventObserver {
         }
     }
 
+    private fun refresh() {
+        updateLoginState()
+        initUserInfo()
+        loadPlayerInfo()
+    }
+
     private fun initViews() = binding.apply {
         btnReload.isCheckable = false
-        val refresh = {
-            updateLoginState()
-            initUserInfo()
-            loadPlayerInfo()
-        }
         btnLogInOut.setOnClickListener {
+            queryPlayerInfoJob?.cancel()
             if (AccountManager.hasLogin()) {
                 requireActivity().showSimplePromptDialog(msg = R.string.prompt_log_out) {
                     AccountManager.logout()
                     refresh()
                 }
             } else {
-                LoginDialog().doOnSuccess(refresh).show(parentFragmentManager, "login")
+                LoginDialog().show(parentFragmentManager, "login")
             }
         }
         btnReload.setOnClickListener {
@@ -163,7 +185,6 @@ class MineFragment : Fragment(), LifecycleEventObserver {
         lifecycleScope.launch {
             binding.apply {
                 userInfoLoaded = false
-                btnLogInOut.isEnabled = false
                 btnReload.isEnabled = false
                 // nothing to do with user info when updating
                 val userInfo = AccountManager.peekUser()
@@ -180,19 +201,19 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                     ivAvatar.setImageBitmap(avatar)
                 }
                 userInfoLoaded = true
-                btnLogInOut.isEnabled = isAllLoaded
                 btnReload.isEnabled = isAllLoaded
             }
         }
     }
 
+    private var queryPlayerInfoJob: Job? = null;
+
     private fun loadPlayerInfo(showToast: Boolean = false) {
         if (!AccountManager.hasLogin()) return
         // load player info
-        lifecycleScope.launch {
+        queryPlayerInfoJob = lifecycleScope.launch {
             binding.apply {
                 playerInfoLoaded = false
-                btnLogInOut.isEnabled = false
                 btnReload.isEnabled = false
                 val loaded = viewModel.playerInfoLoader.queryMyInfo()
                 if (loaded != null) {
@@ -212,7 +233,6 @@ class MineFragment : Fragment(), LifecycleEventObserver {
                     toast(R.string.refresh_failed)
                 }
                 playerInfoLoaded = true
-                btnLogInOut.isEnabled = isAllLoaded
                 btnReload.isEnabled = isAllLoaded
             }
         }
@@ -247,6 +267,8 @@ class MineFragment : Fragment(), LifecycleEventObserver {
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         if (event == Lifecycle.Event.ON_START) {
             loadPlayerInfo()
+        } else if (event == Lifecycle.Event.ON_DESTROY) {
+            requireContext().unregisterReceiver(loginBroadcastReceiver)
         }
     }
 }

@@ -125,7 +125,7 @@ class DuelListAdapter(private val mvm: MainViewModel) :
 
     private var isScrolling = false
 
-    private val isDisconnected get() = viewModel.monitorState.value in State.DISCONNECTED
+    private val isDisconnected get() = viewModel.monitorState.value!! in State.DISCONNECTED
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -163,7 +163,7 @@ class DuelListAdapter(private val mvm: MainViewModel) :
                 rippleCenterRadius = 12.dp
                 alpha = (.78 * 0xFF).toInt()
                 rippleColor = context.resolveAttribute(
-                    com.google.android.material.R.attr.colorPrimary
+                    androidx.appcompat.R.attr.colorPrimary
                 ).resColor
             }
         }
@@ -172,18 +172,18 @@ class DuelListAdapter(private val mvm: MainViewModel) :
             binding.rippleView.background = runningRipple
             runningRipple.start()
             binding.ibWatch.setOnClickListener {
-                if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (!GameLauncher.exists()) {
                     longToast(R.string.no_game_launcher_found)
                     return@setOnClickListener
                 }
-                duelList[adapterPosition].spectateCheckLogin(context)
+                duelList[bindingAdapterPosition].spectateCheckLogin(context)
             }
             binding.ibWatch.setTooltipCompat(R.string.spectate.resText)
             binding.root.setOnClickListener {
-                if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 context.launchActivity(DuelDetailsActivity::class.java) {
-                    putExtra(DuelDetailsActivity.EXTRA_DUEL, duelList[adapterPosition])
+                    putExtra(DuelDetailsActivity.EXTRA_DUEL, duelList[bindingAdapterPosition])
                 }
             }
             binding.pinContainer.translationY = (-binding.root.paddingTop).toFloat()
@@ -260,7 +260,7 @@ class DuelListAdapter(private val mvm: MainViewModel) :
     }
 
     private fun bindPlayerNames(binding: ItemDuelBinding, duel: Duel) {
-        binding.pinContainer.isVisible = duel.isFollowed()
+        binding.pinContainer.isVisible = duel.isFollowed() && Configs.shouldPinFollowedDuels
         Duel.PLAYERS.forEach {
             val tv = if (it == Duel.PLAYER_1) binding.tvPlayer1 else binding.tvPlayer2
             tv.text = duel.requirePlayerName(it)
@@ -443,7 +443,7 @@ class DuelListAdapter(private val mvm: MainViewModel) :
     override fun onViewAttachedToWindow(holder: DuelViewHolder) {
         super.onViewAttachedToWindow(holder)
         if (isDisconnected) return
-        val pos = holder.adapterPosition
+        val pos = holder.bindingAdapterPosition
         if (pos !in duelList.indices) return
         val duel = duelList[pos]
         if (duel.player1 != null && duel.player2 != null || !isScrolling) return
@@ -514,11 +514,7 @@ class DuelListAdapter(private val mvm: MainViewModel) :
                 )
 
                 Action.REFRESH_ORDER -> {
-                    if (Configs.shouldPinFollowedDuels) {
-                        duelList.sortWith(comparator)
-                    } else {
-                        duelList.sort()
-                    }
+                    duelList.sortWith(comparator)
                     notifyItemRangeChanged(0, duelList.size, Payload.FOLLOWING_STATE)
                 }
             }

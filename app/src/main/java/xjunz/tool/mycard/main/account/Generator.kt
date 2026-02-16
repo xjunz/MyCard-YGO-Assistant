@@ -19,8 +19,9 @@ object Generator {
 
     fun generateMatchAuth(): String {
         val user = AccountManager.peekUser()
+        val u16Secret = AccountManager.reqU16Secret()
         return "Basic " + Base64.encodeToString(
-            "${user.username}:${user.id}".toByteArray(), Base64.NO_WRAP
+            "${user.username}:${u16Secret}".toByteArray(), Base64.NO_WRAP
         )
     }
 }

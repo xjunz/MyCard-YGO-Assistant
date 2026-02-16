@@ -248,11 +248,11 @@ class LeaderboardFragment : Fragment() {
                 binding.root.background = createBackground()
                 binding.root.setOnClickListener {
                     PlayerInfoDialog()
-                        .setPlayer(leaderboardPlayers[adapterPosition])
+                        .setPlayer(leaderboardPlayers[bindingAdapterPosition])
                         .show(parentFragmentManager, "LeaderboardPlayerInfoDialog")
                 }
                 binding.ibStar.setOnClickListener {
-                    val name = leaderboardPlayers[adapterPosition].name
+                    val name = leaderboardPlayers[bindingAdapterPosition].name
                     it.isActivated = !it.isActivated
                     PlayerInfoManager.toggleFollowingState(name)
                     setIbStarTooltip(it)

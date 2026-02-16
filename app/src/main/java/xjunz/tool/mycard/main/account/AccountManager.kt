@@ -16,9 +16,11 @@ object AccountManager {
     private const val SP_KEY_USER = "user"
     private const val SP_KEY_REMEMBERED_USERNAME = "remembered_username"
     private const val SP_KEY_LOGIN_TIMESTAMP = "user_login_timestamp"
+    private const val SP_KEY_U16SECRET = "u16secret"
 
     private var isInitialized = false
     private var user: User? = null
+    private var u16Secret: Int? = null
 
     // Never expire
     private const val LOGIN_STATE_EXPIRED_DURATION = Long.MAX_VALUE // 1_209_600_000
@@ -38,12 +40,11 @@ object AccountManager {
             sharedPrefs.getString(SP_KEY_USER, null)?.let {
                 user = Json.decodeFromString(it)
             }
+            sharedPrefs.getInt(SP_KEY_U16SECRET, -1).let {
+                u16Secret = if (it == -1) null else it
+            }
         }
         isInitialized = true
-    }
-
-    private fun getLoginTimestamp(): Long {
-        return sharedPrefs.getLong(SP_KEY_LOGIN_TIMESTAMP, System.currentTimeMillis())
     }
 
     fun logout() {
@@ -57,7 +58,7 @@ object AccountManager {
 
     fun hasLogin(): Boolean {
         check(isInitialized) { "AccountManager is not initialized" }
-        return user != null
+        return user != null && u16Secret != null
     }
 
     fun peekUser(): User {
@@ -68,6 +69,10 @@ object AccountManager {
 
     fun reqUsername(): String {
         return peekUser().username
+    }
+
+    fun reqU16Secret(): Int {
+        return u16Secret!!
     }
 
     private fun getLocalAvatarFile(): File {
@@ -93,10 +98,6 @@ object AccountManager {
         return sharedPrefs.getString(SP_KEY_REMEMBERED_USERNAME, null)
     }
 
-    fun reqUserId(): Int {
-        return peekUser().id
-    }
-
     fun persistAvatarIfNeeded(bitmap: Bitmap) {
         val file = getLocalAvatarFile()
         if (file.createNewFile()) {
@@ -110,11 +111,13 @@ object AccountManager {
         }
     }
 
-    fun persistUserInfo(user: User) {
+    fun persistUserInfo(user: User, u16secret: Int) {
         this.user = user
-        sharedPrefs.edit {
+        this.u16Secret = u16secret
+        sharedPrefs.edit(commit = true) {
             putString(SP_KEY_USER, Json.encodeToString(user))
             putLong(SP_KEY_LOGIN_TIMESTAMP, System.currentTimeMillis())
+            putInt(SP_KEY_U16SECRET, u16secret)
         }
     }
 }

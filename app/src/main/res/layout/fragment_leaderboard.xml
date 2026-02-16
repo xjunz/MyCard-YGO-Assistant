@@ -98,6 +98,6 @@
         android:alpha=".82"
         android:contentDescription="@string/search"
         android:src="@drawable/baseline_search_24"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:layout_behavior="com.google.android.material.behavior.HideViewOnScrollBehavior"
         app:layout_dodgeInsetEdges="bottom" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

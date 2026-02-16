@@ -73,7 +73,7 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
     }
 
     override fun clearAllIfOutOfDate() {
-        if (state.value in State.DISCONNECTED) {
+        if (state.value!! in State.DISCONNECTED) {
             duelList.clear()
             isInitialized = false
             eventObservers?.forEach {
@@ -161,10 +161,10 @@ class DuelMonitorClient : Closeable, DuelMonitorDelegate {
                 when (val e = ret.exceptionOrNull()?.also { it.printStackTrace() }) {
                     is TimeoutCancellationException, is SocketTimeoutException,
                     is LongTimeNoFrameCancellationException
-                    -> State.DISCONNECTED_TIMED_OUT
+                        -> State.DISCONNECTED_TIMED_OUT
 
                     null, is CancellationException, is ClosedReceiveChannelException
-                    -> State.DISCONNECTED_USER_REQUEST
+                        -> State.DISCONNECTED_USER_REQUEST
 
                     is NetworkErrorException -> State.DISCONNECTED_NETWORK
                     is SocketException, is UnknownHostException ->

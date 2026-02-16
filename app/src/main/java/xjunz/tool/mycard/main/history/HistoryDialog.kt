@@ -29,6 +29,7 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xjunz.tool.mycard.R
@@ -247,21 +248,24 @@ class HistoryDialog : BaseBottomSheetDialog<DialogHistoryBinding>() {
                 if (balloon != null) {
                     balloon?.dismiss()
                 } else {
-                    balloon = createBalloon(requireContext()) {
-                        setHeight(BalloonSizeSpec.WRAP)
-                        setTextResource(R.string.tip_show_player_info)
-                        setTextSize(12f)
-                        setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-                        setArrowSize(10)
-                        setArrowPosition(0.5f)
-                        setPadding(12)
-                        setCornerRadius(8f)
-                        setBackgroundColor(primaryColor)
-                        setBalloonAnimation(BalloonAnimation.FADE)
-                        setLifecycleOwner(this@HistoryDialog)
-                        build()
+                    viewModel.viewModelScope.launch {
+                        delay(1_000)
+                        balloon = createBalloon(requireContext()) {
+                            setHeight(BalloonSizeSpec.WRAP)
+                            setTextResource(R.string.tip_show_player_info)
+                            setTextSize(12f)
+                            setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                            setArrowSize(10)
+                            setArrowPosition(0.5f)
+                            setPadding(12)
+                            setCornerRadius(8f)
+                            setBackgroundColor(primaryColor)
+                            setBalloonAnimation(BalloonAnimation.FADE)
+                            setLifecycleOwner(this@HistoryDialog)
+                            build()
+                        }
+                        balloon?.showAlignBottom(binding.tvVsPlayerName)
                     }
-                    balloon?.showAlignBottom(binding.tvVsPlayerName)
                 }
             }
         }

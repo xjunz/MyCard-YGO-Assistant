@@ -1,7 +1,6 @@
 package xjunz.tool.mycard.main.settings
 
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
+import androidx.core.content.edit
 import kotlinx.serialization.json.Json
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.main.filter.DuelListFilterCriteria
@@ -40,7 +39,7 @@ object Configs {
             return configSharedPrefs.getBoolean(SP_KEY_NOTIFICATION_DISABLED, false)
         }
         set(value) {
-            configSharedPrefs.edit().putBoolean(SP_KEY_NOTIFICATION_DISABLED, value).apply()
+            configSharedPrefs.edit { putBoolean(SP_KEY_NOTIFICATION_DISABLED, value) }
         }
 
     private const val SP_KEY_PIN_FOLLOWED_DUELS = "pin_followed_duels"
@@ -50,7 +49,7 @@ object Configs {
             return configSharedPrefs.getBoolean(SP_KEY_PIN_FOLLOWED_DUELS, false)
         }
         set(value) {
-            configSharedPrefs.edit().putBoolean(SP_KEY_PIN_FOLLOWED_DUELS, value).apply()
+            configSharedPrefs.edit { putBoolean(SP_KEY_PIN_FOLLOWED_DUELS, value) }
         }
 
     private const val SP_KEY_MINE_AS_HOME = "mine_as_home"
@@ -60,7 +59,7 @@ object Configs {
             return configSharedPrefs.getBoolean(SP_KEY_MINE_AS_HOME, false)
         }
         set(value) {
-            configSharedPrefs.edit().putBoolean(SP_KEY_MINE_AS_HOME, value).apply()
+            configSharedPrefs.edit { putBoolean(SP_KEY_MINE_AS_HOME, value) }
         }
 
     private const val SP_KEY_DUEL_LIST_FILTER = "duel_list_filter"
@@ -86,18 +85,18 @@ object Configs {
         }
         set(value) {
             field = if (value == null) {
-                configSharedPrefs.edit().remove(SP_KEY_DUEL_LIST_FILTER).apply()
+                configSharedPrefs.edit { remove(SP_KEY_DUEL_LIST_FILTER) }
                 null
             } else {
-                configSharedPrefs.edit()
-                    .putString(SP_KEY_DUEL_LIST_FILTER, LenientJson.encodeToString(value))
-                    .apply()
+                configSharedPrefs.edit {
+                    putString(SP_KEY_DUEL_LIST_FILTER, LenientJson.encodeToString(value))
+                }
                 value
             }
         }
 
     fun clearBalloonPrefs() {
-        balloonShardPrefs.edit().clear().apply()
+        balloonShardPrefs.edit { clear() }
         shouldShowHistoryPlayerNameBalloon = true
         shouldShowFilterBalloon = true
         shouldShowBackToTopBalloon = true
@@ -110,7 +109,7 @@ object Configs {
             return balloonShardPrefs.getBoolean(SP_KEY_SHOW_FILTER_BALLOON, true)
         }
         set(value) {
-            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_FILTER_BALLOON, value).apply()
+            balloonShardPrefs.edit { putBoolean(SP_KEY_SHOW_FILTER_BALLOON, value) }
         }
 
     private const val SP_KEY_SHOW_BACK_TO_TOP_BALLOON = "show_back_to_top_balloon"
@@ -120,7 +119,7 @@ object Configs {
             return balloonShardPrefs.getBoolean(SP_KEY_SHOW_BACK_TO_TOP_BALLOON, true)
         }
         set(value) {
-            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_BACK_TO_TOP_BALLOON, value).apply()
+            balloonShardPrefs.edit { putBoolean(SP_KEY_SHOW_BACK_TO_TOP_BALLOON, value) }
         }
 
     private const val SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON = "show_history_player_name_balloon"
@@ -130,7 +129,8 @@ object Configs {
             return balloonShardPrefs.getBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, true)
         }
         set(value) {
-            balloonShardPrefs.edit().putBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, value)
-                .apply()
+            balloonShardPrefs.edit {
+                putBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, value)
+            }
         }
 }
