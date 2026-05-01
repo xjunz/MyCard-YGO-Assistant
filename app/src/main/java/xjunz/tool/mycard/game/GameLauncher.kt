@@ -3,11 +3,15 @@ package xjunz.tool.mycard.game
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import xjunz.tool.mycard.Apis
 import xjunz.tool.mycard.R
 import xjunz.tool.mycard.app
 import xjunz.tool.mycard.ktx.errorToast
 import xjunz.tool.mycard.ktx.longToast
+import xjunz.tool.mycard.ktx.showLoadingDialog
 import xjunz.tool.mycard.ktx.toast
 import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.account.Generator
@@ -64,12 +68,39 @@ object GameLauncher {
     }
 
     fun Duel.spectateCheckLogin(activity: FragmentActivity) {
+        val duel = this
         if (!AccountManager.hasLogin()) {
             LoginDialog().doOnSuccess {
-                spectateAthleticDuel(id)
+                duel.spectateCheckLogin(activity)
             }.show(activity.supportFragmentManager, "login")
             toast(R.string.pls_login_first)
-        } else spectateAthleticDuel(id)
+            return
+        }
+        val loading = activity.showLoadingDialog(R.string.connecting_to_server)
+        val job = activity.lifecycleScope.launch {
+            try {
+                try {
+                    AccountManager.refreshU16Secret()
+                } catch (e: AccountManager.AuthExpiredException) {
+                    AccountManager.logout()
+                    toast(R.string.session_expired)
+                    LoginDialog().doOnSuccess {
+                        duel.spectateCheckLogin(activity)
+                    }.show(activity.supportFragmentManager, "login")
+                    return@launch
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    // Network or transient server error: fall back to the cached secret.
+                    // The server tolerates the previous rotation, so this still works briefly.
+                    e.printStackTrace()
+                }
+                spectateAthleticDuel(duel.id)
+            } finally {
+                loading.dismiss()
+            }
+        }
+        loading.setOnCancelListener { job.cancel() }
     }
 
     fun MatchResult.launchGameCheckLogin(activity: FragmentActivity) {
