@@ -9,10 +9,10 @@ import xjunz.tool.mycard.ktx.resStr
 @Serializable
 data class Condition(
     var remark: String? = null,
-    @Type var type: Int = TYPE_ANY_IN_DECK,
+    @param:Type var type: Int = TYPE_ANY_IN_DECK,
     var collectionCount: Int = 3,
     var collectionName: String? = null,
-    var isInverted: Boolean = false
+    var isInverted: Boolean = false,
 ) {
 
     @Transient
