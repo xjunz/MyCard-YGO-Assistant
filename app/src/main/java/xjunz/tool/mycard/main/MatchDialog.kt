@@ -38,7 +38,9 @@ import xjunz.tool.mycard.ktx.beginDelayedTransition
 import xjunz.tool.mycard.ktx.format
 import xjunz.tool.mycard.ktx.formatDurationMinSec
 import xjunz.tool.mycard.ktx.toast
+import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.main.account.Generator
+import xjunz.tool.mycard.main.account.LoginDialog
 import xjunz.tool.mycard.model.MatchResult
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
@@ -112,6 +114,20 @@ class MatchDialog : BaseBottomSheetDialog<DialogMatchBinding>() {
             }
         }
           requireActivity().lifecycleScope.launch {
+              try {
+                  AccountManager.refreshU16Secret()
+              } catch (e: AccountManager.AuthExpiredException) {
+                  AccountManager.logout()
+                  toast(R.string.session_expired)
+                  dismiss()
+                  LoginDialog().show(requireActivity().supportFragmentManager, "login")
+                  return@launch
+              } catch (e: CancellationException) {
+                  throw e
+              } catch (e: Exception) {
+                  // Network/transient: fall back to cached secret (server tolerates one rotation).
+                  e.printStackTrace()
+              }
               withContext(Dispatchers.IO) {
                   runCatching {
                       matchClient.post(Apis.BASE_API + Apis.API_MATCH) {

@@ -27,6 +27,8 @@
     <string name="username_or_pwd_incorrect">用户名或密码错误</string>
     <string name="request_timed_out">请求超时</string>
     <string name="pls_login_first">观战前请先登录</string>
+    <string name="session_expired">登录已过期，请重新登录</string>
+    <string name="connecting_to_server">正在连接服务器…</string>
     <string name="no_internet">无网络</string>
     <string name="format_last_update_time">对局列表可能已过时。上次更新时间：%s</string>
     <string name="server_error">服务器错误</string>
@@ -252,7 +254,7 @@
     <string name="remove_notification">移除通知</string>
     <string name="about_text">此应用以<b>Apache-License 2.0</b>协议<a href='https://github.com/xjunz/MyCard-YGO-Assisant'>开源</a>
         \n\n如果你喜欢此应用，可以点击下方⌈捐赠⌋按钮以支持我的工作。</string>
-    <string name="credits">特别鸣谢<a href='https://ygomobile.top/'>YGO Mobile</a>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
+    <string name="credits">特别鸣谢<b>YGO Mobile</b>以及<a href='https://mycard.moe/'>萌卡</a>官方</string>
     <string name="check_update">检查更新</string>
     <string name="donate">捐赠</string>
     <string name="version_info">版本信息</string>

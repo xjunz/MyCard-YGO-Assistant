@@ -63,7 +63,7 @@ class LoginClient(lifecycle: Lifecycle) : LifecyclePerceptiveCloseable(lifecycle
                         checkNotNull(u16Secret) {
                             "u16secret is null"
                         }
-                        AccountManager.persistUserInfo(it.user, u16Secret)
+                        AccountManager.persistUserInfo(it.user, it.token, u16Secret)
                     }
                     ret.status == HttpStatusCode.BadRequest -> throw LoginCredentialException()
                     else -> throw HttpStatusCodeException(ret.status)

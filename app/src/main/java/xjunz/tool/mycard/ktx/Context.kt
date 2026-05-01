@@ -6,10 +6,13 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.AnyRes
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
@@ -116,4 +119,15 @@ inline fun Context.showSimplePromptDialog(
     }
     builder.setPositiveButton(android.R.string.ok) { _, _ -> positiveAction.invoke() }
     return builder.show()
+}
+
+/**
+ * Show an indeterminate loading dialog with a [message]. Returned dialog should be
+ * [AlertDialog.dismiss]ed by the caller when the underlying work completes; the caller may
+ * also wire [AlertDialog.setOnCancelListener] to abort that work when the user dismisses.
+ */
+fun Context.showLoadingDialog(@StringRes message: Int): AlertDialog {
+    val view = LayoutInflater.from(this).inflate(R.layout.dialog_loading, null)
+    view.findViewById<TextView>(R.id.tv_message).setText(message)
+    return MaterialAlertDialogBuilder(this).setView(view).show()
 }

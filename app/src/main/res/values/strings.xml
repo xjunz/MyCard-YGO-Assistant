@@ -26,6 +26,8 @@
     <string name="username_or_pwd_incorrect">Either the username or password is incorrect</string>
     <string name="request_timed_out">Request Timed Out</string>
     <string name="pls_login_first">Please log in before spectating</string>
+    <string name="session_expired">Session expired, please log in again</string>
+    <string name="connecting_to_server">Connecting to server…</string>
     <string name="no_internet">No Internet</string>
     <string name="format_last_update_time">Note: duels might be out-of-date. \nLast update time: %s</string>
     <string name="format_timeliness">Last update time: %s</string>
@@ -263,7 +265,7 @@
     <string name="check_update">Check For Updates</string>
     <string name="donate">Donate</string>
     <string name="version_info">Version Info</string>
-    <string name="credits">Special thanks to <a href='https://www.pgyer.com/ygomobileen'>YGO Mobile</a> &amp; <a href='https://mycard.moe/'>MyCard</a></string>
+    <string name="credits">Special thanks to <b>YGO Mobile</b> &amp; <a href='https://mycard.moe/'>MyCard</a></string>
     <string name="has_updates">New Version Found</string>
     <string name="html_updates_info">
         <![CDATA[<b>Version Name: </b>%s<br/><br/>
