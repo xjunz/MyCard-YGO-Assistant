@@ -74,10 +74,8 @@ class MainActivity : AppCompatActivity() {
                     this, android.Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-                    if (!it) {
-                        finish()
-                    }
+                registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+                    if (granted) bindMonitorService() else finish()
                 }.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             } else {
                 bindMonitorService()
