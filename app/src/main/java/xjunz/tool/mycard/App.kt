@@ -7,6 +7,7 @@ import android.util.Printer
 import androidx.core.content.ContextCompat
 import top.xjunz.returntransitionpatcher.ReturnTransitionPatcher
 import xjunz.tool.mycard.info.PlayerInfoManager
+import xjunz.tool.mycard.main.account.AccountManager
 import xjunz.tool.mycard.outer.GlobalCrashHandler
 import java.io.File
 
@@ -39,6 +40,7 @@ class App : Application() {
         GlobalCrashHandler.init()
         ReturnTransitionPatcher.patchAll(this)
         app = this
+        AccountManager.initIfNeeded()
 
         val dataDir = ContextCompat.getDataDir(this)
         val legacyConfig = File(dataDir, "/shared_prefs/config.xml")
