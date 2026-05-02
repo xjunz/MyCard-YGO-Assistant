@@ -30,7 +30,7 @@
     <string name="session_expired">登录已过期，请重新登录</string>
     <string name="connecting_to_server">正在连接服务器…</string>
     <string name="first_time_ygo_title">启动 YGO Mobile</string>
-    <string name="first_time_ygo_message">YGO Mobile 需要先在后台运行才能直接打开房间。如果还没打开过 YGO Mobile，请先打开一次再回来观战。\n\n另外：观战结束时请通过YGO Mobile内的菜单退出，不要从最近任务里把对局划掉，否则会导致观战异常。</string>
+    <string name="first_time_ygo_message">YGO Mobile 需要先在后台运行才能直接打开房间。如果没有，请先打开一次再回来观战。\n\n另外：观战结束时请通过YGO Mobile内的菜单退出，不要从最近任务里把对局划掉，否则会导致观战异常。</string>
     <string name="open_ygo_first">先打开 YGO Mobile</string>
     <string name="continue_anyway">继续观战</string>
     <string name="spectate_header_hint">观战前，请确保YGO Mobile在后台运行。\n离开观战请通过YGO Mobile内的菜单正常退出。从最近任务列表划掉对局可能导致下次观战异常。</string>
