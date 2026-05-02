@@ -106,6 +106,7 @@ class DuelListFragment : Fragment() {
                 MaterialFadeThrough(), target = binding.connectivityPrompt
             )
             binding.connectivityPrompt.isVisible = !it
+            shouldShowSpectateHintHeader = computeShouldShowSpectateHintHeader()
             if (Configs.hasFilterApplied) {
                 if (!it && viewModel.isServiceBound()
                     && viewModel.monitorState.value == State.CONNECTED
@@ -124,6 +125,11 @@ class DuelListFragment : Fragment() {
         binding.btnClearAll.setOnClickListener {
             viewModel.monitorService.clearAllIfOutOfDate()
             shouldShowHeader = false
+        }
+        binding.cardSpectateHint.isVisible = shouldShowSpectateHintHeader
+        binding.btnCloseSpectateHint.setOnClickListener {
+            Configs.shouldShowSpectateHintHeader = false
+            shouldShowSpectateHintHeader = false
         }
         viewModel.isServiceBound.observe(viewLifecycleOwner) {
             if (it) {
@@ -295,36 +301,52 @@ class DuelListFragment : Fragment() {
             updateHeader()
         }
 
+    private var shouldShowSpectateHintHeader: Boolean = false
+        set(value) {
+            if (value == field) return
+            field = value
+            updateHeader()
+        }
+
+    private fun computeShouldShowSpectateHintHeader(): Boolean {
+        return Configs.firstTimeYgoHintRead
+                && Configs.shouldShowSpectateHintHeader
+                && viewModel.hasDataShown.value == true
+    }
+
     private fun updateHeader() {
         binding.topBar.beginDelayedTransition()
+        binding.cardSpectateHint.isVisible = shouldShowSpectateHintHeader
+        binding.cardHeader.isVisible = shouldShowHeader
         if (shouldShowHeader) {
-            binding.cardHeader.isVisible = true
-            binding.cardHeader.doOnPreDraw {
-                binding.rvDuel.updatePadding(top = it.bottom + 4.dp)
-            }
             val timestamp = viewModel.monitorService.lastUpdateTimestamp
             if (timestamp > 0 && viewModel.monitorService.duelList.isNotEmpty()) {
                 binding.tvTimelinessTip.text =
                     R.string.format_last_update_time.format(timestamp.formatToDate())
             }
-        } else {
-            binding.cardHeader.isVisible = false
-            binding.rvDuel.updatePadding(top = binding.cvTitle.bottom)
         }
     }
 
     private fun initRecyclerViewAndTopBar(
         rv: RecyclerView = binding.rvDuel, topBar: View = binding.topBar
     ) {
-        var paddingTop = -1
+        var bottomPaddingApplied = false
         rv.applySystemInsets { _, insets ->
             topBar.updatePadding(top = insets.top)
-            if (paddingTop == -1) {
-                paddingTop = topBar.height + insets.top
-                rv.updatePadding(top = paddingTop)
+            if (!bottomPaddingApplied) {
+                bottomPaddingApplied = true
                 // Make an extra padding to avoid the bottom bar overlapping items while the recyclerview
                 // is not even scrollable.
                 rv.updatePadding(bottom = insets.bottom + viewModel.bottomBarHeight.value!!)
+            }
+        }
+        // Keep the RV's top padding in sync with topBar's current height so children
+        // appearing/disappearing inside the AppBarLayout (cardSpectateHint, cardHeader)
+        // never overlap the first row. The listener fires within the same layout pass
+        // before the RV is laid out, so items position with the new padding immediately.
+        topBar.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            if (rv.paddingTop != v.height) {
+                rv.updatePadding(top = v.height)
             }
         }
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -333,6 +355,11 @@ class DuelListFragment : Fragment() {
                 viewModel.shouldShowBottomBar.value = dy < 0
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shouldShowSpectateHintHeader = computeShouldShowSpectateHintHeader()
     }
 
     override fun onDestroyView() {

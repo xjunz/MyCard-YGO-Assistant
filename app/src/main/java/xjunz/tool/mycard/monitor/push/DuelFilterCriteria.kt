@@ -20,7 +20,7 @@ import xjunz.tool.mycard.monitor.push.DuelFilterCriteria.PlayerCriteria
  */
 @Serializable
 data class DuelFilterCriteria(
-    @IntRange(from = 0)
+    @param:IntRange(from = 0)
     var pushDelayInMinute: Int = 0,
     var onePlayerCriteria: PlayerCriteria? = null,// one player criteria should not equal to..
     var theOtherPlayerCriteria: PlayerCriteria? = null,//..the other player criteria.

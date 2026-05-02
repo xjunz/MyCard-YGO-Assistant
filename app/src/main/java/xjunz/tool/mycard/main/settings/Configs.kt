@@ -62,6 +62,14 @@ object Configs {
             configSharedPrefs.edit { putBoolean(SP_KEY_MINE_AS_HOME, value) }
         }
 
+    private const val SP_KEY_FIRST_TIME_YGO_HINT_READ = "first_time_ygo_hint_read"
+
+    var firstTimeYgoHintRead: Boolean
+        get() = configSharedPrefs.getBoolean(SP_KEY_FIRST_TIME_YGO_HINT_READ, false)
+        set(value) {
+            configSharedPrefs.edit { putBoolean(SP_KEY_FIRST_TIME_YGO_HINT_READ, value) }
+        }
+
     private const val SP_KEY_DUEL_LIST_FILTER = "duel_list_filter"
 
     private val EMPTY_DUEL_LIST_FILTER_CRITERIA = DuelListFilterCriteria()
@@ -100,6 +108,7 @@ object Configs {
         shouldShowHistoryPlayerNameBalloon = true
         shouldShowFilterBalloon = true
         shouldShowBackToTopBalloon = true
+        shouldShowSpectateHintHeader = true
     }
 
     private const val SP_KEY_SHOW_FILTER_BALLOON = "show_filter_balloon"
@@ -132,5 +141,15 @@ object Configs {
             balloonShardPrefs.edit {
                 putBoolean(SP_KEY_SHOW_HISTORY_PLAYER_NAME_BALLOON, value)
             }
+        }
+
+    private const val SP_KEY_SHOW_SPECTATE_HINT_HEADER = "show_spectate_hint_header"
+
+    var shouldShowSpectateHintHeader: Boolean
+        get() {
+            return balloonShardPrefs.getBoolean(SP_KEY_SHOW_SPECTATE_HINT_HEADER, true)
+        }
+        set(value) {
+            balloonShardPrefs.edit { putBoolean(SP_KEY_SHOW_SPECTATE_HINT_HEADER, value) }
         }
 }
